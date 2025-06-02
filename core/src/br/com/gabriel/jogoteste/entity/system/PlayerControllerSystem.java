@@ -1,0 +1,129 @@
+package br.com.gabriel.jogoteste.entity.system;
+
+import br.com.gabriel.jogoteste.entity.component.CollidableComponent;
+import br.com.gabriel.jogoteste.entity.component.PlayerComponent;
+import br.com.gabriel.jogoteste.entity.component.RigidBodyComponent;
+import br.com.gabriel.jogoteste.entity.component.SpriteComponent;
+import com.artemis.Aspect;
+import com.artemis.ComponentMapper;
+import com.artemis.systems.IteratingSystem;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+
+public class PlayerControllerSystem extends IteratingSystem {
+
+    private ComponentMapper<PlayerComponent> mPlayer;
+
+    private ComponentMapper<SpriteComponent> mSprite;
+
+    private ComponentMapper<RigidBodyComponent> mRigidBody;
+
+    private ComponentMapper<CollidableComponent> mCollidable;
+
+    private boolean moveRight;
+    private boolean moveLeft;
+    private boolean moveUp;
+    private boolean moveDown;
+
+
+    public PlayerControllerSystem() {
+        super(Aspect.all(PlayerComponent.class, RigidBodyComponent.class, CollidableComponent.class));
+
+        Gdx.input.setInputProcessor(new InputMultiplexer(new GameInputAdapter()));
+    }
+
+    @Override
+    protected void process(int entityId) {
+        PlayerComponent cPlayer = mPlayer.get(entityId);
+        CollidableComponent cCollidable = mCollidable.get(entityId);
+        RigidBodyComponent cRigidBody = mRigidBody.get(entityId);
+        SpriteComponent cSprite = mSprite.get(entityId);
+
+        if (cPlayer.canWalk) {
+            // Eixo X
+            if (moveRight && moveLeft) {
+                cRigidBody.velocity.x = 0;
+            } else if (moveRight) {
+                cRigidBody.velocity.x = cPlayer.walkSpeed;
+                cSprite.sprite = new Sprite(new Texture("player/teste-direita.png"));
+            } else if (moveLeft) {
+                cRigidBody.velocity.x = -cPlayer.walkSpeed;
+                cSprite.sprite = new Sprite(new Texture("player/teste-esquerda.png"));
+            } else {
+                cRigidBody.velocity.x = 0;  // nenhuma tecla pressionada
+            }
+
+            // Eixo Y
+            if (moveUp && moveDown) {
+                cRigidBody.velocity.y = 0;
+            } else if (moveUp) {
+                cRigidBody.velocity.y = cPlayer.walkSpeed;
+                cSprite.sprite = new Sprite(new Texture("player/teste-costas.png"));
+            } else if (moveDown) {
+                cRigidBody.velocity.y = -cPlayer.walkSpeed;
+                cSprite.sprite = new Sprite(new Texture("player/teste-frente.png"));
+            } else {
+                cRigidBody.velocity.y = 0;  // nenhuma tecla pressionada
+            }
+        }
+    }
+
+    private class GameInputAdapter extends InputAdapter {
+
+        @Override
+        public boolean keyDown(int keycode) {
+            switch (keycode) {
+                case Input.Keys.RIGHT:
+                case Input.Keys.D:
+                    moveRight = true;
+                    break;
+
+                case Input.Keys.LEFT:
+                case Input.Keys.A:
+                    moveLeft = true;
+                    break;
+
+                case Input.Keys.UP:
+                case Input.Keys.W:
+                    moveUp = true;
+                    break;
+
+                case Input.Keys.DOWN:
+                case Input.Keys.S:
+                    moveDown = true;
+                    break;
+            }
+            return true;
+        }
+
+        @Override
+        public boolean keyUp(int keycode) {
+            switch (keycode) {
+                case Input.Keys.RIGHT:
+                case Input.Keys.D:
+                    moveRight = false;
+                    break;
+
+                case Input.Keys.LEFT:
+                case Input.Keys.A:
+                    moveLeft = false;
+                    break;
+
+                case Input.Keys.UP:
+                case Input.Keys.W:
+                    moveUp = false;
+                    break;
+
+                case Input.Keys.DOWN:
+                case Input.Keys.S:
+                    moveDown = false;
+                    break;
+            }
+            return true;
+        }
+    }
+}
