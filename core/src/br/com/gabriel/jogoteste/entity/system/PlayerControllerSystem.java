@@ -28,6 +28,7 @@ public class PlayerControllerSystem extends IteratingSystem {
     private boolean moveLeft;
     private boolean moveUp;
     private boolean moveDown;
+    private boolean run;
 
 
     public PlayerControllerSystem() {
@@ -44,30 +45,44 @@ public class PlayerControllerSystem extends IteratingSystem {
         SpriteComponent cSprite = mSprite.get(entityId);
 
         if (cPlayer.canWalk) {
+            float speed = cPlayer.walkSpeed;
+
+            if (run) {
+                speed += 150;
+            }
+
+            boolean movingX = moveRight ^ moveLeft;
+            boolean movingY = moveUp ^ moveDown;
+
+            if (movingX && movingY) {
+                speed -= 50;
+                if (speed < 0) speed = 0;
+            }
+
             // Eixo X
             if (moveRight && moveLeft) {
                 cRigidBody.velocity.x = 0;
             } else if (moveRight) {
-                cRigidBody.velocity.x = cPlayer.walkSpeed;
+                cRigidBody.velocity.x = speed;
                 cSprite.sprite = new Sprite(new Texture("player/teste-direita.png"));
             } else if (moveLeft) {
-                cRigidBody.velocity.x = -cPlayer.walkSpeed;
+                cRigidBody.velocity.x = -speed;
                 cSprite.sprite = new Sprite(new Texture("player/teste-esquerda.png"));
             } else {
-                cRigidBody.velocity.x = 0;  // nenhuma tecla pressionada
+                cRigidBody.velocity.x = 0;
             }
 
             // Eixo Y
             if (moveUp && moveDown) {
                 cRigidBody.velocity.y = 0;
             } else if (moveUp) {
-                cRigidBody.velocity.y = cPlayer.walkSpeed;
+                cRigidBody.velocity.y = speed;
                 cSprite.sprite = new Sprite(new Texture("player/teste-costas.png"));
             } else if (moveDown) {
-                cRigidBody.velocity.y = -cPlayer.walkSpeed;
+                cRigidBody.velocity.y = -speed;
                 cSprite.sprite = new Sprite(new Texture("player/teste-frente.png"));
             } else {
-                cRigidBody.velocity.y = 0;  // nenhuma tecla pressionada
+                cRigidBody.velocity.y = 0;
             }
         }
     }
@@ -96,6 +111,10 @@ public class PlayerControllerSystem extends IteratingSystem {
                 case Input.Keys.S:
                     moveDown = true;
                     break;
+                case Input.Keys.SHIFT_LEFT:
+                case Input.Keys.SHIFT_RIGHT:
+                    run = true;
+                    break;
             }
             return true;
         }
@@ -121,6 +140,10 @@ public class PlayerControllerSystem extends IteratingSystem {
                 case Input.Keys.DOWN:
                 case Input.Keys.S:
                     moveDown = false;
+                    break;
+                case Input.Keys.SHIFT_LEFT:
+                case Input.Keys.SHIFT_RIGHT:
+                    run = false;
                     break;
             }
             return true;
