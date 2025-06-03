@@ -8,6 +8,8 @@ import br.com.gabriel.jogoteste.entity.EntitiesFactory;
 import br.com.gabriel.jogoteste.entity.system.*;
 import com.artemis.WorldConfiguration;
 import com.artemis.WorldConfigurationBuilder;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.Array;
 import net.namekdev.entity_tracker.EntityTracker;
@@ -25,15 +27,15 @@ public class World {
     //VETOR Q ARMAZENA O MAPA - OS TILES SÃO FORMADOS DEPENDENDO DO TAMANHO DA TELA
     //SE MUDAR O TILE SIZE, TEM Q MEXER AQUI TBM
     //2 COLUNAS DE PROFUNDIDADE - FOREGOUND E BACKGROUND
-    private final int [] [] [] map = new int [Config.SCREEN_WIDTH/32] [Config.SCREEN_HEIGHT/32] [2];
+    private final int [] [] [] map = new int [Config.SCREEN_WIDTH/Block.TILE_SIZE] [Config.SCREEN_HEIGHT/Block.TILE_SIZE] [2];
 
-    private Rectangle[][] collisionBoxes = new Rectangle[Config.SCREEN_WIDTH/32][Config.SCREEN_HEIGHT/32];
+    private final Rectangle[][] collisionBoxes = new Rectangle[Config.SCREEN_WIDTH/Block.TILE_SIZE][Config.SCREEN_HEIGHT/Block.TILE_SIZE];
 
-    private com.artemis.World artemis;
+    private final com.artemis.World artemis;
 
-    private int player;
+    private final int player;
 
-    private EntitiesFactory entitiesFactory;
+    private boolean debugCollisionEnabled = false;
 
     public World(OrthographicCamera camera){
         WorldConfigurationBuilder worldConfigBuilder = new WorldConfigurationBuilder()
@@ -43,9 +45,10 @@ public class World {
             .with(new TileRenderSystem(this, camera))
             .with(new SpriteRenderSystem(camera));
 
-        if(JogoTeste.DEBUG){
-            worldConfigBuilder.with(new CollisionDebugSystem(camera, this));
 
+        if(JogoTeste.DEBUG){
+
+            worldConfigBuilder.with(new CollisionDebugSystem(camera, this));
             entityTrackerWindow = new EntityTrackerMainWindow(false, false);
             worldConfigBuilder.with(new EntityTracker(entityTrackerWindow));
         }
@@ -54,7 +57,7 @@ public class World {
 
         artemis = new com.artemis.World(config);
 
-        entitiesFactory = new EntitiesFactory();
+        EntitiesFactory entitiesFactory = new EntitiesFactory();
         artemis.inject(entitiesFactory);
 
         player = entitiesFactory.createPlayer(artemis, ((float) Config.SCREEN_WIDTH / 2), ((float) Config.SCREEN_HEIGHT  / 2));
@@ -108,8 +111,24 @@ public class World {
     }
 
     public void update(float delta) {
+        if(JogoTeste.DEBUG){
+            if(Gdx.input.isKeyJustPressed(Input.Keys.C)){
+                toggleCollisionDebug();
+            }
+        }
+
         artemis.setDelta(delta);
         artemis.process();
+    }
+
+    // Alterna o modo de debug de colisão
+    public void toggleCollisionDebug() {
+        debugCollisionEnabled = !debugCollisionEnabled;
+    }
+
+    // Verifica se o debug de colisão está ativo
+    public boolean isDebugCollisionEnabled() {
+        return debugCollisionEnabled;
     }
 
     //RETORNA O BLOCO DEPENDENDO DA COORDENADA INSERIDA

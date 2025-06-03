@@ -18,9 +18,9 @@ public class Assets {
     @Asset public static final AssetDescriptor<Texture> testeEsquerda = new AssetDescriptor<Texture>("player/teste-esquerda.png", Texture.class);
 
     //TEXTURA TILES
-    @Asset public static final AssetDescriptor<Texture> barrier = new AssetDescriptor<Texture>("barrier.png", Texture.class);
-    @Asset public static final AssetDescriptor<Texture> ground1 = new AssetDescriptor<Texture>("ground1.png", Texture.class);
-    @Asset public static final AssetDescriptor<Texture> ground2 = new AssetDescriptor<Texture>("ground2.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> barrier = new AssetDescriptor<Texture>("blocks/barrier.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> ground1 = new AssetDescriptor<Texture>("blocks/ground1.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> ground2 = new AssetDescriptor<Texture>("blocks/ground2.png", Texture.class);
 
     public static void load(){
         Texture.setAssetManager(manager);

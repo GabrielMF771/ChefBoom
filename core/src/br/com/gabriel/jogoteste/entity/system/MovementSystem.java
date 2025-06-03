@@ -53,7 +53,7 @@ public class MovementSystem extends IteratingSystem {
 
                 Rectangle rectangle = cCollidable.collisionBox;
 
-                rectangle.setSize(cTransform.scaleX * (Block.TILE_SIZE / 2), cTransform.scaleY * (Block.TILE_SIZE / 2));
+                rectangle.setSize(cTransform.scaleX * ((float) Block.TILE_SIZE / 2), cTransform.scaleY * ((float) Block.TILE_SIZE / 2));
 
                 rectangle.setPosition(cTransform.position);
 

@@ -12,9 +12,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
-
-import java.awt.*;
 
 public class CollisionDebugSystem extends IteratingSystem {
 
@@ -41,23 +38,14 @@ public class CollisionDebugSystem extends IteratingSystem {
     protected void begin() {
         shapeRenderer.setProjectionMatrix(camera.combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-
-        shapeRenderer.setColor(Color.YELLOW);
-
-        Rectangle rectangle;
-        for (int x = 0; x < gameWorld.getWidth(); x++){
-            for (int y = 0; y < gameWorld.getHeight(); y++){
-                rectangle = gameWorld.getTileRectangle(x,y);
-
-                if(rectangle != null){
-                    shapeRenderer.rect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
-                }
-            }
-        }
     }
 
     @Override
     protected void process(int entityId) {
+        if (!gameWorld.isDebugCollisionEnabled()) {
+            return;  // Não processa nada se debug desativado
+        }
+
         TransformComponent cTransform = mTransform.get(entityId);
         RigidBodyComponent cRigidBody = mRigidBody.get(entityId);
         CollidableComponent cCollidable = mCollidable.get(entityId);
@@ -85,6 +73,19 @@ public class CollisionDebugSystem extends IteratingSystem {
         }
         if(cCollidable.onRightWall){
             shapeRenderer.line(max.x, min.y, max.x, max.y);
+        }
+
+        shapeRenderer.setColor(Color.YELLOW);
+
+        Rectangle rectangle;
+        for (int x = 0; x < gameWorld.getWidth(); x++){
+            for (int y = 0; y < gameWorld.getHeight(); y++){
+                rectangle = gameWorld.getTileRectangle(x,y);
+
+                if(rectangle != null){
+                    shapeRenderer.rect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+                }
+            }
         }
     }
 
