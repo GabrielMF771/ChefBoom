@@ -33,6 +33,10 @@ public class MovementSystem extends IteratingSystem {
 
         cTransform.position.mulAdd(cRigidBody.velocity, delta);
 
+        if(mCollidable.has(entityId)) {
+            cCollidable.collisionBox.setCenter(cTransform.position);
+        }
+
 
     }
 }

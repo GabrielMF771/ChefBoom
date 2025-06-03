@@ -1,10 +1,12 @@
 package br.com.gabriel.jogoteste.entity;
 
 import br.com.gabriel.jogoteste.entity.component.*;
+import br.com.gabriel.jogoteste.resource.Assets;
 import com.artemis.ComponentMapper;
 import com.artemis.World;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Vector2;
 
 public class EntitiesFactory {
 
@@ -24,14 +26,18 @@ public class EntitiesFactory {
         TransformComponent cTransform = mTransform.create(entity);
         cTransform.position.set(x, y);
 
-        RigidBodyComponent cRigidBody = mRigidBody.create(entity);
+        Texture texture = Assets.manager.get(Assets.testeFrente);
 
         SpriteComponent cSprite = mSprite.create(entity);
-        cSprite.sprite = new Sprite(new Texture("player/teste-frente.png"));
+        cSprite.sprite = new Sprite(texture);
 
         PlayerComponent cPlayer = mPlayer.create(entity);
 
+        RigidBodyComponent cRigidBody = mRigidBody.create(entity);
+
         CollidableComponent cCollidable = mCollidable.create(entity);
+        cCollidable.collisionBox.setSize(texture.getWidth(), texture.getHeight());
+        cCollidable.collisionBox.setCenter(new Vector2(x, y));
 
         return entity;
     }

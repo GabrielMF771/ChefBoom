@@ -5,10 +5,7 @@ import br.com.gabriel.jogoteste.JogoTeste;
 import br.com.gabriel.jogoteste.block.Block;
 import br.com.gabriel.jogoteste.dictionary.Blocks;
 import br.com.gabriel.jogoteste.entity.EntitiesFactory;
-import br.com.gabriel.jogoteste.entity.system.MovementSystem;
-import br.com.gabriel.jogoteste.entity.system.PlayerControllerSystem;
-import br.com.gabriel.jogoteste.entity.system.SpriteRenderSystem;
-import br.com.gabriel.jogoteste.entity.system.TileRenderSystem;
+import br.com.gabriel.jogoteste.entity.system.*;
 import com.artemis.WorldConfiguration;
 import com.artemis.WorldConfigurationBuilder;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -38,6 +35,8 @@ public class World {
         worldConfigBuilder.with(new SpriteRenderSystem(camera));
 
         if(JogoTeste.DEBUG){
+            worldConfigBuilder.with(new CollisionDebugSystem(camera));
+
             entityTrackerWindow = new EntityTrackerMainWindow(false, false);
             worldConfigBuilder.with(new EntityTracker(entityTrackerWindow));
         }
