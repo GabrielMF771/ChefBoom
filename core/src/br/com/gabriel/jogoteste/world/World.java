@@ -19,6 +19,9 @@ public class World {
 
     private final EntityTrackerMainWindow entityTrackerWindow;
 
+    //VETOR Q ARMAZENA O MAPA - OS TILES SÃO FORMADOS DEPENDENDO DO TAMANHO DA TELA
+    //SE MUDAR O TILE SIZE, TEM Q MEXER AQUI TBM
+    //2 COLUNAS DE PROFUNDIDADE - FOREGOUND E BACKGROUND
     private final int [] [] [] map = new int [Gdx.graphics.getWidth()/16] [Gdx.graphics.getHeight()/16] [2];
 
     private com.artemis.World world;
@@ -48,7 +51,7 @@ public class World {
 
         player = entitiesFactory.createPlayer(world, ((float) getWidth() / 2) * 16, ((float) getHeight() / 2) * 16);
     }
-
+    //FUNÇÃO QUE GERA O TILES NO MUNDO - NO CASO VAMOS USAR SÓ 1 TIPO BLOCO
     public void regenerate(){
         for(int x = 0; x < getWidth(); x++){
             for(int y = 0; y < getHeight(); y++){
@@ -64,14 +67,16 @@ public class World {
         world.process();
     }
 
+
+    //RETORNA O BLOCO DEPENDENDO DA COORDENADA INSERIDA
     public Block getBlock(int x, int y, int layer){
         return Blocks.getBlockById(map[x][y][layer]);
     }
-
+    //RETORNA A LARGURA DO MUNDO
     public int getWidth(){
         return map.length;
     }
-
+    //RETORNA A ALTURA DO MUNDO
     public int getHeight(){
         return map[0].length;
     }

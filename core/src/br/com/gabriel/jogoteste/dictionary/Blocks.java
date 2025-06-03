@@ -6,7 +6,7 @@ import com.badlogic.gdx.utils.IntMap;
 
 public class Blocks {
     //CRIANDO O INTMAP - ELE É TIPO UMA LISTA QUE TEM VARIOS IDS SEGUIDOS, CADA ID CORRESPONDE
-    // A UM BLOCO
+    // A UM BLOCO - TIPO UM ARMAZEM DE IDS
     public static final IntMap<Block> REGISTRY = new IntMap<Block>();
 
     //REGISTRO DOS BLOCOS E SEUS IDS
@@ -17,10 +17,14 @@ public class Blocks {
     public static final Block STONE;
 
 
+    //RETORNA O BLOCO APOS INSERIR O ID
+    // (AMBAS FUÇÕES SÓ FUNCIONAM SE O BLOCO ESTIVER REGISTRADO)
     public static Block getBlockById(int id) {
         return REGISTRY.get(id);
     }
 
+    //RETORNA O ID APOS INSERIR O BLOCO
+    // (AMBAS FUÇÕES SÓ FUNCIONAM SE O BLOCO ESTIVER REGISTRADO)
     public static int getIdByBlock(Block block) {
         return REGISTRY.findKey(block, true, AIR_ID);
     }
@@ -32,7 +36,7 @@ public class Blocks {
     }
 
     static {
-        //CHAMANDO A FUNÇÃO Q REGISTRAA
+        //CHAMANDO A FUNÇÃO Q REGISTRA COLOCANDO OS PARAMETROS E TEXTURA DO BLOCO
         AIR = register(AIR_ID, new Block(null));
         GRASS = register(1, new Block(new Texture("grass.png")));
         STONE = register(2, new Block(new Texture("stone.png")));
