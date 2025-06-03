@@ -7,12 +7,20 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-		config.setForegroundFPS(60);
-		config.setTitle("Jogo");
-		config.setWindowIcon("logo.png");
-		//config.setMaximized(true);
-		config.setWindowedMode(JogoTeste.SCREEN_WIDTH,JogoTeste.SCREEN_HEIGHT);
-		config.setResizable(true);
+
+		config.setForegroundFPS(Config.FPS);
+		config.setTitle(Config.GAME_TITLE);
+		config.setWindowIcon(Config.GAME_ICON);
+
+		if (Config.FULLSCREEN) {
+			config.setFullscreenMode(Lwjgl3ApplicationConfiguration.getDisplayMode());
+		} else if (Config.MAXIMIZED){
+			config.setMaximized(true);
+		} else {
+			config.setWindowedMode(Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
+		}
+
+		config.setResizable(false);
 		config.useVsync(true);
 		new Lwjgl3Application(JogoTeste.getInstance(), config);
 	}

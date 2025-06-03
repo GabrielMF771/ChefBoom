@@ -46,16 +46,13 @@ public class PlayerControllerSystem extends IteratingSystem {
 
         if (cPlayer.canWalk) {
             float speed = cPlayer.walkSpeed;
-
-            if (run) {
-                speed += 150;
-            }
+            if (run) speed += 100;
 
             boolean movingX = moveRight ^ moveLeft;
             boolean movingY = moveUp ^ moveDown;
 
             if (movingX && movingY) {
-                speed -= 50;
+                speed *= 0.7071f;
                 if (speed < 0) speed = 0;
             }
 
