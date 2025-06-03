@@ -32,7 +32,7 @@ public class Blocks {
     }
 
     static {
-        //CHAMANDO A FUNÇÃO Q REGISTRA
+        //CHAMANDO A FUNÇÃO Q REGISTRAA
         AIR = register(AIR_ID, new Block(null));
         GRASS = register(1, new Block(new Texture("grass.png")));
         STONE = register(2, new Block(new Texture("stone.png")));
