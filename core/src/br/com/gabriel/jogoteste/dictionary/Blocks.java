@@ -1,6 +1,7 @@
 package br.com.gabriel.jogoteste.dictionary;
 
 import br.com.gabriel.jogoteste.block.Block;
+import br.com.gabriel.jogoteste.block.BlockAir;
 import br.com.gabriel.jogoteste.resource.Assets;
 import com.badlogic.gdx.utils.IntMap;
 
@@ -38,9 +39,19 @@ public class Blocks {
 
     static {
         //CHAMANDO A FUNÇÃO Q REGISTRA COLOCANDO OS PARAMETROS E TEXTURA DO BLOCO
-        AIR = register(AIR_ID, new Block(null));
+        AIR = register(AIR_ID, new BlockAir());
         BARRIER = register(1, new Block(Assets.manager.get(Assets.barrier)));
-        GROUND1 = register(2, new Block(Assets.manager.get(Assets.ground1)));
-        GROUND2 = register(3, new Block(Assets.manager.get(Assets.ground2)));
+        GROUND1 = register(2, new Block(Assets.manager.get(Assets.ground1)){
+            @Override
+            public boolean isSolid() {
+                return false;
+            }
+        });
+        GROUND2 = register(3, new Block(Assets.manager.get(Assets.ground2)){
+            @Override
+            public boolean isSolid() {
+                return super.isSolid();
+            }
+        });
     }
 }

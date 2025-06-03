@@ -9,12 +9,18 @@ import br.com.gabriel.jogoteste.entity.system.*;
 import com.artemis.WorldConfiguration;
 import com.artemis.WorldConfigurationBuilder;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.utils.Array;
 import net.namekdev.entity_tracker.EntityTracker;
 import net.namekdev.entity_tracker.ui.EntityTrackerMainWindow;
+
+import com.badlogic.gdx.math.Rectangle;
 
 public class World {
 
     private final EntityTrackerMainWindow entityTrackerWindow;
+
+    public static final int BG = 0;
+    public static final int FG = 1;
 
     //VETOR Q ARMAZENA O MAPA - OS TILES SÃO FORMADOS DEPENDENDO DO TAMANHO DA TELA
     //SE MUDAR O TILE SIZE, TEM Q MEXER AQUI TBM
@@ -35,7 +41,7 @@ public class World {
         worldConfigBuilder.with(new SpriteRenderSystem(camera));
 
         if(JogoTeste.DEBUG){
-            worldConfigBuilder.with(new CollisionDebugSystem(camera));
+            worldConfigBuilder.with(new CollisionDebugSystem(camera, this));
 
             entityTrackerWindow = new EntityTrackerMainWindow(false, false);
             worldConfigBuilder.with(new EntityTracker(entityTrackerWindow));
@@ -63,7 +69,7 @@ public class World {
                     Block block = null;
 
                     if(l == 0){
-                        // FOREGROUND: retângulo de GRASS nas bordas da metade direita
+                        // FOREGROUND: retângulo de BARRIER nas bordas da metade direita
                         // Região fora do retângulo (metade esquerda)
                         if (x < startX) {
                             block = Blocks.AIR;
@@ -76,9 +82,11 @@ public class World {
                     } else {
                         // BACKGROUND: padrão xadrez entre GROUND e GROUND2
                         if ((x + y) % 2 == 0) {
-                            block = Blocks.GROUND1;
+                            //block = Blocks.GROUND1;
+                            block = Blocks.AIR;
                         } else {
-                            block = Blocks.GROUND2;
+                            //block = Blocks.GROUND2;
+                            block = Blocks.AIR;
                         }
                     }
 
@@ -100,18 +108,58 @@ public class World {
     }
 
     public Block getBlock(float x, float y, float layer){
-        return Blocks.getBlockById(map[worldToMap(x)][worldToMap(y)][worldToMap(layer)]);
+        return getBlock(worldToMap(x),worldToMap(y), layer);
+    }
+
+    //RETORNA SE O BLOCO É SÓLIDO OU NÃO
+    public boolean isSolid(int x, int y){
+        return isValid(x,y) && getBlock(x,y, FG).isSolid();
+    }
+
+    public boolean isSolid(float x, float y){
+        return isSolid(worldToMap(x),worldToMap(y));
+    }
+
+    public Rectangle getTileRectangle(int x, int y){
+        Rectangle rectangle = null;
+
+        if(isSolid(x,y)){
+            rectangle = new Rectangle((int) mapToWorld(x), (int) mapToWorld(y), Block.TILE_SIZE, Block.TILE_SIZE);
+        }
+
+        return rectangle;
+    }
+
+    //RETORNA A QUANTIDADE DE BLOCOS
+    public void getTilesRectangle(float startX, float startY, float endX, float endY, Array<Rectangle> tileRectangles){
+        getTilesRectangle(worldToMap(startX), worldToMap(startY), worldToMap(endX), worldToMap(endY), tileRectangles);
+    }
+
+    public void getTilesRectangle(int startX, int startY, int endX, int endY, Array<Rectangle> tileRectangles){
+        Rectangle rectangle;
+
+        for(int y = startY; y <= endY; y++){
+            for(int x = startX; x <= endX; x++){
+                rectangle = getTileRectangle(x, y);
+
+                if(rectangle != null){
+                    tileRectangles.add(rectangle);
+                }
+            }
+        }
     }
 
     //RETORNA A LARGURA DO MUNDO
     public int getWidth(){
         return map.length;
     }
+
     //RETORNA A ALTURA DO MUNDO
     public int getHeight(){
         return map[0].length;
     }
 
+    //RETORNA O LAYER DO MUNDO
     public int getLayers() {
         return map[0][0].length;
     }

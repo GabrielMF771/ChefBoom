@@ -8,9 +8,13 @@ public class Block {
     public static final int TILE_SIZE = 32;
 
     public final Texture texture;
+
     //CONSTRUTOR RECEBE A TEXTURA
     public Block(Texture texture) {
         this.texture = texture;
     }
 
+    public boolean isSolid(){
+        return true;
+    }
 }

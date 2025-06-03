@@ -59,6 +59,7 @@ project(":core") {
         api "com.badlogicgames.gdx:gdx:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
+        api "com.badlogicgames.gdx:gdx-ai:$aiVersion"
         api "net.onedaybeard.artemis:artemis-odb:$artemisVersion"
         api "net.namekdev.entity_tracker:artemis-entity-tracker:$artemisEntityTracker"
         api "net.namekdev.entity_tracker:artemis-entity-tracker-gui:$artemisEntityTracker"

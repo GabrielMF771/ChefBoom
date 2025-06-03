@@ -12,7 +12,7 @@ public class TransformComponent extends Component {
 
     public final Vector2 origin = new Vector2();
 
-    public boolean originCenter = true;
+    public boolean originCenter = false;
 
     public float rotation = 0;
 
