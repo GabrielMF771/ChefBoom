@@ -14,7 +14,6 @@ public class Blocks {
 
     public static final Block AIR;
     public static final Block GRASS;
-    public static final Block STONE;
 
 
     //RETORNA O BLOCO APOS INSERIR O ID
@@ -39,6 +38,5 @@ public class Blocks {
         //CHAMANDO A FUNÇÃO Q REGISTRA COLOCANDO OS PARAMETROS E TEXTURA DO BLOCO
         AIR = register(AIR_ID, new Block(null));
         GRASS = register(1, new Block(new Texture("grass.png")));
-        STONE = register(2, new Block(new Texture("stone.png")));
     }
 }

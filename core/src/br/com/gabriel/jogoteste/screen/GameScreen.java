@@ -7,6 +7,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -17,11 +18,14 @@ public class GameScreen extends ScreenAdapter {
     protected OrthographicCamera camera;
     protected World world;
 
+    Texture img;
+
     public final Vector3 screenCordinate = new Vector3();
 
     @Override
     public void show () {
         batch = new SpriteBatch();
+        img = new Texture("chao.png");
 
         camera = new OrthographicCamera(Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
         camera.setToOrtho(false, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
@@ -35,9 +39,14 @@ public class GameScreen extends ScreenAdapter {
     @Override
     public void render (float delta) {
         //COR DE FUNDO
-        ScreenUtils.clear(1, 1, 1, 1);
+
+        batch.begin();
+        batch.draw(img, 0, 0);
+        batch.end();
 
         world.update(delta);
+
+
 
         if(JogoTeste.DEBUG){
             if(Gdx.input.isKeyJustPressed(Input.Keys.B)){

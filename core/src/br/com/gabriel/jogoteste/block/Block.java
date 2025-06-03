@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 
 public class Block {
     //DEFINE O TAMANHO DOS TILES DO MUNDO
-    public static final int TILE_SIZE = 16;
+    public static final int TILE_SIZE = 32;
 
     public final Texture texture;
     //CONSTRUTOR RECEBE A TEXTURA

@@ -2,6 +2,7 @@ package br.com.gabriel.jogoteste;
 
 import br.com.gabriel.jogoteste.screen.GameScreen;
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.graphics.Texture;
 
 public class JogoTeste extends Game {
 	private static JogoTeste instance;

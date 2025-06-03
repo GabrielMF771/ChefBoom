@@ -1,5 +1,6 @@
 package br.com.gabriel.jogoteste.world;
 
+import br.com.gabriel.jogoteste.Config;
 import br.com.gabriel.jogoteste.JogoTeste;
 import br.com.gabriel.jogoteste.block.Block;
 import br.com.gabriel.jogoteste.dictionary.Blocks;
@@ -22,7 +23,7 @@ public class World {
     //VETOR Q ARMAZENA O MAPA - OS TILES SÃO FORMADOS DEPENDENDO DO TAMANHO DA TELA
     //SE MUDAR O TILE SIZE, TEM Q MEXER AQUI TBM
     //2 COLUNAS DE PROFUNDIDADE - FOREGOUND E BACKGROUND
-    private final int [] [] [] map = new int [Gdx.graphics.getWidth()/16] [Gdx.graphics.getHeight()/16] [2];
+    private final int [] [] [] map = new int [Config.SCREEN_WIDTH/32] [Config.SCREEN_HEIGHT/32] [2];
 
     private com.artemis.World world;
 
@@ -49,18 +50,32 @@ public class World {
         entitiesFactory = new EntitiesFactory();
         world.inject(entitiesFactory);
 
-        player = entitiesFactory.createPlayer(world, ((float) getWidth() / 2) * 16, ((float) getHeight() / 2) * 16);
+        player = entitiesFactory.createPlayer(world, ((float) Config.SCREEN_WIDTH / 2), ((float) Config.SCREEN_HEIGHT  / 2));
     }
     //FUNÇÃO QUE GERA O TILES NO MUNDO - NO CASO VAMOS USAR SÓ 1 TIPO BLOCO
-    public void regenerate(){
-        for(int x = 0; x < getWidth(); x++){
-            for(int y = 0; y < getHeight(); y++){
-                for(int l = 0; l < getLayers(); l++) {
-                    map[x][y][l] = Blocks.getIdByBlock(Blocks.GRASS);
+    public void regenerate() {
+        float startX = (getWidth() / 2.5f);         // metade do mapa
+        int endX = getWidth();               // até o fim
+        int startY = 0;
+        float endY = getHeight();
+
+        for (int x = 0; x < getWidth(); x++) {
+            for (int y = 0; y < getHeight(); y++) {
+                for (int l = 0; l < getLayers(); l++) {
+                    // Região fora do retângulo (metade esquerda)
+                    if (x < startX) {
+                        map[x][y][l] = Blocks.getIdByBlock(Blocks.AIR);
+                    }
+                    // Dentro do retângulo da direita
+                    else {
+                        boolean isBorder = x == startX || x == endX - 1 || y == startY || y == endY - 1;
+                        map[x][y][l] = Blocks.getIdByBlock(isBorder ? Blocks.GRASS : Blocks.AIR);
+                    }
                 }
             }
         }
     }
+
 
     public void update(float delta) {
         world.setDelta(delta);
