@@ -51,6 +51,7 @@ public class GameScreen extends ScreenAdapter {
 
     @Override
     public void render (float delta) {
+        //COR DE FUNDO
         ScreenUtils.clear(1, 1, 1, 1);
 
         world.update(delta);
@@ -65,6 +66,7 @@ public class GameScreen extends ScreenAdapter {
     }
 
     @Override
+    // FUNÇÃO PRA ATUALIZAR O TAMANHO DA TELA
     public void resize(int width, int height) {
 
     }
