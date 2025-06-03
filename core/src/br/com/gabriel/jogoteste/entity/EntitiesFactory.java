@@ -1,9 +1,12 @@
 package br.com.gabriel.jogoteste.entity;
 
 import br.com.gabriel.jogoteste.entity.component.*;
+import br.com.gabriel.jogoteste.entity.state.PlayerState;
 import br.com.gabriel.jogoteste.resource.Assets;
 import com.artemis.ComponentMapper;
+import com.artemis.Entity;
 import com.artemis.World;
+import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
@@ -19,6 +22,8 @@ public class EntitiesFactory {
     private ComponentMapper<RigidBodyComponent> mRigidBody;
 
     private ComponentMapper<CollidableComponent> mCollidable;
+
+    private ComponentMapper<StateComponent> mState;
 
     public int createPlayer(World world, float x, float y) {
         int entity = world.create();
@@ -38,6 +43,9 @@ public class EntitiesFactory {
         CollidableComponent cCollidable = mCollidable.create(entity);
         cCollidable.collisionBox.setSize(texture.getWidth(), texture.getHeight());
         cCollidable.collisionBox.setCenter(new Vector2(x, y));
+
+        StateComponent<PlayerState> cState = mState.create(entity);
+        cState.state = new DefaultStateMachine<Entity, PlayerState>(world.getEntity(entity), PlayerState.Idle);
 
         return entity;
     }

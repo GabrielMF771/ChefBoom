@@ -1,5 +1,6 @@
 package br.com.gabriel.jogoteste.entity.system;
 
+import br.com.gabriel.jogoteste.block.Block;
 import br.com.gabriel.jogoteste.entity.component.CollidableComponent;
 import br.com.gabriel.jogoteste.entity.component.RigidBodyComponent;
 import br.com.gabriel.jogoteste.entity.component.TransformComponent;
@@ -22,6 +23,7 @@ public class MovementSystem extends IteratingSystem {
     private World world;
 
     private Array<Rectangle> tiles = new Array<Rectangle>();
+    private Vector2 velocity = new Vector2();
 
     public MovementSystem(World world) {
         super(Aspect.all(TransformComponent.class, RigidBodyComponent.class));
@@ -36,87 +38,118 @@ public class MovementSystem extends IteratingSystem {
 
         float delta = super.world.getDelta();
 
-        if(mCollidable.has(entityId)) {
-            cCollidable.onGround = false;
-            cCollidable.onCeiling = false;
-            cCollidable.onLeftWall = false;
-            cCollidable.onRightWall = false;
+        if(cRigidBody.isKinematic) {
+            if(delta == 0) return;
 
-            Vector2 velocity = new Vector2(cRigidBody.velocity);
+            if(mCollidable.has(entityId)) {
+                cCollidable.onGround = false;
+                cCollidable.onCeiling = false;
+                cCollidable.onLeftWall = false;
+                cCollidable.onRightWall = false;
 
-            velocity.scl(delta);
+                velocity.set(cRigidBody.velocity);
 
-            Rectangle rectangle = cCollidable.collisionBox;
-            rectangle.setPosition(cTransform.position);
+                velocity.scl(delta);
 
-            float startX, startY, endX, endY;
+                Rectangle rectangle = cCollidable.collisionBox;
 
-            if(velocity.x > 0){
-                startX = endX = cTransform.position.x + rectangle.width + velocity.x;
-            } else {
-                startX = endX = cTransform.position.x + velocity.x;
-            }
+                rectangle.setSize(cTransform.scaleX * (Block.TILE_SIZE / 2), cTransform.scaleY * (Block.TILE_SIZE / 2));
 
-            startY = cTransform.position.y;
-            endY = cTransform.position.y + rectangle.height;
+                rectangle.setPosition(cTransform.position);
 
-            tiles.clear();
-            world.getTilesRectangle(startX, startY, endX, endY, tiles);
+                float startX, startY, endX, endY;
 
-            rectangle.x += velocity.x;
+                // EIXO Y
+                if (velocity.y > 0) {
+                    startY = rectangle.y + rectangle.height;
+                    endY = rectangle.y + rectangle.height + velocity.y;
+                } else {
+                    startY = rectangle.y + velocity.y;
+                    endY = rectangle.y;
+                }
 
-            for(Rectangle tile : tiles) {
-                if(rectangle.overlaps(tile)) {
-                    if(velocity.x > 0){
-                        cCollidable.onRightWall = true;
-                    } else if(velocity.x < 0) {
-                        cCollidable.onLeftWall = true;
+                startX = rectangle.x;
+                endX = rectangle.x + rectangle.width;
+
+                world.getTilesRectangle(startX, startY, endX, endY, tiles);
+
+                for (int i = 0; i < Math.abs(velocity.y); i++) {
+                    boolean found = false;
+
+                    float oldY = rectangle.y;
+
+                    rectangle.y += Math.signum(velocity.y);
+
+                    for (Rectangle tile : tiles) {
+                        if (rectangle.overlaps(tile)) {
+                            if (velocity.y > 0) {
+                                cCollidable.onCeiling = true;
+                            } else {
+                                cCollidable.onGround = true;
+                            }
+
+                            found = true;
+                            break;
+                        }
                     }
 
-                    velocity.x = 0;
-                    break;
-                }
-            }
-
-            rectangle.x = cTransform.position.x;
-
-            if(velocity.y > 0){
-                startY = endY = cTransform.position.y + rectangle.height + velocity.y;
-            } else {
-                startY = endY = cTransform.position.y + velocity.y;
-            }
-
-            startX = cTransform.position.x;
-            endX = cTransform.position.x + rectangle.width;
-
-            tiles.clear();
-            world.getTilesRectangle(startX, startY, endX, endY, tiles);
-
-            rectangle.y += velocity.y;
-
-            for(Rectangle tile : tiles) {
-                if(rectangle.overlaps(tile)) {
-                    if(velocity.y > 0){
-                        cTransform.position.y = tile.y - rectangle.height;
-                        cCollidable.onCeiling = true;
-                    } else {
-                        cTransform.position.y = tile.y + rectangle.width;
-                        cCollidable.onGround = true;
+                    if(found) {
+                        rectangle.y = oldY;
+                        velocity.y = 0;
+                        break;
                     }
-                    velocity.y = 0;
-                    break;
                 }
+
+                // EIXO X
+
+                if (velocity.x > 0) {
+                    startX = rectangle.x + rectangle.width;
+                    endX = rectangle.x + rectangle.width + velocity.x;
+                } else {
+                    startX = rectangle.x + velocity.x;
+                    endX = rectangle.x;
+                }
+
+                startY = rectangle.y;
+                endY = rectangle.y + rectangle.height;
+
+                world.getTilesRectangle(startX, startY, endX, endY, tiles);
+
+                for (int i = 0; i < Math.abs(velocity.x); i++) {
+                    boolean found = false;
+
+                    float oldX = rectangle.x;
+
+                    rectangle.x += Math.signum(velocity.x);
+
+                    for (Rectangle tile : tiles) {
+                        if (rectangle.overlaps(tile)) {
+                            if (velocity.x > 0) {
+                                cCollidable.onRightWall = true;
+                            } else if (velocity.x < 0) {
+                                cCollidable.onLeftWall = true;
+                            }
+
+                            found = true;
+                            break;
+                        }
+                    }
+
+                    if(found) {
+                        rectangle.x = oldX;
+                        velocity.x = 0;
+                        break;
+                    }
+                }
+
+                cTransform.position.set(rectangle.x, rectangle.y);
+
+                velocity.scl(1 / delta);
+
+                cRigidBody.velocity.set(velocity);
+            } else {
+                cTransform.position.mulAdd(cRigidBody.velocity, delta);
             }
-
-            cTransform.position.add(velocity);
-
-            velocity.scl(1 / delta);
-
-            cRigidBody.velocity.set(velocity);
-        } else {
-            cTransform.position.mulAdd(cRigidBody.velocity, delta);
         }
-
-
     }
 }

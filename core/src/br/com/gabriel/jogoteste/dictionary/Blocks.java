@@ -41,17 +41,7 @@ public class Blocks {
         //CHAMANDO A FUNÇÃO Q REGISTRA COLOCANDO OS PARAMETROS E TEXTURA DO BLOCO
         AIR = register(AIR_ID, new BlockAir());
         BARRIER = register(1, new Block(Assets.manager.get(Assets.barrier)));
-        GROUND1 = register(2, new Block(Assets.manager.get(Assets.ground1)){
-            @Override
-            public boolean isSolid() {
-                return false;
-            }
-        });
-        GROUND2 = register(3, new Block(Assets.manager.get(Assets.ground2)){
-            @Override
-            public boolean isSolid() {
-                return super.isSolid();
-            }
-        });
+        GROUND1 = register(2, new Block(Assets.manager.get(Assets.ground1)));
+        GROUND2 = register(3, new Block(Assets.manager.get(Assets.ground2)));
     }
 }

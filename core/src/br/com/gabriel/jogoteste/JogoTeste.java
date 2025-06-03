@@ -37,8 +37,6 @@ public class JogoTeste extends Game {
 		super.render();
 
 		if(DEBUG) {
-			fpsLogger.log();
-
 			if(Gdx.input.isKeyJustPressed(Input.Keys.R)) {
 				if(Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)) {
 					getScreen().show();

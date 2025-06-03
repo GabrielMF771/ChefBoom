@@ -19,13 +19,15 @@ public class World {
 
     private final EntityTrackerMainWindow entityTrackerWindow;
 
-    public static final int BG = 0;
-    public static final int FG = 1;
+    public static final int BG = 1;
+    public static final int FG = 0;
 
     //VETOR Q ARMAZENA O MAPA - OS TILES SÃO FORMADOS DEPENDENDO DO TAMANHO DA TELA
     //SE MUDAR O TILE SIZE, TEM Q MEXER AQUI TBM
     //2 COLUNAS DE PROFUNDIDADE - FOREGOUND E BACKGROUND
     private final int [] [] [] map = new int [Config.SCREEN_WIDTH/32] [Config.SCREEN_HEIGHT/32] [2];
+
+    private Rectangle[][] collisionBoxes = new Rectangle[Config.SCREEN_WIDTH/32][Config.SCREEN_HEIGHT/32];
 
     private com.artemis.World artemis;
 
@@ -34,11 +36,12 @@ public class World {
     private EntitiesFactory entitiesFactory;
 
     public World(OrthographicCamera camera){
-        WorldConfigurationBuilder worldConfigBuilder = new WorldConfigurationBuilder();
-        worldConfigBuilder.with(new PlayerControllerSystem());
-        worldConfigBuilder.with(new MovementSystem(this));
-        worldConfigBuilder.with(new TileRenderSystem(this, camera));
-        worldConfigBuilder.with(new SpriteRenderSystem(camera));
+        WorldConfigurationBuilder worldConfigBuilder = new WorldConfigurationBuilder()
+            .with(new PlayerControllerSystem())
+            .with(new MovementSystem(this))
+            .with(new StateSystem())
+            .with(new TileRenderSystem(this, camera))
+            .with(new SpriteRenderSystem(camera));
 
         if(JogoTeste.DEBUG){
             worldConfigBuilder.with(new CollisionDebugSystem(camera, this));
@@ -82,11 +85,9 @@ public class World {
                     } else {
                         // BACKGROUND: padrão xadrez entre GROUND e GROUND2
                         if ((x + y) % 2 == 0) {
-                            //block = Blocks.GROUND1;
-                            block = Blocks.AIR;
+                            block = Blocks.GROUND1;
                         } else {
-                            //block = Blocks.GROUND2;
-                            block = Blocks.AIR;
+                            block = Blocks.GROUND2;
                         }
                     }
 
@@ -94,8 +95,17 @@ public class World {
                 }
             }
         }
+
+        init();
     }
 
+    public void init(){
+        for(int x = 0; x < getWidth(); x++){
+            for(int y = 0; y < getHeight(); y++){
+                collisionBoxes[x][y] = getBlock(x, y, FG).getTileRectangle(this, x, y);
+            }
+        }
+    }
 
     public void update(float delta) {
         artemis.setDelta(delta);
@@ -121,13 +131,11 @@ public class World {
     }
 
     public Rectangle getTileRectangle(int x, int y){
-        Rectangle rectangle = null;
-
-        if(isSolid(x,y)){
-            rectangle = new Rectangle((int) mapToWorld(x), (int) mapToWorld(y), Block.TILE_SIZE, Block.TILE_SIZE);
+        if(isValid(x,y)){
+            return collisionBoxes[x][y];
         }
 
-        return rectangle;
+        return null;
     }
 
     //RETORNA A QUANTIDADE DE BLOCOS
@@ -136,6 +144,8 @@ public class World {
     }
 
     public void getTilesRectangle(int startX, int startY, int endX, int endY, Array<Rectangle> tileRectangles){
+        tileRectangles.clear();
+
         Rectangle rectangle;
 
         for(int y = startY; y <= endY; y++){
