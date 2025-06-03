@@ -3,6 +3,7 @@ package br.com.gabriel.jogoteste.entity.system;
 import br.com.gabriel.jogoteste.block.Block;
 import br.com.gabriel.jogoteste.world.World;
 import com.artemis.BaseSystem;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -29,8 +30,9 @@ public class TileRenderSystem extends BaseSystem {
 
     @Override
     protected void processSystem() {
-        renderBackground(batch);
         renderForeground(batch);
+        renderBackground(batch);
+
     }
 
     private void renderBackground(Batch batch) {
@@ -41,7 +43,7 @@ public class TileRenderSystem extends BaseSystem {
                 texture = world.getBlock(x, y, 0).texture;
 
                 if (texture != null){
-                    batch.draw(texture, x * Block.TILE_SIZE, y * Block.TILE_SIZE);
+                    batch.draw(texture, World.mapToWorld(x), World.mapToWorld(y));
                 }
             }
         }
@@ -55,7 +57,7 @@ public class TileRenderSystem extends BaseSystem {
                 texture = world.getBlock(x, y, 1).texture;
 
                 if (texture != null){
-                    batch.draw(texture, x * Block.TILE_SIZE, y * Block.TILE_SIZE);
+                    batch.draw(texture, World.mapToWorld(x), World.mapToWorld(y));
                 }
             }
         }

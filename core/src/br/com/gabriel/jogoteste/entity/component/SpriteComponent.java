@@ -7,4 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 public class SpriteComponent extends Component {
     //VAR TIPO SPRITE
     public Sprite sprite;
+
+    public boolean flipX;
+    public boolean flipY;
 }

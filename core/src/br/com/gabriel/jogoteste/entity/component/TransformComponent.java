@@ -15,7 +15,8 @@ public class TransformComponent extends Component {
     public boolean originCenter = true;
 
     public float rotation = 0;
-    //ESCALA DO BONECO - SE QUISER AUMENTAR O TAMANHO SO MEXER AQ
+
+    //ESCALA DO PLAYER - SE QUISER AUMENTAR O TAMANHO SO MEXER AQUI
     public float scaleX = 2;
 
     public float scaleY = 2;

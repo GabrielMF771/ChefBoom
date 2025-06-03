@@ -4,6 +4,7 @@ import br.com.gabriel.jogoteste.entity.component.CollidableComponent;
 import br.com.gabriel.jogoteste.entity.component.PlayerComponent;
 import br.com.gabriel.jogoteste.entity.component.RigidBodyComponent;
 import br.com.gabriel.jogoteste.entity.component.SpriteComponent;
+import br.com.gabriel.jogoteste.resource.Assets;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.systems.IteratingSystem;
@@ -30,11 +31,23 @@ public class PlayerControllerSystem extends IteratingSystem {
     private boolean moveDown;
     private boolean run;
 
+    private Texture texFrente;
+    private Texture texCostas;
+    private Texture texDireita;
+    private Texture texEsquerda;
 
     public PlayerControllerSystem() {
         super(Aspect.all(PlayerComponent.class, RigidBodyComponent.class, CollidableComponent.class));
 
         Gdx.input.setInputProcessor(new InputMultiplexer(new GameInputAdapter()));
+    }
+
+    @Override
+    protected void initialize() {
+        texFrente = Assets.manager.get(Assets.testeFrente);
+        texCostas = Assets.manager.get(Assets.testeCostas);
+        texDireita = Assets.manager.get(Assets.testeDireita);
+        texEsquerda = Assets.manager.get(Assets.testeEsquerda);
     }
 
     @Override
@@ -46,7 +59,7 @@ public class PlayerControllerSystem extends IteratingSystem {
 
         if (cPlayer.canWalk) {
             float speed = cPlayer.walkSpeed;
-            if (run) speed += 100;
+            if (run) speed += 70;
 
             boolean movingX = moveRight ^ moveLeft;
             boolean movingY = moveUp ^ moveDown;
@@ -61,10 +74,10 @@ public class PlayerControllerSystem extends IteratingSystem {
                 cRigidBody.velocity.x = 0;
             } else if (moveRight) {
                 cRigidBody.velocity.x = speed;
-                cSprite.sprite = new Sprite(new Texture("player/teste-direita.png"));
+                cSprite.sprite.setTexture(texDireita);
             } else if (moveLeft) {
                 cRigidBody.velocity.x = -speed;
-                cSprite.sprite = new Sprite(new Texture("player/teste-esquerda.png"));
+                cSprite.sprite.setTexture(texEsquerda);
             } else {
                 cRigidBody.velocity.x = 0;
             }
@@ -74,10 +87,10 @@ public class PlayerControllerSystem extends IteratingSystem {
                 cRigidBody.velocity.y = 0;
             } else if (moveUp) {
                 cRigidBody.velocity.y = speed;
-                cSprite.sprite = new Sprite(new Texture("player/teste-costas.png"));
+                cSprite.sprite.setTexture(texCostas);
             } else if (moveDown) {
                 cRigidBody.velocity.y = -speed;
-                cSprite.sprite = new Sprite(new Texture("player/teste-frente.png"));
+                cSprite.sprite.setTexture(texFrente);
             } else {
                 cRigidBody.velocity.y = 0;
             }

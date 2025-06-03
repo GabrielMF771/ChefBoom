@@ -62,5 +62,6 @@ project(":core") {
         api "net.onedaybeard.artemis:artemis-odb:$artemisVersion"
         api "net.namekdev.entity_tracker:artemis-entity-tracker:$artemisEntityTracker"
         api "net.namekdev.entity_tracker:artemis-entity-tracker-gui:$artemisEntityTracker"
+        api "com.github.tommyettinger:libgdx-utils:0.13.7"
     }
 }

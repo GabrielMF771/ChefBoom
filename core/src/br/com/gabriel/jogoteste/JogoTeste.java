@@ -1,19 +1,22 @@
 package br.com.gabriel.jogoteste;
 
-import br.com.gabriel.jogoteste.screen.GameScreen;
+import br.com.gabriel.jogoteste.resource.Assets;
+import br.com.gabriel.jogoteste.screen.PreloadScreen;
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.FPSLogger;
 
 public class JogoTeste extends Game {
 	private static JogoTeste instance;
 
 	public static final boolean DEBUG = true;
 
+	FPSLogger fpsLogger = new FPSLogger();
+
 	private JogoTeste() {}
 
 	@Override
 	public void create() {
-		this.setScreen(new GameScreen());
+		this.setScreen(new PreloadScreen());
 	}
 
 	public static JogoTeste getInstance() {
@@ -24,8 +27,17 @@ public class JogoTeste extends Game {
 	}
 
 	@Override
-	public void dispose () {
+	public void render() {
+		super.render();
 
+		if(DEBUG) {
+			fpsLogger.log();
+		}
+	}
+
+	@Override
+	public void dispose () {
+		Assets.manager.dispose();
 	}
 
 }

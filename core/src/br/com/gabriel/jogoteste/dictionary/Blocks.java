@@ -1,7 +1,7 @@
 package br.com.gabriel.jogoteste.dictionary;
 
 import br.com.gabriel.jogoteste.block.Block;
-import com.badlogic.gdx.graphics.Texture;
+import br.com.gabriel.jogoteste.resource.Assets;
 import com.badlogic.gdx.utils.IntMap;
 
 public class Blocks {
@@ -13,7 +13,9 @@ public class Blocks {
     public static final int AIR_ID = 0;
 
     public static final Block AIR;
-    public static final Block GRASS;
+    public static final Block BARRIER;
+    public static final Block GROUND1;
+    public static final Block GROUND2;
 
 
     //RETORNA O BLOCO APOS INSERIR O ID
@@ -37,6 +39,8 @@ public class Blocks {
     static {
         //CHAMANDO A FUNÇÃO Q REGISTRA COLOCANDO OS PARAMETROS E TEXTURA DO BLOCO
         AIR = register(AIR_ID, new Block(null));
-        GRASS = register(1, new Block(new Texture("grass.png")));
+        BARRIER = register(1, new Block(Assets.manager.get(Assets.barrier)));
+        GROUND1 = register(2, new Block(Assets.manager.get(Assets.ground1)));
+        GROUND2 = register(3, new Block(Assets.manager.get(Assets.ground2)));
     }
 }

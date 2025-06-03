@@ -2,6 +2,9 @@ package br.com.gabriel.jogoteste.screen;
 
 import br.com.gabriel.jogoteste.JogoTeste;
 import br.com.gabriel.jogoteste.Config;
+import br.com.gabriel.jogoteste.entity.component.RigidBodyComponent;
+import br.com.gabriel.jogoteste.entity.component.TransformComponent;
+import br.com.gabriel.jogoteste.resource.Assets;
 import br.com.gabriel.jogoteste.world.World;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -9,8 +12,8 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.ScreenUtils;
 
 public class GameScreen extends ScreenAdapter {
 
@@ -18,14 +21,11 @@ public class GameScreen extends ScreenAdapter {
     protected OrthographicCamera camera;
     protected World world;
 
-    Texture img;
-
     public final Vector3 screenCordinate = new Vector3();
 
     @Override
     public void show () {
         batch = new SpriteBatch();
-        img = new Texture("chao.png");
 
         camera = new OrthographicCamera(Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
         camera.setToOrtho(false, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
@@ -38,21 +38,22 @@ public class GameScreen extends ScreenAdapter {
 
     @Override
     public void render (float delta) {
-        //COR DE FUNDO
-
-        batch.begin();
-        batch.draw(img, 0, 0);
-        batch.end();
-
         world.update(delta);
-
-
 
         if(JogoTeste.DEBUG){
             if(Gdx.input.isKeyJustPressed(Input.Keys.B)){
                 if(world.getEntityTrackerWindow() != null){
                     world.getEntityTrackerWindow().setVisible(!world.getEntityTrackerWindow().isVisible());
                 }
+            }
+
+            if(Gdx.app.getInput().isTouched()) {
+                screenCordinate.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+
+                camera.unproject(screenCordinate);
+                world.getArtemis().getEntity(world.getPlayer()).getComponent(TransformComponent.class).position.set(screenCordinate.x, screenCordinate.y);
+                world.getArtemis().getEntity(world.getPlayer()).getComponent(RigidBodyComponent.class).velocity.set(Vector2.Zero);
+
             }
         }
     }
