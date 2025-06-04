@@ -1,6 +1,7 @@
 package br.com.gabriel.jogoteste;
 
 import br.com.gabriel.jogoteste.resource.Assets;
+import br.com.gabriel.jogoteste.screen.MenuScreen;
 import br.com.gabriel.jogoteste.screen.PreloadScreen;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;

@@ -1,9 +1,7 @@
 package br.com.gabriel.jogoteste.entity.system;
 
-import br.com.gabriel.jogoteste.block.Block;
 import br.com.gabriel.jogoteste.world.World;
 import com.artemis.BaseSystem;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;

@@ -2,7 +2,6 @@ package br.com.gabriel.jogoteste.entity.component;
 
 import com.artemis.Component;
 import com.badlogic.gdx.math.Vector2;
-import br.com.gabriel.jogoteste.entity.component.TransformComponent;
 
 public class TransformComponent extends Component {
 

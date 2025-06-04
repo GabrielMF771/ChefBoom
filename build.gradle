@@ -64,5 +64,7 @@ project(":core") {
         api "net.namekdev.entity_tracker:artemis-entity-tracker:$artemisEntityTracker"
         api "net.namekdev.entity_tracker:artemis-entity-tracker-gui:$artemisEntityTracker"
         api "com.github.tommyettinger:libgdx-utils:0.13.7"
+        api "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
+        api "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
     }
 }

@@ -22,9 +22,12 @@ public class Assets {
     @Asset public static final AssetDescriptor<Texture> ground1 = new AssetDescriptor<Texture>("blocks/ground1.png", Texture.class);
     @Asset public static final AssetDescriptor<Texture> ground2 = new AssetDescriptor<Texture>("blocks/ground2.png", Texture.class);
 
+    // TEXTURAS DO MENU
+    @Asset public static final AssetDescriptor<Texture> iniciarBotao = new AssetDescriptor<>("IniciarBotao.png", Texture.class);
+
+
     public static void load(){
         Texture.setAssetManager(manager);
-
-        manager.load(Assets.class);
+        manager.load(Assets.class); // Carrega tudo anotado com @Asset
     }
 }

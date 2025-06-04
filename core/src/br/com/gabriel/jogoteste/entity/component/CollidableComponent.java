@@ -7,12 +7,7 @@ public class CollidableComponent extends Component {
 
     public final Rectangle collisionBox = new Rectangle();
 
-    // Tamanho original, sem escala
-    public float baseWidth = 32;
-
-    public float baseHeight = 32;
-
-    // Verificações da colisão nas 4 direções
+    //Verficicação das 4 direções
     public boolean onGround;
 
     public boolean onCeiling;
