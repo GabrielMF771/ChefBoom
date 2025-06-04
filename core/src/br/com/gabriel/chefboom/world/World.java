@@ -62,36 +62,47 @@ public class World {
 
         player = entitiesFactory.createPlayer(artemis, ((float) Config.SCREEN_WIDTH / 2), ((float) Config.SCREEN_HEIGHT  / 2));
     }
-    //FUNÇÃO QUE GERA O TILES NO MUNDO - NO CASO VAMOS USAR SÓ 1 TIPO BLOCO
     public void regenerate() {
         float startX = (getWidth() / 2.5f);
         int endX = getWidth();
         int startY = 0;
-        float endY = getHeight();
+        int endY = getHeight();
+
+        // Define a margem interna do retângulo central de barreiras (quanto maior, menor o retângulo)
+        int innerRectMargin = 6;
+        int innerStartX = (int) startX + innerRectMargin;
+        int innerEndX = endX - 1 - innerRectMargin;
+        int innerStartY = startY + innerRectMargin;
+        int innerEndY = endY - 1 - innerRectMargin;
 
         for (int x = 0; x < getWidth(); x++) {
             for (int y = 0; y < getHeight(); y++) {
                 for (int l = 0; l < getLayers(); l++) {
                     Block block = null;
 
-                    if(l == 0){
-                        // FOREGROUND: retângulo de BARRIER nas bordas da metade direita
-                        // Região fora do retângulo (metade esquerda)
+                    if (l == 0) { // FOREGROUND
                         if (x < startX) {
                             block = Blocks.AIR;
-                        }
-                        // Dentro do retângulo da direita
-                        else {
-                            boolean isBorder = x == startX || x == endX - 1 || y == startY || y == endY - 1;
-                            block = isBorder ? Blocks.BARRIER : Blocks.AIR;
-                        }
-                    } else {
-                        // BACKGROUND: padrão xadrez entre GROUND e GROUND2
-                        if ((x + y) % 2 == 0) {
-                            block = Blocks.GROUND1;
                         } else {
-                            block = Blocks.GROUND2;
+                            // Bordas externas
+                            boolean isBorder =
+                                    (x >= startX && x < startX + 2) || // borda esquerda
+                                            (x >= endX - 2 && x < endX) || // borda direita
+                                            (y >= startY && y < startY + 2) || // borda inferior
+                                            (y >= endY - 2 && y < endY); // borda superior
+
+                            // Retângulo interno preenchido de BARRIER
+                            if (x >= innerStartX && x <= innerEndX &&
+                                    y >= innerStartY && y <= innerEndY) {
+                                block = Blocks.BARRIER;
+                            } else if (isBorder) {
+                                block = Blocks.BARRIER;
+                            } else {
+                                block = Blocks.AIR;
+                            }
                         }
+                    } else { // BACKGROUND
+                        block = (x + y) % 2 == 0 ? Blocks.GROUND1 : Blocks.GROUND2;
                     }
 
                     map[x][y][l] = Blocks.getIdByBlock(block);
@@ -101,6 +112,7 @@ public class World {
 
         init();
     }
+
 
     public void init(){
         for(int x = 0; x < getWidth(); x++){
