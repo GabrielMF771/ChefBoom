@@ -55,9 +55,11 @@ public enum PlayerState implements State<Entity> {
     public void enter(Entity entity) {
         init(entity);
 
+        /*
         if(ChefBoom.DEBUG){
             Gdx.app.log("PlayerState", this.toString());
         }
+        */
     }
 
     @Override

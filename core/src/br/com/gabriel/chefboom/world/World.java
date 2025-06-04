@@ -27,7 +27,7 @@ public class World {
     //VETOR Q ARMAZENA O MAPA - OS TILES SÃO FORMADOS DEPENDENDO DO TAMANHO DA TELA
     //SE MUDAR O TILE SIZE, TEM Q MEXER AQUI TBM
     //2 COLUNAS DE PROFUNDIDADE - FOREGOUND E BACKGROUND
-    private final int [] [] [] map = new int [Config.SCREEN_WIDTH/Block.TILE_SIZE] [Config.SCREEN_HEIGHT/Block.TILE_SIZE] [2];
+    private final int [] [] [] map = new int [(int) ((Config.SCREEN_WIDTH * 0.8f)/Block.TILE_SIZE)] [(int) ((Config.SCREEN_HEIGHT * 0.8f)/Block.TILE_SIZE)] [2];
 
     private final Rectangle[][] collisionBoxes = new Rectangle[Config.SCREEN_WIDTH/Block.TILE_SIZE][Config.SCREEN_HEIGHT/Block.TILE_SIZE];
 
@@ -60,7 +60,7 @@ public class World {
         EntitiesFactory entitiesFactory = new EntitiesFactory();
         artemis.inject(entitiesFactory);
 
-        player = entitiesFactory.createPlayer(artemis, ((float) Config.SCREEN_WIDTH / 2), ((float) Config.SCREEN_HEIGHT  / 2));
+        player = entitiesFactory.createPlayer(artemis, ((Config.SCREEN_WIDTH * 0.8f) / 2), ((Config.SCREEN_HEIGHT * 0.8f)  / 2));
     }
     public void regenerate() {
         float startX = (getWidth() / 2.5f);
@@ -69,11 +69,11 @@ public class World {
         int endY = getHeight();
 
         // Define a margem interna do retângulo central de barreiras (quanto maior, menor o retângulo)
-        int innerRectMargin = 6;
-        int innerStartX = (int) startX + innerRectMargin;
+        int innerRectMargin = 5;
+        int innerStartX = (int) startX + innerRectMargin + 2;
         int innerEndX = endX - 1 - innerRectMargin;
-        int innerStartY = startY + innerRectMargin;
-        int innerEndY = endY - 1 - innerRectMargin;
+        int innerStartY = startY + innerRectMargin + 1;
+        int innerEndY = endY - 1 - innerRectMargin - 1;
 
         for (int x = 0; x < getWidth(); x++) {
             for (int y = 0; y < getHeight(); y++) {

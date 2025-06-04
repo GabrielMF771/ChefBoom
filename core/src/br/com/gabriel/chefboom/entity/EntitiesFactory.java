@@ -31,7 +31,7 @@ public class EntitiesFactory {
         TransformComponent cTransform = mTransform.create(entity);
         cTransform.position.set(x, y);
 
-        Texture texture = Assets.manager.get(Assets.testeFrente);
+        Texture texture = Assets.manager.get(Assets.testeEsquerda);
 
         SpriteComponent cSprite = mSprite.create(entity);
         cSprite.sprite = new Sprite(texture);
