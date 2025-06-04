@@ -38,6 +38,8 @@ public class MovementSystem extends IteratingSystem {
 
         float delta = super.world.getDelta();
 
+        final float COLLISION_MARGIN = 2f;
+
         if(cRigidBody.isKinematic) {
             if(delta == 0) return;
 
@@ -68,8 +70,8 @@ public class MovementSystem extends IteratingSystem {
                     endY = rectangle.y;
                 }
 
-                startX = rectangle.x;
-                endX = rectangle.x + rectangle.width;
+                startX = rectangle.x + COLLISION_MARGIN;
+                endX = rectangle.x + rectangle.width - COLLISION_MARGIN;
 
                 world.getTilesRectangle(startX, startY, endX, endY, tiles);
 
@@ -110,8 +112,8 @@ public class MovementSystem extends IteratingSystem {
                     endX = rectangle.x;
                 }
 
-                startY = rectangle.y;
-                endY = rectangle.y + rectangle.height;
+                startY = rectangle.y + COLLISION_MARGIN;
+                endY = rectangle.y + rectangle.height - COLLISION_MARGIN;
 
                 world.getTilesRectangle(startX, startY, endX, endY, tiles);
 
