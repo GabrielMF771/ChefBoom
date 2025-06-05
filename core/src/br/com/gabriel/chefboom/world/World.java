@@ -69,10 +69,9 @@ public class World {
 
         //CLIENTES
 
-        client2 = entitiesFactory.createClient(artemis, ((Config.SCREEN_WIDTH * 0.2f) / 2), ((Config.SCREEN_HEIGHT * 1.0f) / 2));
-        client3 = entitiesFactory.createClient(artemis, ((Config.SCREEN_WIDTH * 0.2f) / 2), ((Config.SCREEN_HEIGHT * 0.8f) / 2));
-        client = entitiesFactory.createClient(artemis, ((Config.SCREEN_WIDTH * 0.2f) / 2), ((Config.SCREEN_HEIGHT * 0.6f) / 2));
-
+        client2 = entitiesFactory.createClient(artemis, 2 * Block.TILE_SIZE, 6 * Block.TILE_SIZE);
+        client3 = entitiesFactory.createClient(artemis, 2 * Block.TILE_SIZE, 9 * Block.TILE_SIZE);
+        client  = entitiesFactory.createClient(artemis, 2 * Block.TILE_SIZE, 12 * Block.TILE_SIZE);
     }
 
     public void regenerate() {
