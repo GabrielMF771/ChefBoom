@@ -8,6 +8,7 @@ import br.com.gabriel.chefboom.world.World;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.systems.IteratingSystem;
+import com.artemis.utils.IntBag;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -37,31 +38,27 @@ public class MovementSystem extends IteratingSystem {
         CollidableComponent cCollidable = mCollidable.get(entityId);
 
         float delta = super.world.getDelta();
-
         final float COLLISION_MARGIN = 2f;
 
-        if(cRigidBody.isKinematic) {
-            if(delta == 0) return;
+        if (cRigidBody.isKinematic) {
+            if (delta == 0) return;
 
-            if(mCollidable.has(entityId)) {
+            if (mCollidable.has(entityId)) {
                 cCollidable.onGround = false;
                 cCollidable.onCeiling = false;
                 cCollidable.onLeftWall = false;
                 cCollidable.onRightWall = false;
 
                 velocity.set(cRigidBody.velocity);
-
                 velocity.scl(delta);
 
                 Rectangle rectangle = cCollidable.collisionBox;
-
                 rectangle.setSize(cTransform.scaleX * ((float) Block.TILE_SIZE / 2), cTransform.scaleY * ((float) Block.TILE_SIZE / 2));
-
                 rectangle.setPosition(cTransform.position);
 
                 float startX, startY, endX, endY;
 
-                // EIXO Y
+                //EIXO Y (blocos)
                 if (velocity.y > 0) {
                     startY = rectangle.y + rectangle.height;
                     endY = rectangle.y + rectangle.height + velocity.y;
@@ -69,41 +66,50 @@ public class MovementSystem extends IteratingSystem {
                     startY = rectangle.y + velocity.y;
                     endY = rectangle.y;
                 }
-
                 startX = rectangle.x + COLLISION_MARGIN;
                 endX = rectangle.x + rectangle.width - COLLISION_MARGIN;
-
                 world.getTilesRectangle(startX, startY, endX, endY, tiles);
 
                 for (int i = 0; i < Math.abs(velocity.y); i++) {
                     boolean found = false;
-
                     float oldY = rectangle.y;
-
                     rectangle.y += Math.signum(velocity.y);
 
                     for (Rectangle tile : tiles) {
                         if (rectangle.overlaps(tile)) {
-                            if (velocity.y > 0) {
-                                cCollidable.onCeiling = true;
-                            } else {
-                                cCollidable.onGround = true;
-                            }
-
+                            if (velocity.y > 0) cCollidable.onCeiling = true;
+                            else cCollidable.onGround = true;
                             found = true;
                             break;
                         }
                     }
 
-                    if(found) {
+                    //EIXO Y (colisão entre entidades)
+                    IntBag entityBag = getEntityIds();
+                    int[] ids = entityBag.getData();
+                    int size = entityBag.size();
+                    for (int j = 0; j < size; j++) {
+                        int otherId = ids[j];
+                        if (otherId == entityId) continue;
+                        CollidableComponent otherCollidable = mCollidable.get(otherId);
+                        if (otherCollidable == null) continue;
+                        Rectangle otherRect = otherCollidable.collisionBox;
+                        if (rectangle.overlaps(otherRect)) {
+                            if (velocity.y > 0) cCollidable.onCeiling = true;
+                            else if (velocity.y < 0) cCollidable.onGround = true;
+                            found = true;
+                            break;
+                        }
+                    }
+
+                    if (found) {
                         rectangle.y = oldY;
                         velocity.y = 0;
                         break;
                     }
                 }
 
-                // EIXO X
-
+                //EIXO X (blocos)
                 if (velocity.x > 0) {
                     startX = rectangle.x + rectangle.width;
                     endX = rectangle.x + rectangle.width + velocity.x;
@@ -111,33 +117,43 @@ public class MovementSystem extends IteratingSystem {
                     startX = rectangle.x + velocity.x;
                     endX = rectangle.x;
                 }
-
                 startY = rectangle.y + COLLISION_MARGIN;
                 endY = rectangle.y + rectangle.height - COLLISION_MARGIN;
-
                 world.getTilesRectangle(startX, startY, endX, endY, tiles);
 
                 for (int i = 0; i < Math.abs(velocity.x); i++) {
                     boolean found = false;
-
                     float oldX = rectangle.x;
-
                     rectangle.x += Math.signum(velocity.x);
 
                     for (Rectangle tile : tiles) {
                         if (rectangle.overlaps(tile)) {
-                            if (velocity.x > 0) {
-                                cCollidable.onRightWall = true;
-                            } else if (velocity.x < 0) {
-                                cCollidable.onLeftWall = true;
-                            }
-
+                            if (velocity.x > 0) cCollidable.onRightWall = true;
+                            else if (velocity.x < 0) cCollidable.onLeftWall = true;
                             found = true;
                             break;
                         }
                     }
 
-                    if(found) {
+                    //EIXO X (colisão entre entidades)
+                    IntBag entityBag = getEntityIds();
+                    int[] ids = entityBag.getData();
+                    int size = entityBag.size();
+                    for (int j = 0; j < size; j++) {
+                        int otherId = ids[j];
+                        if (otherId == entityId) continue;
+                        CollidableComponent otherCollidable = mCollidable.get(otherId);
+                        if (otherCollidable == null) continue;
+                        Rectangle otherRect = otherCollidable.collisionBox;
+                        if (rectangle.overlaps(otherRect)) {
+                            if (velocity.x > 0) cCollidable.onRightWall = true;
+                            else if (velocity.x < 0) cCollidable.onLeftWall = true;
+                            found = true;
+                            break;
+                        }
+                    }
+
+                    if (found) {
                         rectangle.x = oldX;
                         velocity.x = 0;
                         break;
@@ -145,9 +161,7 @@ public class MovementSystem extends IteratingSystem {
                 }
 
                 cTransform.position.set(rectangle.x, rectangle.y);
-
                 velocity.scl(1 / delta);
-
                 cRigidBody.velocity.set(velocity);
             } else {
                 cTransform.position.mulAdd(cRigidBody.velocity, delta);
