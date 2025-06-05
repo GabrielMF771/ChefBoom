@@ -27,7 +27,6 @@ public class World {
 
 
     //VETOR Q ARMAZENA O MAPA - OS TILES SÃO FORMADOS DEPENDENDO DO TAMANHO DA TELA
-    //SE MUDAR O TILE SIZE, TEM Q MEXER AQUI TBM
     //2 COLUNAS DE PROFUNDIDADE - FOREGOUND E BACKGROUND
     private final int [] [] [] map = new int [(int) ((Config.SCREEN_WIDTH * 0.8f)/Block.TILE_SIZE)] [(int) ((Config.SCREEN_HEIGHT * 0.8f)/Block.TILE_SIZE)] [2];
 
@@ -69,9 +68,9 @@ public class World {
 
         //CLIENTES
 
-        client2 = entitiesFactory.createClient(artemis, 2 * Block.TILE_SIZE, 6 * Block.TILE_SIZE);
-        client3 = entitiesFactory.createClient(artemis, 2 * Block.TILE_SIZE, 9 * Block.TILE_SIZE);
-        client  = entitiesFactory.createClient(artemis, 2 * Block.TILE_SIZE, 12 * Block.TILE_SIZE);
+        client2 = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 6 * Block.TILE_SIZE);
+        client3 = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 9 * Block.TILE_SIZE);
+        client  = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 12 * Block.TILE_SIZE);
     }
 
     public void regenerate() {
@@ -82,7 +81,7 @@ public class World {
 
         // Define a margem interna do retângulo central de barreiras (quanto maior, menor o retângulo)
         int innerRectMargin = 5;
-        int innerStartX = (int) startX + innerRectMargin + 2;
+        int innerStartX = (int) startX + innerRectMargin;
         int innerEndX = endX - 1 - innerRectMargin;
         int innerStartY = startY + innerRectMargin + 1;
         int innerEndY = endY - 1 - innerRectMargin - 1;
@@ -98,7 +97,7 @@ public class World {
                         } else {
                             // Bordas externas
                             boolean isBorder =
-                                    (x >= startX && x < startX + 2) || // borda esquerda
+                                    (x >= startX && x < startX + 1) || // borda esquerda
                                             (x >= endX - 2 && x < endX) || // borda direita
                                             (y >= startY && y < startY + 2) || // borda inferior
                                             (y >= endY - 2 && y < endY); // borda superior
