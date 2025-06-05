@@ -44,6 +44,7 @@ public class World {
     public World(OrthographicCamera camera){
         WorldConfigurationBuilder worldConfigBuilder = new WorldConfigurationBuilder()
             .with(new PlayerControllerSystem())
+            .with(new ClientControllerSystem())
             .with(new MovementSystem(this))
             .with(new StateSystem())
             .with(new TileRenderSystem(this, camera))
@@ -68,9 +69,9 @@ public class World {
 
         //CLIENTES
 
-        client2 = entitiesFactory.createClient(artemis, ((Config.SCREEN_WIDTH * 0.6f) / 2), ((Config.SCREEN_HEIGHT * 1.0f) / 2));
-        client3 = entitiesFactory.createClient(artemis, ((Config.SCREEN_WIDTH * 0.6f) / 2), ((Config.SCREEN_HEIGHT * 0.8f) / 2));
-        client = entitiesFactory.createClient(artemis, ((Config.SCREEN_WIDTH * 0.6f) / 2), ((Config.SCREEN_HEIGHT * 0.6f) / 2));
+        client2 = entitiesFactory.createClient(artemis, ((Config.SCREEN_WIDTH * 0.2f) / 2), ((Config.SCREEN_HEIGHT * 1.0f) / 2));
+        client3 = entitiesFactory.createClient(artemis, ((Config.SCREEN_WIDTH * 0.2f) / 2), ((Config.SCREEN_HEIGHT * 0.8f) / 2));
+        client = entitiesFactory.createClient(artemis, ((Config.SCREEN_WIDTH * 0.2f) / 2), ((Config.SCREEN_HEIGHT * 0.6f) / 2));
 
     }
 

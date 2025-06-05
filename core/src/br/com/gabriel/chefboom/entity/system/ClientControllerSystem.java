@@ -30,8 +30,6 @@ public class ClientControllerSystem extends IteratingSystem {
 
     public ClientControllerSystem() {
         super(Aspect.all(ClientComponent.class, RigidBodyComponent.class, CollidableComponent.class));
-
-        Gdx.input.setInputProcessor(new InputMultiplexer(new GameInputAdapter()));
     }
 
     @Override
@@ -49,41 +47,9 @@ public class ClientControllerSystem extends IteratingSystem {
         if (cPlayer.canWalk) {
             float speed = cPlayer.walkSpeed;
 
-            // Eixo X - ELE SÓ ANDA PRA DIREITA
-           if (moveRight) {
-                cRigidBody.velocity.x = speed;
-                cSprite.sprite.setTexture(texDireita);
-            } else {
-                cRigidBody.velocity.x = 0;
-            }
-
-
-        }
-    }
-
-    private class GameInputAdapter extends InputAdapter {
-
-        @Override
-        public boolean keyDown(int keycode) {
-            switch (keycode) {
-                case Input.Keys.RIGHT:
-                case Input.Keys.D:
-                    moveRight = true;
-                    break;
-            }
-            return true;
-        }
-
-        @Override
-        public boolean keyUp(int keycode) {
-            switch (keycode) {
-                case Input.Keys.RIGHT:
-                case Input.Keys.D:
-                    moveRight = false;
-                    break;
-
-            }
-            return true;
+            // Move sempre para a direita
+            cRigidBody.velocity.x = speed;
+            cSprite.sprite.setTexture(texDireita);
         }
     }
 }
