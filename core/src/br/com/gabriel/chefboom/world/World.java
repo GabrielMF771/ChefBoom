@@ -68,9 +68,9 @@ public class World {
 
         //CLIENTES
 
-        client2 = entitiesFactory.createClient(artemis, ((Config.SCREEN_WIDTH * 0.6f) / 2), ((Config.SCREEN_HEIGHT * 0.8f) / 2));
-        client3 = entitiesFactory.createClient(artemis, ((Config.SCREEN_WIDTH * 0.6f) / 2), ((Config.SCREEN_HEIGHT * 1.1f) / 2));
-        client = entitiesFactory.createClient(artemis, ((Config.SCREEN_WIDTH * 0.6f) / 2), ((Config.SCREEN_HEIGHT * 0.5f) / 2));
+        client2 = entitiesFactory.createClient(artemis, ((Config.SCREEN_WIDTH * 0.6f) / 2), ((Config.SCREEN_HEIGHT * 1.0f) / 2));
+        client3 = entitiesFactory.createClient(artemis, ((Config.SCREEN_WIDTH * 0.6f) / 2), ((Config.SCREEN_HEIGHT * 0.8f) / 2));
+        client = entitiesFactory.createClient(artemis, ((Config.SCREEN_WIDTH * 0.6f) / 2), ((Config.SCREEN_HEIGHT * 0.6f) / 2));
 
     }
 
@@ -232,6 +232,10 @@ public class World {
 
     public int getPlayer() {
         return player;
+    }
+
+    public int getClient(){
+        return client;
     }
 
     public com.artemis.World getArtemis() {

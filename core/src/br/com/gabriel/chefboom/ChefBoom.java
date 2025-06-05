@@ -5,15 +5,12 @@ import br.com.gabriel.chefboom.screen.PreloadScreen;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 
 public class ChefBoom extends Game {
 	private static ChefBoom instance;
 
 	public static final boolean DEBUG = true;
-
-	FPSLogger fpsLogger = new FPSLogger();
 
 	private ChefBoom() {}
 

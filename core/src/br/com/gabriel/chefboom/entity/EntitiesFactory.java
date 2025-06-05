@@ -74,5 +74,5 @@ public class EntitiesFactory {
         cState.state = new DefaultStateMachine<Entity, PlayerState>(world.getEntity(entityC), PlayerState.Idle);
 
         return entityC;
-}
+    }
 }
