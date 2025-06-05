@@ -1,5 +1,6 @@
 package br.com.gabriel.chefboom.world;
 
+
 import br.com.gabriel.chefboom.Config;
 import br.com.gabriel.chefboom.ChefBoom;
 import br.com.gabriel.chefboom.block.Block;
@@ -24,6 +25,7 @@ public class World {
     public static final int BG = 1;
     public static final int FG = 0;
 
+
     //VETOR Q ARMAZENA O MAPA - OS TILES SÃO FORMADOS DEPENDENDO DO TAMANHO DA TELA
     //SE MUDAR O TILE SIZE, TEM Q MEXER AQUI TBM
     //2 COLUNAS DE PROFUNDIDADE - FOREGOUND E BACKGROUND
@@ -34,6 +36,8 @@ public class World {
     private final com.artemis.World artemis;
 
     private final int player;
+
+    private int client, client2, client3;
 
     private boolean debugCollisionEnabled = false;
 
@@ -61,7 +65,15 @@ public class World {
         artemis.inject(entitiesFactory);
 
         player = entitiesFactory.createPlayer(artemis, ((Config.SCREEN_WIDTH * 0.8f) / 2), ((Config.SCREEN_HEIGHT * 0.8f)  / 2));
+
+        //CLIENTES
+
+        client2 = entitiesFactory.createClient(artemis, ((Config.SCREEN_WIDTH * 0.6f) / 2), ((Config.SCREEN_HEIGHT * 0.8f) / 2));
+        client3 = entitiesFactory.createClient(artemis, ((Config.SCREEN_WIDTH * 0.6f) / 2), ((Config.SCREEN_HEIGHT * 1.1f) / 2));
+        client = entitiesFactory.createClient(artemis, ((Config.SCREEN_WIDTH * 0.6f) / 2), ((Config.SCREEN_HEIGHT * 0.5f) / 2));
+
     }
+
     public void regenerate() {
         float startX = (getWidth() / 2.5f);
         int endX = getWidth();
