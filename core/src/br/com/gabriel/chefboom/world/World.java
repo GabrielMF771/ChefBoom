@@ -63,7 +63,7 @@ public class World {
         EntitiesFactory entitiesFactory = new EntitiesFactory();
         artemis.inject(entitiesFactory);
 
-        player = entitiesFactory.createPlayer(artemis, ((Config.SCREEN_WIDTH * 0.8f) / 2), ((Config.SCREEN_HEIGHT * 0.8f)  / 2));
+        player = entitiesFactory.createPlayer(artemis, 16 * Block.TILE_SIZE, 7 * Block.TILE_SIZE);
 
         //CLIENTES
 
