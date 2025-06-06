@@ -67,9 +67,9 @@ public class World {
 
         //CLIENTES
 
-        client2 = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 6 * Block.TILE_SIZE);
         client3 = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 9 * Block.TILE_SIZE);
-        client  = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 12 * Block.TILE_SIZE);
+        client2 = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 7 * Block.TILE_SIZE);
+        client  = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 5 * Block.TILE_SIZE);
     }
 
     public void regenerate() {
@@ -82,8 +82,8 @@ public class World {
         int innerRectMargin = 5;
         int innerStartX = (int) startX + innerRectMargin;
         int innerEndX = endX - 1 - innerRectMargin;
-        int innerStartY = startY + innerRectMargin + 1;
-        int innerEndY = endY - 1 - innerRectMargin - 1;
+        int innerStartY = startY + innerRectMargin;
+        int innerEndY = endY - 1 - innerRectMargin - 3;
 
         for (int x = 0; x < getWidth(); x++) {
             for (int y = 0; y < getHeight(); y++) {
@@ -97,9 +97,9 @@ public class World {
                             // Bordas externas
                             boolean isBorder =
                                     (x >= startX && x < startX + 1) || // borda esquerda
-                                            (x >= endX - 2 && x < endX) || // borda direita
-                                            (y >= startY && y < startY + 2) || // borda inferior
-                                            (y >= endY - 2 && y < endY); // borda superior
+                                    (x >= endX - 2 && x < endX) || // borda direita
+                                    (y >= startY && y < startY + 2) || // borda inferior
+                                    (y >= endY - 5 && y < endY); // borda superior
 
                             // Retângulo interno preenchido de BARRIER
                             if (x >= innerStartX && x <= innerEndX &&
@@ -112,14 +112,19 @@ public class World {
                             }
                         }
                     } else { // BACKGROUND
-
+                        block = Blocks.AIR;
                     }
-
                     map[x][y][l] = Blocks.getIdByBlock(block);
                 }
             }
         }
 
+        // Gera 3 linhas de barreira no topo do mapa para evitar que o jogador entre debaixo da hud
+        for (int y = getHeight() - 3; y < getHeight(); y++) {
+            for (int x = 0; x < getWidth(); x++) {
+                map[x][y][FG] = Blocks.getIdByBlock(Blocks.BARRIER);
+            }
+        }
         init();
     }
 

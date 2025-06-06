@@ -8,10 +8,6 @@ import br.com.gabriel.chefboom.resource.Assets;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.systems.IteratingSystem;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Texture;
 
 public class ClientControllerSystem extends IteratingSystem {
@@ -34,7 +30,7 @@ public class ClientControllerSystem extends IteratingSystem {
 
     @Override
     protected void initialize() {
-        texDireita = Assets.manager.get(Assets.testeDireita);
+        texDireita = Assets.manager.get(Assets.playerDireita);
     }
 
     @Override

@@ -1,17 +1,18 @@
 package br.com.gabriel.chefboom.screen;
 
 import br.com.gabriel.chefboom.resource.Assets;
-import com.badlogic.gdx.graphics.Texture;
 import br.com.gabriel.chefboom.ChefBoom;
 import br.com.gabriel.chefboom.Config;
 import br.com.gabriel.chefboom.block.Block;
 import br.com.gabriel.chefboom.entity.component.RigidBodyComponent;
 import br.com.gabriel.chefboom.entity.component.TransformComponent;
 import br.com.gabriel.chefboom.world.World;
+import br.com.gabriel.chefboom.hud.HudRenderer;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -27,6 +28,7 @@ public class GameScreen extends ScreenAdapter {
     public final Vector3 screenCordinate = new Vector3();
 
     private Texture backgroundTexture;
+    private HudRenderer hudRenderer;
 
     @Override
     public void show () {
@@ -36,10 +38,12 @@ public class GameScreen extends ScreenAdapter {
 
         camera = new OrthographicCamera(Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
 
-        // Mexer aqui para posicionar a câmera
+        // Mexer aqui para posicionar a câmeraac
         camera.setToOrtho(false, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
 
         backgroundTexture = Assets.manager.get(Assets.map);
+
+        hudRenderer = new HudRenderer();
 
         world = new World(camera);
         world.regenerate();
@@ -73,15 +77,18 @@ public class GameScreen extends ScreenAdapter {
     public void render (float delta) {
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
+        // Desenha o fundo
         batch.begin();
-        batch.draw(
-                backgroundTexture,
-                0, 0,
-                camera.viewportWidth, camera.viewportHeight
-        );
+        batch.draw(backgroundTexture, 0, 0,camera.viewportWidth, camera.viewportHeight);
         batch.end();
 
+        // Atualiza e desenha entidades
         world.update(delta);
+
+        // Desenha a hud no topo
+        batch.begin();
+        hudRenderer.render(batch, camera);
+        batch.end();
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             Gdx.app.exit();

@@ -12,13 +12,16 @@ public class Assets {
     public static final AnnotationAssetManager manager = new AnnotationAssetManager(new InternalFileHandleResolver());
 
     //TEXTURAS PERSONAGEM
-    @Asset public static final AssetDescriptor<Texture> testeFrente = new AssetDescriptor<Texture>("player/player-frente.png", Texture.class);
-    @Asset public static final AssetDescriptor<Texture> testeCostas = new AssetDescriptor<Texture>("player/player-costas.png", Texture.class);
-    @Asset public static final AssetDescriptor<Texture> testeDireita = new AssetDescriptor<Texture>("player/player-direita.png", Texture.class);
-    @Asset public static final AssetDescriptor<Texture> testeEsquerda = new AssetDescriptor<Texture>("player/player-esquerda.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> playerFrente = new AssetDescriptor<Texture>("player/player-frente.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> playerCostas = new AssetDescriptor<Texture>("player/player-costas.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> playerDireita = new AssetDescriptor<Texture>("player/player-direita.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> playerEsquerda = new AssetDescriptor<Texture>("player/player-esquerda.png", Texture.class);
 
     //TEXTURA MAPA
     @Asset public static final AssetDescriptor<Texture> map = new AssetDescriptor<Texture>("mapa.png", Texture.class);
+
+    // TEXTURAS DO HUD
+    @Asset public static final AssetDescriptor<Texture> hudbackground = new AssetDescriptor<Texture>("hudBackground.png", Texture.class);
 
     // TEXTURAS DO MENU
     @Asset public static final AssetDescriptor<Texture> iniciarBotao = new AssetDescriptor<>("IniciarBotao.png", Texture.class);

@@ -43,10 +43,10 @@ public class PlayerControllerSystem extends IteratingSystem {
 
     @Override
     protected void initialize() {
-        texFrente = Assets.manager.get(Assets.testeFrente);
-        texCostas = Assets.manager.get(Assets.testeCostas);
-        texDireita = Assets.manager.get(Assets.testeDireita);
-        texEsquerda = Assets.manager.get(Assets.testeEsquerda);
+        texFrente = Assets.manager.get(Assets.playerFrente);
+        texCostas = Assets.manager.get(Assets.playerCostas);
+        texDireita = Assets.manager.get(Assets.playerDireita);
+        texEsquerda = Assets.manager.get(Assets.playerEsquerda);
     }
 
     @Override
