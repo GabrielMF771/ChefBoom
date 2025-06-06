@@ -46,7 +46,6 @@ public class World {
             .with(new ClientControllerSystem())
             .with(new MovementSystem(this))
             .with(new StateSystem())
-            .with(new TileRenderSystem(this, camera))
             .with(new SpriteRenderSystem(camera));
 
 
@@ -113,7 +112,7 @@ public class World {
                             }
                         }
                     } else { // BACKGROUND
-                        block = (x + y) % 2 == 0 ? Blocks.GROUND1 : Blocks.GROUND2;
+
                     }
 
                     map[x][y][l] = Blocks.getIdByBlock(block);

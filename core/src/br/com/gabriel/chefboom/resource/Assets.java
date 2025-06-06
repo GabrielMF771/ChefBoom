@@ -17,10 +17,8 @@ public class Assets {
     @Asset public static final AssetDescriptor<Texture> testeDireita = new AssetDescriptor<Texture>("player/player-direita.png", Texture.class);
     @Asset public static final AssetDescriptor<Texture> testeEsquerda = new AssetDescriptor<Texture>("player/player-esquerda.png", Texture.class);
 
-    //TEXTURA TILES
-    @Asset public static final AssetDescriptor<Texture> barrier = new AssetDescriptor<Texture>("blocks/barrier.png", Texture.class);
-    @Asset public static final AssetDescriptor<Texture> ground1 = new AssetDescriptor<Texture>("blocks/ground1.png", Texture.class);
-    @Asset public static final AssetDescriptor<Texture> ground2 = new AssetDescriptor<Texture>("blocks/ground2.png", Texture.class);
+    //TEXTURA MAPA
+    @Asset public static final AssetDescriptor<Texture> map = new AssetDescriptor<Texture>("mapa.png", Texture.class);
 
     // TEXTURAS DO MENU
     @Asset public static final AssetDescriptor<Texture> iniciarBotao = new AssetDescriptor<>("IniciarBotao.png", Texture.class);

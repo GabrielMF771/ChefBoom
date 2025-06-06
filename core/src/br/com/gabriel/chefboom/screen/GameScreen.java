@@ -1,5 +1,7 @@
 package br.com.gabriel.chefboom.screen;
 
+import br.com.gabriel.chefboom.resource.Assets;
+import com.badlogic.gdx.graphics.Texture;
 import br.com.gabriel.chefboom.ChefBoom;
 import br.com.gabriel.chefboom.Config;
 import br.com.gabriel.chefboom.block.Block;
@@ -24,6 +26,8 @@ public class GameScreen extends ScreenAdapter {
     FitViewport viewport;
     public final Vector3 screenCordinate = new Vector3();
 
+    private Texture backgroundTexture;
+
     @Override
     public void show () {
         viewport = new FitViewport(Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT, camera);
@@ -34,6 +38,8 @@ public class GameScreen extends ScreenAdapter {
 
         // Mexer aqui para posicionar a câmera
         camera.setToOrtho(false, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
+
+        backgroundTexture = Assets.manager.get(Assets.map);
 
         world = new World(camera);
         world.regenerate();
@@ -66,6 +72,15 @@ public class GameScreen extends ScreenAdapter {
     @Override
     public void render (float delta) {
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
+        batch.begin();
+        batch.draw(
+                backgroundTexture,
+                0, 0,
+                camera.viewportWidth, camera.viewportHeight
+        );
+        batch.end();
+
         world.update(delta);
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
