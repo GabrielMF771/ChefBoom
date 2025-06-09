@@ -27,11 +27,15 @@ public class EntitiesFactory {
 
     private ComponentMapper<ClientComponent> mClient;
 
+    private ComponentMapper<ItemComponent> mItem;
+
     public int createPlayer(World world, float x, float y) {
         int entity = world.create();
 
         TransformComponent cTransform = mTransform.create(entity);
         cTransform.position.set(x, y);
+        cTransform.scaleX = 2f;
+        cTransform.scaleY = 2f;
 
         Texture texture = Assets.manager.get(Assets.playerEsquerda);
 
@@ -56,6 +60,8 @@ public class EntitiesFactory {
 
         TransformComponent cTransform = mTransform.create(entityC);
         cTransform.position.set(x, y);
+        cTransform.scaleX = 2f;
+        cTransform.scaleY = 2f;
 
         Texture texture = Assets.manager.get(Assets.playerDireita);
 
@@ -74,5 +80,22 @@ public class EntitiesFactory {
         cState.state = new DefaultStateMachine<Entity, PlayerState>(world.getEntity(entityC), PlayerState.Idle);
 
         return entityC;
+    }
+
+    public int createItem(com.artemis.World world, float x, float y, com.badlogic.gdx.graphics.Texture texture) {
+        int entity = world.create();
+
+        TransformComponent cTransform = mTransform.create(entity);
+        cTransform.position.set(x, y);
+        cTransform.scaleX = 1f;
+        cTransform.scaleY = 1f;
+
+        SpriteComponent cSprite = mSprite.create(entity);
+        cSprite.sprite = new com.badlogic.gdx.graphics.g2d.Sprite(texture);
+
+        ItemComponent cItem = mItem.create(entity);
+        cItem.isHeld = false;
+
+        return entity;
     }
 }

@@ -38,7 +38,7 @@ public class GameScreen extends ScreenAdapter {
 
         camera = new OrthographicCamera(Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
 
-        // Mexer aqui para posicionar a câmeraac
+        // Mexer aqui para posicionar a câmeras
         camera.setToOrtho(false, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
 
         backgroundTexture = Assets.manager.get(Assets.map);
@@ -101,6 +101,7 @@ public class GameScreen extends ScreenAdapter {
                 }
             }
 
+            /* Move o player para a posição do mouse
             if(Gdx.app.getInput().isTouched()) {
                 screenCordinate.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 
@@ -109,6 +110,7 @@ public class GameScreen extends ScreenAdapter {
                 world.getArtemis().getEntity(world.getPlayer()).getComponent(RigidBodyComponent.class).velocity.set(Vector2.Zero);
 
             }
+             */
         }
     }
 }

@@ -7,7 +7,9 @@ public class PlayerComponent extends Component {
 
     public boolean canWalk = true;
 
-    public float walkSpeed = 150;
+    public float walkSpeed = 150f;
 
     public Vector2 position = new Vector2();
+
+    public Integer heldItemEntity = null;
 }

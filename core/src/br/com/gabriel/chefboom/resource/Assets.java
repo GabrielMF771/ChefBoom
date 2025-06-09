@@ -26,6 +26,9 @@ public class Assets {
     // TEXTURAS DO MENU
     @Asset public static final AssetDescriptor<Texture> iniciarBotao = new AssetDescriptor<>("IniciarBotao.png", Texture.class);
 
+    // TEXTURAS DOS ITENS
+    @Asset public static final AssetDescriptor<Texture> apple = new AssetDescriptor<>("item/apple.png", Texture.class);
+
 
     public static void load(){
         Texture.setAssetManager(manager);

@@ -16,7 +16,7 @@ public class TransformComponent extends Component {
     public float rotation = 0;
 
     //ESCALA DO PLAYER - SE QUISER AUMENTAR O TAMANHO SO MEXER AQUI
-    public float scaleX = 2;
+    public float scaleX = 1;
 
-    public float scaleY = 2;
+    public float scaleY = 1;
 }

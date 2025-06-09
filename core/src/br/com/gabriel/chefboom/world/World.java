@@ -7,6 +7,7 @@ import br.com.gabriel.chefboom.block.Block;
 import br.com.gabriel.chefboom.dictionary.Blocks;
 import br.com.gabriel.chefboom.entity.EntitiesFactory;
 import br.com.gabriel.chefboom.entity.system.*;
+import br.com.gabriel.chefboom.resource.Assets;
 import com.artemis.WorldConfiguration;
 import com.artemis.WorldConfigurationBuilder;
 import com.badlogic.gdx.Gdx;
@@ -36,7 +37,9 @@ public class World {
 
     private final int player;
 
-    private int client, client2, client3;
+    private int[] clients;
+
+    private int item;
 
     private boolean debugCollisionEnabled = false;
 
@@ -46,6 +49,7 @@ public class World {
             .with(new ClientControllerSystem())
             .with(new MovementSystem(this))
             .with(new StateSystem())
+            .with(new ItemSystem(this))
             .with(new SpriteRenderSystem(camera));
 
 
@@ -63,13 +67,18 @@ public class World {
         EntitiesFactory entitiesFactory = new EntitiesFactory();
         artemis.inject(entitiesFactory);
 
+        // PLAYER
         player = entitiesFactory.createPlayer(artemis, 16 * Block.TILE_SIZE, 7 * Block.TILE_SIZE);
 
-        //CLIENTES
+        // CLIENTES
+        clients = new int[] {
+                entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 9 * Block.TILE_SIZE),
+                entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 7 * Block.TILE_SIZE),
+                entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 5 * Block.TILE_SIZE)
+        };
 
-        client3 = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 9 * Block.TILE_SIZE);
-        client2 = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 7 * Block.TILE_SIZE);
-        client  = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 5 * Block.TILE_SIZE);
+        // ITENS
+        item = entitiesFactory.createItem(artemis, 17 * Block.TILE_SIZE, 7 * Block.TILE_SIZE, Assets.manager.get(Assets.apple));
     }
 
     public void regenerate() {
@@ -237,8 +246,12 @@ public class World {
         return player;
     }
 
-    public int getClient(){
-        return client;
+    public int[] getClients(){
+        return clients;
+    }
+
+    public int getItem(){
+        return item;
     }
 
     public com.artemis.World getArtemis() {
@@ -252,4 +265,5 @@ public class World {
     public static int worldToMap(float worldCoordinate){
         return (int) (worldCoordinate / Block.TILE_SIZE);
     }
+
 }
