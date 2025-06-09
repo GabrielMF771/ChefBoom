@@ -33,10 +33,15 @@ public class ChefBoom extends Game {
 
 		super.render();
 
-		if(DEBUG) {
-			if(Gdx.input.isKeyJustPressed(Input.Keys.R)) {
-				if(Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)) {
-					getScreen().show();
+		if (DEBUG) {
+			if (Gdx.input.isKeyJustPressed(Input.Keys.R)) {
+				if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)) {
+					// Libera recursos da tela atual
+					if (getScreen() != null) {
+						getScreen().dispose();
+					}
+					// Cria uma nova instância da tela de jogo e define como atual
+					setScreen(new br.com.gabriel.chefboom.screen.GameScreen());
 				}
 			}
 		}

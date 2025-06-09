@@ -1,6 +1,7 @@
 package br.com.gabriel.chefboom.entity.system;
 
 import br.com.gabriel.chefboom.block.Block;
+import br.com.gabriel.chefboom.entity.component.ClientComponent;
 import br.com.gabriel.chefboom.entity.component.CollidableComponent;
 import br.com.gabriel.chefboom.entity.component.RigidBodyComponent;
 import br.com.gabriel.chefboom.entity.component.TransformComponent;
@@ -20,6 +21,8 @@ public class MovementSystem extends IteratingSystem {
     private ComponentMapper<RigidBodyComponent> mRigidBody;
 
     private ComponentMapper<CollidableComponent> mCollidable;
+
+    private ComponentMapper<ClientComponent> mClient;
 
     private World world;
 
@@ -166,6 +169,12 @@ public class MovementSystem extends IteratingSystem {
             } else {
                 cTransform.position.mulAdd(cRigidBody.velocity, delta);
             }
+        }
+
+        if (mClient.has(entityId)) {
+            ClientComponent cClient = mClient.get(entityId);
+            // Atualiza a flag de contato com bloco
+            cClient.inQueue = cCollidable.onRightWall;
         }
     }
 }

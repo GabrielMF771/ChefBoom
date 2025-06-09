@@ -75,8 +75,6 @@ public class GameScreen extends ScreenAdapter {
 
     @Override
     public void render (float delta) {
-        resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-
         // Desenha o fundo
         batch.begin();
         batch.draw(backgroundTexture, 0, 0,camera.viewportWidth, camera.viewportHeight);
@@ -101,7 +99,6 @@ public class GameScreen extends ScreenAdapter {
                 }
             }
 
-            /* Move o player para a posição do mouse
             if(Gdx.app.getInput().isTouched()) {
                 screenCordinate.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 
@@ -110,7 +107,7 @@ public class GameScreen extends ScreenAdapter {
                 world.getArtemis().getEntity(world.getPlayer()).getComponent(RigidBodyComponent.class).velocity.set(Vector2.Zero);
 
             }
-             */
+
         }
     }
 }

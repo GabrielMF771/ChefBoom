@@ -70,6 +70,9 @@ public class EntitiesFactory {
 
         ClientComponent cClient = mClient.create(entityC);
 
+        // Sorteio de itens
+        cClient.wantedItemId = Math.random() < 0.5 ? 0 : 1;
+
         RigidBodyComponent cRigidBody = mRigidBody.create(entityC);
 
         CollidableComponent cCollidable = mCollidable.create(entityC);
@@ -87,8 +90,8 @@ public class EntitiesFactory {
 
         TransformComponent cTransform = mTransform.create(entity);
         cTransform.position.set(x, y);
-        cTransform.scaleX = 1f;
-        cTransform.scaleY = 1f;
+        cTransform.scaleX = 2f;
+        cTransform.scaleY = 2f;
 
         SpriteComponent cSprite = mSprite.create(entity);
         cSprite.sprite = new com.badlogic.gdx.graphics.g2d.Sprite(texture);

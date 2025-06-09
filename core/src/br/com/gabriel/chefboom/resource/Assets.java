@@ -28,6 +28,7 @@ public class Assets {
 
     // TEXTURAS DOS ITENS
     @Asset public static final AssetDescriptor<Texture> apple = new AssetDescriptor<>("item/apple.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> bread = new AssetDescriptor<>("item/bread.png", Texture.class);
 
 
     public static void load(){

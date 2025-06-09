@@ -10,6 +10,7 @@ import com.artemis.systems.IteratingSystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
+import br.com.gabriel.chefboom.util.ClientUtils;
 
 public class ItemSystem extends IteratingSystem {
 
@@ -25,6 +26,27 @@ public class ItemSystem extends IteratingSystem {
         this.world = world;
     }
 
+    private int findNearbyClient(Vector2 pos) {
+        com.artemis.utils.IntBag clients = getWorld().getAspectSubscriptionManager()
+                .get(Aspect.all(ClientComponent.class, TransformComponent.class))
+                .getEntities();
+        int[] ids = clients.getData();
+        int size = clients.size();
+
+        for (int i = 0; i < size; i++) {
+            int clientId = ids[i];
+            TransformComponent clientTransform = mTransform.get(clientId);
+
+            float dx = Math.abs(pos.x - clientTransform.position.x);
+            float dy = Math.abs(pos.y - clientTransform.position.y);
+
+            if (dx <= 2 * Block.TILE_SIZE && dy <= 1.5f * Block.TILE_SIZE) {
+                return clientId;
+            }
+        }
+        return -1;
+    }
+
     @Override
     protected void process(int entityId) {
         PlayerComponent player = mPlayer.get(entityId);
@@ -33,35 +55,41 @@ public class ItemSystem extends IteratingSystem {
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
             if (player.heldItemEntity == null) {
-                // Procurar item próximo para pegar
-                int itemId = findNearbyItem(playerTransform.position);
+                Vector2 frontBlock = getBlockInFront(playerTransform, playerSprite);
+                int x = World.worldToMap(frontBlock.x);
+                int y = World.worldToMap(frontBlock.y);
+
+                int itemId = findNearbyItem(frontBlock);
                 if (itemId != -1) {
                     player.heldItemEntity = itemId;
                     mItem.get(itemId).isHeld = true;
                 }
             } else {
-                // Tentar posicionar o item no bloco à frente
-                Vector2 placePos = getBlockInFront(playerTransform, playerSprite);
-                int x = World.worldToMap(placePos.x);
-                int y = World.worldToMap(placePos.y);
+                // Colocar item no bloco à frente, se não houver cliente e não houver item no bloco
+                int clientId = ClientUtils.findNearbyClient(
+                        world.getArtemis(), mTransform, playerTransform.position
+                );
+                if (clientId == -1) {
+                    Vector2 placePos = getBlockInFront(playerTransform, playerSprite);
+                    int x = World.worldToMap(placePos.x);
+                    int y = World.worldToMap(placePos.y);
 
-                if (world.isValid(x, y)) {
-                    Block block = world.getBlock(x, y, World.FG);
-                    if (block instanceof BlockBarrier) {
-                        TransformComponent itemTransform = mTransform.get(player.heldItemEntity);
-                        // Centraliza o item no centro do bloco de barreira
-                        itemTransform.position.set(x * Block.TILE_SIZE, y * Block.TILE_SIZE);
-                        mItem.get(player.heldItemEntity).isHeld = false;
-                        player.heldItemEntity = null;
+                    if (world.isValid(x, y) && !isItemOnBlock(x, y)) {
+                        Block block = world.getBlock(x, y, World.FG);
+                        if (block instanceof BlockBarrier) {
+                            TransformComponent itemTransform = mTransform.get(player.heldItemEntity);
+                            itemTransform.position.set(x * Block.TILE_SIZE, y * Block.TILE_SIZE);
+                            mItem.get(player.heldItemEntity).isHeld = false;
+                            player.heldItemEntity = null;
+                        }
                     }
                 }
             }
         }
 
-        // Se estiver segurando, manter item acima da cabeça
+        // Mantém o item acima do jogador se estiver segurando
         if (player.heldItemEntity != null) {
             TransformComponent itemTransform = mTransform.get(player.heldItemEntity);
-            // Mantém o item acima do jogador
             itemTransform.position.set(
                     playerTransform.position.x,
                     playerTransform.position.y + Block.TILE_SIZE
@@ -109,6 +137,46 @@ public class ItemSystem extends IteratingSystem {
 
         // Retorna a posição centralizada do bloco alvo
         return new Vector2(mapX * Block.TILE_SIZE, mapY * Block.TILE_SIZE);
+    }
+
+    private int findItemOnBlock(int x, int y) {
+        com.artemis.utils.IntBag entities = getItemEntities();
+        int[] ids = entities.getData();
+        int size = entities.size();
+
+        for (int i = 0; i < size; i++) {
+            int itemId = ids[i];
+            TransformComponent itemTransform = mTransform.get(itemId);
+            ItemComponent item = mItem.get(itemId);
+            if (!item.isHeld) {
+                int itemX = World.worldToMap(itemTransform.position.x);
+                int itemY = World.worldToMap(itemTransform.position.y);
+                if (itemX == x && itemY == y) {
+                    return itemId;
+                }
+            }
+        }
+        return -1;
+    }
+
+    private boolean isItemOnBlock(int x, int y) {
+        com.artemis.utils.IntBag entities = getItemEntities();
+        int[] ids = entities.getData();
+        int size = entities.size();
+
+        for (int i = 0; i < size; i++) {
+            int itemId = ids[i];
+            TransformComponent itemTransform = mTransform.get(itemId);
+            ItemComponent item = mItem.get(itemId);
+            if (!item.isHeld) {
+                int itemX = World.worldToMap(itemTransform.position.x);
+                int itemY = World.worldToMap(itemTransform.position.y);
+                if (itemX == x && itemY == y) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private com.artemis.utils.IntBag getItemEntities() {

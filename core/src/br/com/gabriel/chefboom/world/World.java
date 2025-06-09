@@ -50,7 +50,9 @@ public class World {
             .with(new MovementSystem(this))
             .with(new StateSystem())
             .with(new ItemSystem(this))
-            .with(new SpriteRenderSystem(camera));
+            .with(new OrderSystem())
+            .with(new SpriteRenderSystem(camera))
+            .with(new ClientInteractionSystem(this));
 
 
         if(ChefBoom.DEBUG){
@@ -72,13 +74,14 @@ public class World {
 
         // CLIENTES
         clients = new int[] {
-                entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 9 * Block.TILE_SIZE),
+                entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 10 * Block.TILE_SIZE),
                 entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 7 * Block.TILE_SIZE),
-                entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 5 * Block.TILE_SIZE)
+                entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 4 * Block.TILE_SIZE)
         };
 
         // ITENS
-        item = entitiesFactory.createItem(artemis, 17 * Block.TILE_SIZE, 7 * Block.TILE_SIZE, Assets.manager.get(Assets.apple));
+        item = entitiesFactory.createItem(artemis, 17 * Block.TILE_SIZE, 8 * Block.TILE_SIZE, Assets.manager.get(Assets.apple));
+        item = entitiesFactory.createItem(artemis, 17 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, Assets.manager.get(Assets.bread));
     }
 
     public void regenerate() {

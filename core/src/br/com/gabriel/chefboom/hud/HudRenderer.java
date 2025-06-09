@@ -17,7 +17,5 @@ public class HudRenderer {
         float imageHeight = 3 * Block.TILE_SIZE;
         float imageWidth = camera.viewportWidth;
         batch.draw(hudImageTexture, 0, camera.viewportHeight - imageHeight, imageWidth, imageHeight);
-
-
     }
 }

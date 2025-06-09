@@ -9,5 +9,9 @@ public class ClientComponent extends Component {
 
     public float walkSpeed = 100;
 
+    public int wantedItemId = -1;
+
+    public boolean inQueue = false;
+
     public Vector2 position = new Vector2();
 }
