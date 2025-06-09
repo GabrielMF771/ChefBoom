@@ -70,8 +70,11 @@ public class EntitiesFactory {
 
         ClientComponent cClient = mClient.create(entityC);
 
+        // Total de tipos de itens disponíveis (ALTERAR DEPOIS, NAO PODE FICAR AQUI)
+        int totalItens = 2;
+
         // Sorteio de itens
-        cClient.wantedItemId = Math.random() < 0.5 ? 0 : 1;
+        cClient.wantedItemId = (int) (Math.random() * totalItens);
 
         RigidBodyComponent cRigidBody = mRigidBody.create(entityC);
 
