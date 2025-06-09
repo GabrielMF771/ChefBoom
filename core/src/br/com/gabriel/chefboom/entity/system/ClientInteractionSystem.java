@@ -51,8 +51,13 @@ public class ClientInteractionSystem extends IteratingSystem {
 
                 ClientComponent client = mClient.get(clientId);
                 if (itemTypeId == client.wantedItemId) {
-                    world.getArtemis().delete(player.heldItemEntity);
-                    player.heldItemEntity = null;
+                    // Deleta o item do jogador
+
+                    // TIRAR DO COMENTÁRIO QUANDO IMPLEMENTAR A LÓGICA DOS ITENS
+                    //world.getArtemis().delete(player.heldItemEntity);
+                    //player.heldItemEntity = null;
+
+                    // Deleta o cliente que foi alimentado
                     world.getArtemis().delete(clientId);
                 }
             }
@@ -60,9 +65,7 @@ public class ClientInteractionSystem extends IteratingSystem {
     }
 
     private int findNearbyClient(Vector2 pos) {
-        com.artemis.utils.IntBag clients = getWorld().getAspectSubscriptionManager()
-                .get(Aspect.all(ClientComponent.class, TransformComponent.class))
-                .getEntities();
+        IntBag clients = getClientEntities();
         int[] ids = clients.getData();
         int size = clients.size();
 

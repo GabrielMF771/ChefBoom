@@ -51,5 +51,4 @@ public class ChefBoom extends Game {
 	public void dispose () {
 		Assets.manager.dispose();
 	}
-
 }

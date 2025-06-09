@@ -1,7 +1,10 @@
 package br.com.gabriel.chefboom.screen;
 
+import br.com.gabriel.chefboom.entity.component.ClientComponent;
+import br.com.gabriel.chefboom.entity.system.OrderSystem;
 import br.com.gabriel.chefboom.resource.Assets;
 import br.com.gabriel.chefboom.ChefBoom;
+import com.artemis.ComponentMapper;
 import br.com.gabriel.chefboom.Config;
 import br.com.gabriel.chefboom.block.Block;
 import br.com.gabriel.chefboom.entity.component.RigidBodyComponent;
@@ -43,10 +46,12 @@ public class GameScreen extends ScreenAdapter {
 
         backgroundTexture = Assets.manager.get(Assets.map);
 
-        hudRenderer = new HudRenderer();
-
         world = new World(camera);
         world.regenerate();
+
+        OrderSystem orderSystem = world.getArtemis().getSystem(OrderSystem.class);
+        ComponentMapper<ClientComponent> mClient = world.getArtemis().getMapper(ClientComponent.class);
+        hudRenderer = new HudRenderer(orderSystem, world, mClient);
 
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
