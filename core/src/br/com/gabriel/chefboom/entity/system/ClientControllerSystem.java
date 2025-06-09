@@ -1,10 +1,12 @@
 package br.com.gabriel.chefboom.entity.system;
 
+import br.com.gabriel.chefboom.ChefBoom;
 import br.com.gabriel.chefboom.entity.component.CollidableComponent;
 import br.com.gabriel.chefboom.entity.component.ClientComponent;
 import br.com.gabriel.chefboom.entity.component.RigidBodyComponent;
 import br.com.gabriel.chefboom.entity.component.SpriteComponent;
 import br.com.gabriel.chefboom.resource.Assets;
+import br.com.gabriel.chefboom.screen.MenuScreen;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.systems.IteratingSystem;
@@ -46,6 +48,14 @@ public class ClientControllerSystem extends IteratingSystem {
             // Move sempre para a direita
             cRigidBody.velocity.x = speed;
             cSprite.sprite.setTexture(texDireita);
+        }
+
+        if (cPlayer.inQueue) {
+            cPlayer.timeLeft -= world.getDelta();
+            if (cPlayer.timeLeft < 0) cPlayer.timeLeft = 0;
+            if (cPlayer.timeLeft <= 0) {
+                ChefBoom.getInstance().setScreen(new MenuScreen());
+            }
         }
     }
 }

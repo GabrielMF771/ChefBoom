@@ -14,4 +14,6 @@ public class ClientComponent extends Component {
     public boolean inQueue = false;
 
     public Vector2 position = new Vector2();
+
+    public float timeLeft = 10f; // Tempo em segundos
 }

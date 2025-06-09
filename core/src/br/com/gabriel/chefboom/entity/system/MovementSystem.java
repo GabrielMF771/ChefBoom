@@ -173,8 +173,14 @@ public class MovementSystem extends IteratingSystem {
 
         if (mClient.has(entityId)) {
             ClientComponent cClient = mClient.get(entityId);
+            boolean wasInQueue = cClient.inQueue;
+
             // Atualiza a flag de contato com bloco
             cClient.inQueue = cCollidable.onRightWall;
+
+            if (!wasInQueue && cClient.inQueue) {
+                cClient.timeLeft = 10f; // Começa a contar ao encostar no balcão
+            }
         }
     }
 }

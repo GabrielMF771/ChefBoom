@@ -70,7 +70,7 @@ public class EntitiesFactory {
 
         ClientComponent cClient = mClient.create(entityC);
 
-        // Total de tipos de itens disponíveis (ALTERAR DEPOIS, NAO PODE FICAR AQUI)
+        // Total de tipos de itens disponíveis ( TODO - ALTERAR DEPOIS, NAO PODE FICAR AQUI)
         int totalItens = 2;
 
         // Sorteio de itens
@@ -81,9 +81,6 @@ public class EntitiesFactory {
         CollidableComponent cCollidable = mCollidable.create(entityC);
         cCollidable.collisionBox.setSize(texture.getWidth(), texture.getHeight());
         cCollidable.collisionBox.setCenter(new Vector2(x, y));
-
-        StateComponent<PlayerState> cState = mState.create(entityC);
-        cState.state = new DefaultStateMachine<Entity, PlayerState>(world.getEntity(entityC), PlayerState.Idle);
 
         return entityC;
     }

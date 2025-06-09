@@ -53,7 +53,7 @@ public class ClientInteractionSystem extends IteratingSystem {
                 if (itemTypeId == client.wantedItemId) {
                     // Deleta o item do jogador
 
-                    // TIRAR DO COMENTÁRIO QUANDO IMPLEMENTAR A LÓGICA DOS ITENS
+                    // TODO - TIRAR DO COMENTÁRIO QUANDO IMPLEMENTAR A LÓGICA DOS ITENS
                     //world.getArtemis().delete(player.heldItemEntity);
                     //player.heldItemEntity = null;
 
