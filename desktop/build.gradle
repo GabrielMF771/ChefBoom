@@ -1,3 +1,7 @@
+plugins {
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
+}
+
 sourceCompatibility = 1.8
 sourceSets.main.java.srcDirs = [ "src/" ]
 sourceSets.main.resources.srcDirs = ["../assets"]
@@ -6,6 +10,19 @@ project.ext.mainClassName = "br.com.gabriel.jogoteste.DesktopLauncher"
 project.ext.assetsDir = new File("../assets")
 
 import org.gradle.internal.os.OperatingSystem
+
+
+shadowJar {
+    archiveBaseName.set('chefboom')
+    archiveClassifier.set('')
+    archiveVersion.set('1.0')
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'br.com.gabriel.chefboom.DesktopLauncher'
+    }
+}
 
 tasks.register('run', JavaExec) {
     dependsOn classes
