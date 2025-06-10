@@ -53,6 +53,7 @@ public class GameScreen extends ScreenAdapter {
         ComponentMapper<ClientComponent> mClient = world.getArtemis().getMapper(ClientComponent.class);
         hudRenderer = new HudRenderer(orderSystem, world, mClient);
 
+
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
@@ -84,9 +85,11 @@ public class GameScreen extends ScreenAdapter {
         batch.begin();
         batch.draw(backgroundTexture, 0, 0,camera.viewportWidth, camera.viewportHeight);
         batch.end();
+        world.generateClients(world);
 
         // Atualiza e desenha entidades
         world.update(delta);
+
 
         // Desenha a hud no topo
         batch.begin();
