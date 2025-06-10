@@ -186,10 +186,6 @@ public class MovementSystem extends IteratingSystem {
 
             // Só entra na fila se encostou em bloco, não em outro cliente
             cClient.inQueue = collidedRightWithBlock && !collidedRightWithEntity;
-
-            if (!wasInQueue && cClient.inQueue) {
-                cClient.timeLeft = 10f; // Começa a contar ao encostar no balcão
-            }
         }
     }
 }

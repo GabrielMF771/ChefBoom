@@ -21,11 +21,18 @@ public class ClientControllerSystem extends IteratingSystem {
     private boolean moveRight;
     private Texture texDireita;
 
-    private final World gameWorld; // Referência ao seu World customizado
+    private int clientsExplodedThisFrame = 0;
+
+    private final World gameWorld;
 
     public ClientControllerSystem(World gameWorld) {
         super(Aspect.all(ClientComponent.class, RigidBodyComponent.class, CollidableComponent.class));
         this.gameWorld = gameWorld;
+    }
+
+    @Override
+    protected void begin() {
+        clientsExplodedThisFrame = 0;
     }
 
     @Override
@@ -50,19 +57,26 @@ public class ClientControllerSystem extends IteratingSystem {
             cClient.timeLeft -= world.getDelta();
             if (cClient.timeLeft < 0) cClient.timeLeft = 0;
             if (cClient.timeLeft <= 0) {
-                int playerId = gameWorld.getPlayer();
-                PlayerComponent player = mPlayer.get(playerId);
-                if (player != null && player.hp > 0  && player.invulnerableTime <= 0) {
-                    player.hp -= 1;
-                    player.invulnerableTime = 1.0f;
-                    if (player.hp == 0) {
-                        // TODO - REMOVER DEPOIS
-                        ChefBoom.getInstance().setScreen(new MenuScreen());
-                    }
-                }
                 // TODO - Fazer o cliente explodir
+                clientsExplodedThisFrame++;
                 getWorld().delete(entityId);
-                System.out.println("CLIENTE FOI EMBORA");
+                //System.out.println("CLIENTE FOI EMBORA");
+            }
+        }
+    }
+
+    @Override
+    protected void end() {
+        if (clientsExplodedThisFrame > 0) {
+            int playerId = gameWorld.getPlayer();
+            PlayerComponent player = mPlayer.get(playerId);
+            if (player != null && player.hp > 0 /*&& player.invulnerableTime <= 0*/) {
+                player.hp -= clientsExplodedThisFrame;
+                if (player.hp < 0) player.hp = 0;
+                //player.invulnerableTime = 1.0f;
+                if (player.hp == 0) {
+                    ChefBoom.getInstance().setScreen(new MenuScreen());
+                }
             }
         }
     }

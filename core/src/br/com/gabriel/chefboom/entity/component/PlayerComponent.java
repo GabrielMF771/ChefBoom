@@ -15,5 +15,5 @@ public class PlayerComponent extends Component {
 
     public Integer heldItemEntity = null;
 
-    public float invulnerableTime = 0f;
+    //public float invulnerableTime = 0f;
 }

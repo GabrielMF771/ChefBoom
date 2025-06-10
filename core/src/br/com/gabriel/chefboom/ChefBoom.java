@@ -49,6 +49,9 @@ public class ChefBoom extends Game {
 
 	@Override
 	public void dispose () {
+		if (getScreen() != null) {
+			getScreen().dispose();
+		}
 		Assets.manager.dispose();
 	}
 }
