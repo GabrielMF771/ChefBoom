@@ -118,9 +118,9 @@ public class World {
         EntitiesFactory entitiesFactory = new EntitiesFactory();
         artemis.inject(entitiesFactory);
 
-        // entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 10 * Block.TILE_SIZE),
-        // entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 7 * Block.TILE_SIZE),
-        // entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 4 * Block.TILE_SIZE)
+        //entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 10 * Block.TILE_SIZE);
+        //entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 7 * Block.TILE_SIZE);
+        //entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 4 * Block.TILE_SIZE);
 
         int[] spawn = new int[3];
 
@@ -136,7 +136,7 @@ public class World {
                 switch (clientesSpawnados){
 
                     case 0:
-                        clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 7 * Block.TILE_SIZE);
+                        clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 7 * Block.TILE_SIZE, 0);
                         clientesSpawnados = 1;
                         break;
 
@@ -149,7 +149,7 @@ public class World {
                         br.com.gabriel.chefboom.entity.component.ClientComponent client = mClient.get(clients[0]);
                         //SPAWNA SE NÃO TIVER COMPLETADO O NUMERO DE CLIENTES E TIVER SUMIDO 1
                         if(chegouNoBalcao > 1 && client == null && clientesSpawnados < spawn[1]){
-                            clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 7 * Block.TILE_SIZE);
+                            clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 7 * Block.TILE_SIZE, 0);
                             clientesSpawnados++;
                         }
 
@@ -163,7 +163,7 @@ public class World {
                             int num = random.nextInt(800);
                             //se cair 1 ele spawna outro
                             if (num == 1) {
-                                entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 7 * Block.TILE_SIZE);
+                                entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 7 * Block.TILE_SIZE, 0);
                                 clientesSpawnados++;
                                 break;
                             }
@@ -180,7 +180,7 @@ public class World {
                 switch (clientesSpawnados){
 
                     case 0:
-                        clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 10 * Block.TILE_SIZE);
+                        clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 10 * Block.TILE_SIZE, 0);
                         clientesSpawnados = 1;
                         break;
 
@@ -193,7 +193,7 @@ public class World {
                         br.com.gabriel.chefboom.entity.component.ClientComponent client = mClient.get(clients[0]);
                         //SPAWNA SE NÃO TIVER COMPLETADO O NUMERO DE CLIENTES E TIVER SUMIDO 1
                         if(chegouNoBalcao > 1 && client == null && clientesSpawnados < spawn[0]){
-                            clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 10 * Block.TILE_SIZE);
+                            clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 10 * Block.TILE_SIZE, 0);
                             clientesSpawnados++;
                         }
 
@@ -204,10 +204,10 @@ public class World {
                         if(clientesSpawnados< spawn[0]) {
                             //cria var random
                             Random random = new Random();
-                            int num = random.nextInt(800);
+                            int num = random.nextInt(50);
                             //se cair 1 ele spawna outro
                             if (num == 1) {
-                                entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 10 * Block.TILE_SIZE);
+                                entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 10 * Block.TILE_SIZE, 0);
                                 clientesSpawnados++;
                                 break;
                             }
@@ -222,7 +222,7 @@ public class World {
                 switch (clientesSpawnados1){
 
                     case 0:
-                        clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 7 * Block.TILE_SIZE);
+                        clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 7 * Block.TILE_SIZE, 1);
                         clientesSpawnados1 = 1;
                         break;
 
@@ -235,7 +235,7 @@ public class World {
                         br.com.gabriel.chefboom.entity.component.ClientComponent client = mClient.get(clients[0]);
                         //SPAWNA SE NÃO TIVER COMPLETADO O NUMERO DE CLIENTES E TIVER SUMIDO 1
                         if(chegouNoBalcao > 1 && client == null && clientesSpawnados1 < spawn[1]){
-                            clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 7 * Block.TILE_SIZE);
+                            clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 7 * Block.TILE_SIZE, 1);
                             clientesSpawnados1++;
                         }
 
@@ -249,7 +249,7 @@ public class World {
                             int num = random.nextInt(800);
                             //se cair 1 ele spawna outro
                             if (num == 1) {
-                                entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 7 * Block.TILE_SIZE);
+                                entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 7 * Block.TILE_SIZE, 1);
                                 clientesSpawnados1++;
                                 break;
                             }

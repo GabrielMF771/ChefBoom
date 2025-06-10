@@ -43,7 +43,6 @@ public class EntitiesFactory {
         cSprite.sprite = new Sprite(texture);
 
         PlayerComponent cPlayer = mPlayer.create(entity);
-        cPlayer.hp = 3;
 
         RigidBodyComponent cRigidBody = mRigidBody.create(entity);
 
@@ -56,7 +55,7 @@ public class EntitiesFactory {
 
         return entity;
     }
-    public int createClient(World world, float x, float y) {
+    public int createClient(World world, float x, float y, int queueId) {
         int entityC = world.create();
 
         TransformComponent cTransform = mTransform.create(entityC);
@@ -70,6 +69,7 @@ public class EntitiesFactory {
         cSprite.sprite = new Sprite(texture);
 
         ClientComponent cClient = mClient.create(entityC);
+        cClient.queueId = queueId;
 
         // Total de tipos de itens disponíveis ( TODO - ALTERAR DEPOIS, NAO PODE FICAR AQUI)
         int totalItens = 2;

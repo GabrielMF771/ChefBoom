@@ -16,4 +16,6 @@ public class ClientComponent extends Component {
     public Vector2 position = new Vector2();
 
     public float timeLeft = 10f; // Tempo em segundos
+
+    public int queueId = -1; // ID do cliente na fila, -1 se não estiver na fila
 }

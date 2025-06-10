@@ -29,14 +29,10 @@ public class HudRenderer {
         float hudHeight = 3 * Block.TILE_SIZE;
         float hudWidth = camera.viewportWidth;
 
-        // Desenha o fundo da HUD
         batch.draw(hudImageTexture, 0, camera.viewportHeight - hudHeight, hudWidth, hudHeight);
 
         int maxSlots = 3;
         float itemSize = 2 * Block.TILE_SIZE;
-
-        // IDs dos clientes fixos
-        int[] clients = artemisWorld.getClients();
 
         Array<OrderSystem.Order> orders = orderSystem.getActiveOrders();
 
@@ -45,13 +41,13 @@ public class HudRenderer {
             float x = i * slotWidth + (slotWidth - itemSize) / 2f;
             float y = camera.viewportHeight - hudHeight / 2f - itemSize / 2f;
 
-            // Procura o pedido do cliente correspondente ao slot
             OrderSystem.Order orderForSlot = null;
             for (OrderSystem.Order order : orders) {
-                if (i < clients.length) {
-                    // Verifica se o pedido pertence ao cliente deste slot
-                    ClientComponent client = mClient.get(clients[i]);
-                    if (client != null && client.wantedItemId == order.wantedItemId) {
+                int clientId = findClientIdByOrder(order, i);
+
+                if (clientId != -1) {
+                    ClientComponent client = mClient.get(clientId);
+                    if (client != null && client.queueId == i && client.inQueue) {
                         orderForSlot = order;
                         break;
                     }
@@ -96,8 +92,8 @@ public class HudRenderer {
         }
     }
 
-    // Procura o clientId correspondente ao pedido (ajuste conforme sua lógica de identificação)
-    private int findClientIdByOrder(OrderSystem.Order order) {
+    // Procura o clientId correspondente ao pedido
+    private int findClientIdByOrder(OrderSystem.Order order, int queueId) {
         com.artemis.utils.IntBag clients = artemisWorld.getArtemis()
                 .getAspectSubscriptionManager()
                 .get(Aspect.all(ClientComponent.class))
@@ -107,7 +103,8 @@ public class HudRenderer {
         for (int i = 0; i < size; i++) {
             int id = ids[i];
             ClientComponent client = mClient.get(id);
-            if (client != null && client.wantedItemId == order.wantedItemId) {
+            if (client != null && client.wantedItemId == order.wantedItemId
+                    && client.queueId == queueId && client.inQueue) { // Check if client is at the counter
                 return id;
             }
         }
