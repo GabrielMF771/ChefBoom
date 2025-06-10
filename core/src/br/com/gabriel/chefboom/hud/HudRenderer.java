@@ -30,7 +30,7 @@ public class HudRenderer {
         float hudWidth = camera.viewportWidth;
 
         // Desenha o fundo da HUD
-        //batch.draw(hudImageTexture, 0, camera.viewportHeight - hudHeight, hudWidth, hudHeight);
+        batch.draw(hudImageTexture, 0, camera.viewportHeight - hudHeight, hudWidth, hudHeight);
 
         int maxSlots = 3;
         float itemSize = 2 * Block.TILE_SIZE;
@@ -64,9 +64,34 @@ public class HudRenderer {
                         : Assets.manager.get(Assets.bread);
                 batch.draw(itemTexture, x, y, itemSize, itemSize);
             } else {
-                // Desenhe o slot vazio (exemplo: um fundo cinza claro)
-                batch.setColor(0.8f, 0.8f, 0.8f, 1f);
-                batch.setColor(1f, 1f, 1f, 1f);
+                batch.setColor(1, 1, 1, 1);
+            }
+        }
+
+        // Vidas
+
+        Texture heartTexture = Assets.manager.get(Assets.heart);
+        int playerId = artemisWorld.getPlayer();
+        com.artemis.ComponentMapper<br.com.gabriel.chefboom.entity.component.PlayerComponent> mPlayer =
+                artemisWorld.getArtemis().getMapper(br.com.gabriel.chefboom.entity.component.PlayerComponent.class);
+        br.com.gabriel.chefboom.entity.component.PlayerComponent player = mPlayer.get(playerId);
+
+        int maxHearts = 3;
+        float heartSize = Block.TILE_SIZE * 1.5f;
+        float heartPadding = Block.TILE_SIZE * 0.2f;
+        float baseX = heartPadding;
+        float baseY = heartPadding;
+
+        for (int i = 0; i < maxHearts; i++) {
+            float x = baseX + i * (heartSize + heartPadding);
+            float y = baseY;
+            if (player != null && i < player.hp) {
+                batch.draw(heartTexture, x, y, heartSize, heartSize);
+            } else {
+                // Desenha coração "vazio"
+                batch.setColor(1, 1, 1, 0.3f);
+                batch.draw(heartTexture, x, y, heartSize, heartSize);
+                batch.setColor(1, 1, 1, 1);
             }
         }
     }

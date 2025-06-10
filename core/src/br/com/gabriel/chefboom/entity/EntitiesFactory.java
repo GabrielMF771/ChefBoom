@@ -43,6 +43,7 @@ public class EntitiesFactory {
         cSprite.sprite = new Sprite(texture);
 
         PlayerComponent cPlayer = mPlayer.create(entity);
+        cPlayer.hp = 3;
 
         RigidBodyComponent cRigidBody = mRigidBody.create(entity);
 

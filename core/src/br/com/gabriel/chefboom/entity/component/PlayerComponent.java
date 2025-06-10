@@ -9,7 +9,11 @@ public class PlayerComponent extends Component {
 
     public float walkSpeed = 150f;
 
+    public int hp = 3;
+
     public Vector2 position = new Vector2();
 
     public Integer heldItemEntity = null;
+
+    public float invulnerableTime = 0f;
 }

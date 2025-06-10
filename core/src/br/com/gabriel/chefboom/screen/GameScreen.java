@@ -90,7 +90,6 @@ public class GameScreen extends ScreenAdapter {
         // Atualiza e desenha entidades
         world.update(delta);
 
-
         // Desenha a hud no topo
         batch.begin();
         hudRenderer.render(batch, camera);

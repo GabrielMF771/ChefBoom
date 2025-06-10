@@ -56,6 +56,11 @@ public class PlayerControllerSystem extends IteratingSystem {
         RigidBodyComponent cRigidBody = mRigidBody.get(entityId);
         SpriteComponent cSprite = mSprite.get(entityId);
 
+        if (cPlayer.invulnerableTime > 0f) {
+            cPlayer.invulnerableTime -= world.getDelta();
+            if (cPlayer.invulnerableTime < 0f) cPlayer.invulnerableTime = 0f;
+        }
+
         if (cPlayer.canWalk) {
             float speed = cPlayer.walkSpeed;
             if (run) speed += 70;

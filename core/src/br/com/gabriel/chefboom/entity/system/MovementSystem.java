@@ -43,6 +43,9 @@ public class MovementSystem extends IteratingSystem {
         float delta = super.world.getDelta();
         final float COLLISION_MARGIN = 2f;
 
+        boolean collidedRightWithBlock = false;
+        boolean collidedRightWithEntity = false;
+
         if (cRigidBody.isKinematic) {
             if (delta == 0) return;
 
@@ -131,7 +134,10 @@ public class MovementSystem extends IteratingSystem {
 
                     for (Rectangle tile : tiles) {
                         if (rectangle.overlaps(tile)) {
-                            if (velocity.x > 0) cCollidable.onRightWall = true;
+                            if (velocity.x > 0) {
+                                cCollidable.onRightWall = true;
+                                collidedRightWithBlock = true;
+                            }
                             else if (velocity.x < 0) cCollidable.onLeftWall = true;
                             found = true;
                             break;
@@ -149,7 +155,10 @@ public class MovementSystem extends IteratingSystem {
                         if (otherCollidable == null) continue;
                         Rectangle otherRect = otherCollidable.collisionBox;
                         if (rectangle.overlaps(otherRect)) {
-                            if (velocity.x > 0) cCollidable.onRightWall = true;
+                            if (velocity.x > 0) {
+                                cCollidable.onRightWall = true;
+                                collidedRightWithEntity = true;
+                            }
                             else if (velocity.x < 0) cCollidable.onLeftWall = true;
                             found = true;
                             break;
@@ -175,8 +184,8 @@ public class MovementSystem extends IteratingSystem {
             ClientComponent cClient = mClient.get(entityId);
             boolean wasInQueue = cClient.inQueue;
 
-            // Atualiza a flag de contato com bloco
-            cClient.inQueue = cCollidable.onRightWall;
+            // Só entra na fila se encostou em bloco, não em outro cliente
+            cClient.inQueue = collidedRightWithBlock && !collidedRightWithEntity;
 
             if (!wasInQueue && cClient.inQueue) {
                 cClient.timeLeft = 10f; // Começa a contar ao encostar no balcão

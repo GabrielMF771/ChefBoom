@@ -21,10 +21,11 @@ public class Assets {
     @Asset public static final AssetDescriptor<Texture> map = new AssetDescriptor<Texture>("mapa.png", Texture.class);
 
     // TEXTURAS DO HUD
-    @Asset public static final AssetDescriptor<Texture> hudbackground = new AssetDescriptor<Texture>("hudBackground.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> hudbackground = new AssetDescriptor<Texture>("hud/hudBackground.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> heart = new AssetDescriptor<Texture>("hud/heart.png", Texture.class);
 
     // TEXTURAS DO MENU
-    @Asset public static final AssetDescriptor<Texture> iniciarBotao = new AssetDescriptor<>("IniciarBotao.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> iniciarBotao = new AssetDescriptor<>("menu/IniciarBotao.png", Texture.class);
 
     // TEXTURAS DOS ITENS
     @Asset public static final AssetDescriptor<Texture> apple = new AssetDescriptor<>("item/apple.png", Texture.class);
