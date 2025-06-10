@@ -6,7 +6,6 @@ import br.com.gabriel.chefboom.ChefBoom;
 import br.com.gabriel.chefboom.block.Block;
 import br.com.gabriel.chefboom.dictionary.Blocks;
 import br.com.gabriel.chefboom.entity.EntitiesFactory;
-import br.com.gabriel.chefboom.entity.component.ClientComponent;
 import br.com.gabriel.chefboom.entity.system.*;
 import br.com.gabriel.chefboom.resource.Assets;
 import com.artemis.WorldConfiguration;
@@ -47,8 +46,8 @@ public class World {
     private int[][] clienteNivelFila = new int[4][3];
 
     private boolean debugCollisionEnabled = false;
-
-    public int clienteSpawnados = 0;
+    //TODO tem q zerar esse clientesSpawnados toda vez q trocar de fase
+    public int clientesSpawnados = 0;
 
     public int chegouNoBalcao = 0;
 
@@ -119,18 +118,19 @@ public class World {
         // entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 7 * Block.TILE_SIZE),
         // entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 4 * Block.TILE_SIZE)
 
-        int spawn;
+        int[] spawn = new int[3];
+        //F = FILA / N = NIVEL
         int N = 0,F = 0;
 
         switch (N){
             case 0:
                 //spawn guarda quantos bonecos spawnam na fila
-                spawn = clienteNivelFila[0][1];
-                switch (clienteSpawnados){
+                spawn[1] = clienteNivelFila[0][1];
+                switch (clientesSpawnados){
 
                     case 0:
                         clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 7 * Block.TILE_SIZE);
-                        clienteSpawnados = 1;
+                        clientesSpawnados = 1;
                         break;
 
                     default:
@@ -141,23 +141,23 @@ public class World {
 
                         br.com.gabriel.chefboom.entity.component.ClientComponent client = mClient.get(clients[0]);
                         //SPAWNA SE NÃO TIVER COMPLETADO O NUMERO DE CLIENTES E TIVER SUMIDO 1
-                        if(chegouNoBalcao > 1 && client == null && clienteSpawnados < spawn){
+                        if(chegouNoBalcao > 1 && client == null && clientesSpawnados < spawn[1]){
                             clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 7 * Block.TILE_SIZE);
-                            clienteSpawnados++;
+                            clientesSpawnados++;
                         }
 
                         if(client != null && client.inQueue) {
                             chegouNoBalcao = 2;
                         }
 
-                        if(clienteSpawnados < spawn) {
+                        if(clientesSpawnados < spawn[1]) {
                             //cria var random
                             Random random = new Random();
-                            int num = random.nextInt(600);
+                            int num = random.nextInt(800);
                             //se cair 1 ele spawna outro
                             if (num == 1) {
                                 entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 7 * Block.TILE_SIZE);
-                                clienteSpawnados++;
+                                clientesSpawnados++;
                                 break;
                             }
                         }
