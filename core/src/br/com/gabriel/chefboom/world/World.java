@@ -22,6 +22,8 @@ import com.badlogic.gdx.math.Rectangle;
 
 import java.util.Random;
 
+// TODO - Fazer o sistema de seleção de nível e o método que verifica se o nível foi concluído
+
 public class World {
 
     private final EntityTrackerMainWindow entityTrackerWindow;

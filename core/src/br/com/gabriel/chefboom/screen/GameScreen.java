@@ -107,6 +107,7 @@ public class GameScreen extends ScreenAdapter {
                 }
             }
 
+            /* TODO - TIRAR DEPOIS
             if(Gdx.app.getInput().isTouched()) {
                 screenCordinate.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 
@@ -115,6 +116,7 @@ public class GameScreen extends ScreenAdapter {
                 world.getArtemis().getEntity(world.getPlayer()).getComponent(RigidBodyComponent.class).velocity.set(Vector2.Zero);
 
             }
+             */
 
         }
     }
