@@ -47,19 +47,24 @@ public class World {
 
     private boolean debugCollisionEnabled = false;
     //TODO tem q zerar esses clientesSpawnados toda vez q trocar de fase (os 3)
-    public int clientesSpawnados =0 ;
+    public int clientesSpawnados = 0 ;
 
-    public int clientesSpawnados1 =0 ;
+    public int clientesSpawnados1 = 0 ;
 
-    public int clientesSpawnados2 =0 ;
+    public int clientesSpawnados2 = 0 ;
 
     public int chegouNoBalcao = 0;
 
-    // 0 = NIVEL 1 / 1 = NIVEL 2 / 3 = NIVEL 2  / 3 = MODO INFINITO
-    public int Level = 3;
+    // 0 = NIVEL 1
+    // 1 = NIVEL 2
+    // 2 = NIVEL 3
+    // 3 = MODO INFINITO
+
+    private int Level = 2;
+
+// TODO - Fazer o sistema de seleção de nível
 
     //VAI RECEBER A QUANTIDADE DE CLIENTES QUE VÃO SPAWNAR EM CADA FILA - CADA INDICE É UMA FILA
-    //INDICE 0 = FILA DE CIMA
     int[] spawn = new int[3];
 
     public World(OrthographicCamera camera){
@@ -140,13 +145,10 @@ public class World {
         //entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 4 * Block.TILE_SIZE);
 
 
-
-
-
-
-
         switch (Level){
+
             //NIVEL 1------------------------------------------------------------------------------------------------------
+
             case 0:
                 //spawn guarda quantos bonecos spawnam na fila
                 spawn[1] = clienteNivelFila[0][1];
@@ -189,6 +191,7 @@ public class World {
 
 
                 break;
+
             //NIVEL 2-----------------------------------------------------------------------------------------------------------
 
             case 1:
@@ -230,8 +233,6 @@ public class World {
                             }
                         }
                 }
-
-
 
                 //FILA DO MEIO
 
@@ -278,6 +279,7 @@ public class World {
                 break;
 
           //NIVEL 3 --------------------------------------------------------------------------------------------
+
             case 2:
 
                 spawn[0] = clienteNivelFila[2][0];
@@ -317,8 +319,6 @@ public class World {
                             }
                         }
                 }
-
-
 
                 //FILA DO MEIO
 
@@ -402,9 +402,10 @@ public class World {
 
 
                 break;
-            //MODO INFINITO
-            case 3:
 
+            //MODO INFINITO
+
+            case 3:
 
                 switch (clientesSpawnados){
 
@@ -443,10 +444,7 @@ public class World {
                         }
                 }
 
-
-
                 //FILA DO MEIO
-
 
                 switch (clientesSpawnados1){
 
@@ -486,7 +484,6 @@ public class World {
                 }
 
                 //FILA DE BAIXO
-
 
                 switch (clientesSpawnados2){
 
@@ -604,6 +601,16 @@ public class World {
 
         artemis.setDelta(delta);
         artemis.process();
+    }
+
+    // Define o nível atual do jogo
+    public void setLevel(int level) {
+        Level = level;
+    }
+
+    // Retorna o nível atual do jogo
+    public int getLevel() {
+        return Level;
     }
 
     // Alterna o modo de debug de colisão

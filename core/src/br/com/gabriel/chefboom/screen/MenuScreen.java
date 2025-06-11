@@ -7,6 +7,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
@@ -28,7 +29,7 @@ public class MenuScreen extends ScreenAdapter {
     private BitmapFont fontTitle;  // fonte para o título
     private GlyphLayout layoutTitle;
 
-    private com.badlogic.gdx.graphics.Texture startButtonTexture;
+    private Texture startButtonTexture;
 
     private float titleX, titleY, titleWidth, titleHeight;
     private float startButtonX, startButtonY, startButtonWidth, startButtonHeight;

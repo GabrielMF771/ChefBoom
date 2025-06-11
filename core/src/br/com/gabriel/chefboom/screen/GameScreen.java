@@ -52,6 +52,7 @@ public class GameScreen extends ScreenAdapter {
         OrderSystem orderSystem = world.getArtemis().getSystem(OrderSystem.class);
         ComponentMapper<ClientComponent> mClient = world.getArtemis().getMapper(ClientComponent.class);
         hudRenderer = new HudRenderer(orderSystem, world, mClient);
+        hudRenderer.showLevelMessage(world.getLevel());
 
 
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
