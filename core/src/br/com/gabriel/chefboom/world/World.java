@@ -54,8 +54,13 @@ public class World {
     public int clientesSpawnados2 =0 ;
 
     public int chegouNoBalcao = 0;
+
     // 0 = NIVEL 1 / 1 = NIVEL 2 / 3 = NIVEL 2  / 3 = MODO INFINITO
     public int Level = 3;
+
+    //VAI RECEBER A QUANTIDADE DE CLIENTES QUE VÃO SPAWNAR EM CADA FILA - CADA INDICE É UMA FILA
+    //INDICE 0 = FILA DE CIMA
+    int[] spawn = new int[3];
 
     public World(OrthographicCamera camera){
         WorldConfigurationBuilder worldConfigBuilder = new WorldConfigurationBuilder()
@@ -102,6 +107,18 @@ public class World {
         clienteNivelFila[2][1] = 3;
         clienteNivelFila[2][2] = 2;
 
+        if(Level == 3) {
+            Random gerarNumClientes = new Random();
+
+            spawn[0] = gerarNumClientes.nextInt(4) + 2;
+            spawn[1] = gerarNumClientes.nextInt(4) + 2;
+            spawn[2] = gerarNumClientes.nextInt(4) + 2;
+
+            System.out.println("spawn[0]: " + spawn[0]);
+            System.out.println("spawn[1]: " + spawn[1]);
+            System.out.println("spawn[2]: " + spawn[2]);
+        }
+
 
         // ITENS
         item = entitiesFactory.createItem(artemis, 19 * Block.TILE_SIZE, 9 * Block.TILE_SIZE, Assets.manager.get(Assets.apple));
@@ -122,7 +139,7 @@ public class World {
         //entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 7 * Block.TILE_SIZE);
         //entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 4 * Block.TILE_SIZE);
 
-        int[] spawn = new int[3];
+
 
 
 
@@ -204,7 +221,7 @@ public class World {
                         if(clientesSpawnados< spawn[0]) {
                             //cria var random
                             Random random = new Random();
-                            int num = random.nextInt(50);
+                            int num = random.nextInt(800);
                             //se cair 1 ele spawna outro
                             if (num == 1) {
                                 entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 10 * Block.TILE_SIZE, 0);
@@ -291,7 +308,7 @@ public class World {
                         if(clientesSpawnados< spawn[0]) {
                             //cria var random
                             Random random = new Random();
-                            int num = random.nextInt(50);
+                            int num = random.nextInt(800);
                             //se cair 1 ele spawna outro
                             if (num == 1) {
                                 entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 10 * Block.TILE_SIZE, 0);
@@ -361,7 +378,7 @@ public class World {
 
                         br.com.gabriel.chefboom.entity.component.ClientComponent client = mClient.get(clients[0]);
                         //SPAWNA SE NÃO TIVER COMPLETADO O NUMERO DE CLIENTES E TIVER SUMIDO 1
-                        if(chegouNoBalcao > 1 && client == null && clientesSpawnados2 < spawn[1]){
+                        if(chegouNoBalcao > 1 && client == null && clientesSpawnados2 < spawn[2]){
                             clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 4 * Block.TILE_SIZE, 2);
                             clientesSpawnados2++;
                         }
@@ -370,7 +387,7 @@ public class World {
                             chegouNoBalcao = 2;
                         }
 
-                        if(clientesSpawnados2< spawn[1]) {
+                        if(clientesSpawnados2< spawn[2]) {
                             //cria var random
                             Random random = new Random();
                             int num = random.nextInt(800);
@@ -385,14 +402,9 @@ public class World {
 
 
                 break;
-
+            //MODO INFINITO
             case 3:
 
-                Random gerarNumClientes = new Random();
-
-                spawn[0] = gerarNumClientes.nextInt(4) + 2;
-                spawn[1] = gerarNumClientes.nextInt(4) + 2;
-                spawn[2] = gerarNumClientes.nextInt(4) + 2;
 
                 switch (clientesSpawnados){
 
@@ -421,7 +433,7 @@ public class World {
                         if(clientesSpawnados< spawn[0]) {
                             //cria var random
                             Random random = new Random();
-                            int num = random.nextInt(50);
+                            int num = random.nextInt(1000);
                             //se cair 1 ele spawna outro
                             if (num == 1) {
                                 entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 10 * Block.TILE_SIZE, 0);
@@ -463,7 +475,7 @@ public class World {
                         if(clientesSpawnados1< spawn[1]) {
                             //cria var random
                             Random random = new Random();
-                            int num = random.nextInt(800);
+                            int num = random.nextInt(1000);
                             //se cair 1 ele spawna outro
                             if (num == 1) {
                                 entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 7 * Block.TILE_SIZE, 1);
@@ -491,7 +503,7 @@ public class World {
 
                         br.com.gabriel.chefboom.entity.component.ClientComponent client = mClient.get(clients[0]);
                         //SPAWNA SE NÃO TIVER COMPLETADO O NUMERO DE CLIENTES E TIVER SUMIDO 1
-                        if(chegouNoBalcao > 1 && client == null && clientesSpawnados2 < spawn[1]){
+                        if(chegouNoBalcao > 1 && client == null && clientesSpawnados2 < spawn[2]){
                             clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 4 * Block.TILE_SIZE, 2);
                             clientesSpawnados2++;
                         }
@@ -500,10 +512,10 @@ public class World {
                             chegouNoBalcao = 2;
                         }
 
-                        if(clientesSpawnados2< spawn[1]) {
+                        if(clientesSpawnados2< spawn[2]) {
                             //cria var random
                             Random random = new Random();
-                            int num = random.nextInt(800);
+                            int num = random.nextInt(1000);
                             //se cair 1 ele spawna outro
                             if (num == 1) {
                                 entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 4 * Block.TILE_SIZE, 2);
