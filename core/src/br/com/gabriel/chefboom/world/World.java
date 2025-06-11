@@ -6,6 +6,7 @@ import br.com.gabriel.chefboom.ChefBoom;
 import br.com.gabriel.chefboom.block.Block;
 import br.com.gabriel.chefboom.dictionary.Blocks;
 import br.com.gabriel.chefboom.entity.EntitiesFactory;
+import br.com.gabriel.chefboom.entity.component.InteractiveBlock;
 import br.com.gabriel.chefboom.entity.system.*;
 import br.com.gabriel.chefboom.resource.Assets;
 import com.artemis.WorldConfiguration;
@@ -43,6 +44,8 @@ public class World {
 
     private int item;
 
+    private int[] interactiveBlock = new int[3];
+
     private int[][] clienteNivelFila = new int[4][3];
 
     private boolean debugCollisionEnabled = false;
@@ -66,6 +69,7 @@ public class World {
 
     //VAI RECEBER A QUANTIDADE DE CLIENTES QUE VÃO SPAWNAR EM CADA FILA - CADA INDICE É UMA FILA
     int[] spawn = new int[3];
+
 
     public World(OrthographicCamera camera){
         WorldConfigurationBuilder worldConfigBuilder = new WorldConfigurationBuilder()
@@ -124,12 +128,18 @@ public class World {
             System.out.println("spawn[2]: " + spawn[2]);
         }
 
+        // BLOCOS INTERATIVOS
+        interactiveBlock[0] = entitiesFactory.createInteractiveBlock(artemis, 22 * Block.TILE_SIZE, 1 * Block.TILE_SIZE, InteractiveBlock.Type.PLATE , Assets.manager.get(Assets.plate));
+        interactiveBlock[1] = entitiesFactory.createInteractiveBlock(artemis, 20 * Block.TILE_SIZE, 1 * Block.TILE_SIZE, InteractiveBlock.Type.PLATE, Assets.manager.get(Assets.plate));
+
+        interactiveBlock[1] = entitiesFactory.createInteractiveBlock(artemis, 26 * Block.TILE_SIZE, 1 * Block.TILE_SIZE, InteractiveBlock.Type.TRASH, Assets.manager.get(Assets.trash));
 
         // ITENS
         item = entitiesFactory.createItem(artemis, 19 * Block.TILE_SIZE, 9 * Block.TILE_SIZE, Assets.manager.get(Assets.apple));
         item = entitiesFactory.createItem(artemis, 17 * Block.TILE_SIZE, 8 * Block.TILE_SIZE, Assets.manager.get(Assets.apple));
         item = entitiesFactory.createItem(artemis, 17 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, Assets.manager.get(Assets.bread));
         item = entitiesFactory.createItem(artemis, 19 * Block.TILE_SIZE, 5 * Block.TILE_SIZE, Assets.manager.get(Assets.bread));
+
     }
 
     public void generateClients(World world) {
@@ -139,11 +149,6 @@ public class World {
         //CHAMANDO A FABRICA
         EntitiesFactory entitiesFactory = new EntitiesFactory();
         artemis.inject(entitiesFactory);
-
-        //entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 10 * Block.TILE_SIZE);
-        //entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 7 * Block.TILE_SIZE);
-        //entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 4 * Block.TILE_SIZE);
-
 
         switch (Level){
 

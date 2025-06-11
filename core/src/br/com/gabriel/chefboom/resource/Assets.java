@@ -31,6 +31,10 @@ public class Assets {
     @Asset public static final AssetDescriptor<Texture> apple = new AssetDescriptor<>("item/apple.png", Texture.class);
     @Asset public static final AssetDescriptor<Texture> bread = new AssetDescriptor<>("item/bread.png", Texture.class);
 
+    // TEXTURAS DOS BLOCO INTERATIVOS
+    @Asset public static final AssetDescriptor<Texture> plate = new AssetDescriptor<>("blocks/plate.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> trash = new AssetDescriptor<>("blocks/trash.png", Texture.class);
+
 
     public static void load(){
         Texture.setAssetManager(manager);

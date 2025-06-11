@@ -7,6 +7,7 @@ import br.com.gabriel.chefboom.world.World;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.systems.IteratingSystem;
+import com.artemis.utils.IntBag;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
@@ -18,6 +19,7 @@ public class ItemSystem extends IteratingSystem {
     private ComponentMapper<TransformComponent> mTransform;
     private ComponentMapper<ItemComponent> mItem;
     private ComponentMapper<SpriteComponent> mSprite;
+    private ComponentMapper<InteractiveBlock> mInteractiveBlock;
 
     private final World world;
 
@@ -59,7 +61,7 @@ public class ItemSystem extends IteratingSystem {
                 int x = World.worldToMap(frontBlock.x);
                 int y = World.worldToMap(frontBlock.y);
 
-                int itemId = findNearbyItem(frontBlock);
+                int itemId = findNearbyItem(playerTransform, playerSprite);
                 if (itemId != -1) {
                     player.heldItemEntity = itemId;
                     mItem.get(itemId).isHeld = true;
@@ -74,12 +76,19 @@ public class ItemSystem extends IteratingSystem {
                     int x = World.worldToMap(placePos.x);
                     int y = World.worldToMap(placePos.y);
 
+                    boolean isPlate = isPlateAt(x, y);
+                    boolean isTrash = isTrashAt(x, y);
+
                     if (world.isValid(x, y) && !isItemOnBlock(x, y)) {
-                        Block block = world.getBlock(x, y, World.FG);
-                        if (block instanceof BlockBarrier) {
+                        // TODO - Funções dos outros blocos interativos
+                        if (isPlate) {
                             TransformComponent itemTransform = mTransform.get(player.heldItemEntity);
                             itemTransform.position.set(x * Block.TILE_SIZE, y * Block.TILE_SIZE);
                             mItem.get(player.heldItemEntity).isHeld = false;
+                            player.heldItemEntity = null;
+                        } else if (isTrash) {
+                            // Deleta o item do mundo
+                            world.getArtemis().delete(player.heldItemEntity);
                             player.heldItemEntity = null;
                         }
                     }
@@ -97,45 +106,63 @@ public class ItemSystem extends IteratingSystem {
         }
     }
 
-    private int findNearbyItem(Vector2 playerPos) {
-        com.artemis.utils.IntBag entities = getItemEntities();
-        int[] ids = entities.getData();
-        int size = entities.size();
+    private int findNearbyItem(TransformComponent playerTransform, SpriteComponent playerSprite) {
+        // Calcula a posição centralizada e deslocada à frente do jogador
+        float centerX = playerTransform.position.x + Block.TILE_SIZE / 2f;
+        float centerY = playerTransform.position.y + Block.TILE_SIZE / 2f;
+        float offset = Block.TILE_SIZE * 0.6f;
 
-        for (int i = 0; i < size; i++) {
-            int itemId = ids[i];
-            TransformComponent itemTransform = mTransform.get(itemId);
-            ItemComponent item = mItem.get(itemId);
-            if (!item.isHeld && playerPos.dst(itemTransform.position) < Block.TILE_SIZE * 1.5f) {
-                return itemId;
-            }
-        }
-        return -1;
-    }
-
-    // Retorna a posição do bloco à frente do jogador, centralizada no grid
-    private Vector2 getBlockInFront(TransformComponent playerTransform, SpriteComponent playerSprite) {
-        float x = playerTransform.position.x;
-        float y = playerTransform.position.y;
-
-        int mapX = World.worldToMap(x);
-        int mapY = World.worldToMap(y);
+        float targetX = centerX;
+        float targetY = centerY;
 
         String texturePath = playerSprite.sprite.getTexture().toString();
 
         if (texturePath.contains("frente")) { // olhando para baixo
-            mapY -= 1;
+            targetY -= offset;
         } else if (texturePath.contains("costas")) { // olhando para cima
-            mapY += 1;
+            targetY += offset;
         } else if (texturePath.contains("direita")) { // olhando para direita
-            mapX += 1;
+            targetX += offset;
         } else if (texturePath.contains("esquerda")) { // olhando para esquerda
-            mapX -= 1;
+            targetX -= offset;
         } else {
-            mapY -= 1; // padrão: para baixo
+            targetY -= offset; // padrão: para baixo
         }
 
-        // Retorna a posição centralizada do bloco alvo
+        // Procura item exatamente no bloco à frente
+        int x = World.worldToMap(targetX);
+        int y = World.worldToMap(targetY);
+
+        return findItemOnBlock(x, y);
+    }
+
+    // Retorna a posição do bloco à frente do jogador, centralizada no grid
+    private Vector2 getBlockInFront(TransformComponent playerTransform, SpriteComponent playerSprite) {
+        float centerX = playerTransform.position.x + Block.TILE_SIZE / 2f;
+        float centerY = playerTransform.position.y + Block.TILE_SIZE / 2f;
+
+        float offset = Block.TILE_SIZE * 0.6f; // deslocamento para garantir que pegue o bloco à frente
+
+        float targetX = centerX;
+        float targetY = centerY;
+
+        String texturePath = playerSprite.sprite.getTexture().toString();
+
+        if (texturePath.contains("frente")) { // olhando para baixo
+            targetY -= offset;
+        } else if (texturePath.contains("costas")) { // olhando para cima
+            targetY += offset;
+        } else if (texturePath.contains("direita")) { // olhando para direita
+            targetX += offset;
+        } else if (texturePath.contains("esquerda")) { // olhando para esquerda
+            targetX -= offset;
+        } else {
+            targetY -= offset; // padrão: para baixo
+        }
+
+        int mapX = World.worldToMap(targetX);
+        int mapY = World.worldToMap(targetY);
+
         return new Vector2(mapX * Block.TILE_SIZE, mapY * Block.TILE_SIZE);
     }
 
@@ -184,4 +211,47 @@ public class ItemSystem extends IteratingSystem {
                 .get(Aspect.all(ItemComponent.class, TransformComponent.class))
                 .getEntities();
     }
+
+    private boolean isPlateAt(int x, int y) {
+        com.artemis.utils.IntBag entities = getWorld().getAspectSubscriptionManager()
+                .get(Aspect.all(TransformComponent.class, InteractiveBlock.class))
+                .getEntities();
+        int[] ids = entities.getData();
+        int size = entities.size();
+
+        for (int i = 0; i < size; i++) {
+            int entityId = ids[i];
+            TransformComponent transform = mTransform.get(entityId);
+            InteractiveBlock interactiveBlock = mInteractiveBlock.get(entityId);
+            int plateX = World.worldToMap(transform.position.x);
+            int plateY = World.worldToMap(transform.position.y);
+            if (plateX == x && plateY == y && interactiveBlock != null && interactiveBlock.type == InteractiveBlock.Type.PLATE) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isTrashAt(int x, int y) {
+        com.artemis.utils.IntBag entities = getWorld().getAspectSubscriptionManager()
+                .get(Aspect.all(TransformComponent.class, InteractiveBlock.class))
+                .getEntities();
+        int[] ids = entities.getData();
+        int size = entities.size();
+
+        for (int i = 0; i < size; i++) {
+            int entityId = ids[i];
+            TransformComponent transform = mTransform.get(entityId);
+            InteractiveBlock interactiveBlock = mInteractiveBlock.get(entityId);
+            int plateX = World.worldToMap(transform.position.x);
+            int plateY = World.worldToMap(transform.position.y);
+            if (plateX == x && plateY == y && interactiveBlock != null && interactiveBlock.type == InteractiveBlock.Type.TRASH) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+
 }

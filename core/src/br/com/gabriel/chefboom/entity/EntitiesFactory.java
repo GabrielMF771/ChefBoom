@@ -29,6 +29,8 @@ public class EntitiesFactory {
 
     private ComponentMapper<ItemComponent> mItem;
 
+    private ComponentMapper<InteractiveBlock> mInteractiveBlock;
+
     public int createPlayer(World world, float x, float y) {
         int entity = world.create();
 
@@ -56,19 +58,19 @@ public class EntitiesFactory {
         return entity;
     }
     public int createClient(World world, float x, float y, int queueId) {
-        int entityC = world.create();
+        int entity = world.create();
 
-        TransformComponent cTransform = mTransform.create(entityC);
+        TransformComponent cTransform = mTransform.create(entity);
         cTransform.position.set(x, y);
         cTransform.scaleX = 2f;
         cTransform.scaleY = 2f;
 
         Texture texture = Assets.manager.get(Assets.playerDireita);
 
-        SpriteComponent cSprite = mSprite.create(entityC);
+        SpriteComponent cSprite = mSprite.create(entity);
         cSprite.sprite = new Sprite(texture);
 
-        ClientComponent cClient = mClient.create(entityC);
+        ClientComponent cClient = mClient.create(entity);
         cClient.queueId = queueId;
 
         // Total de tipos de itens disponíveis ( TODO - ALTERAR DEPOIS, NAO PODE FICAR AQUI)
@@ -77,16 +79,16 @@ public class EntitiesFactory {
         // Sorteio de itens
         cClient.wantedItemId = (int) (Math.random() * totalItens);
 
-        RigidBodyComponent cRigidBody = mRigidBody.create(entityC);
+        RigidBodyComponent cRigidBody = mRigidBody.create(entity);
 
-        CollidableComponent cCollidable = mCollidable.create(entityC);
+        CollidableComponent cCollidable = mCollidable.create(entity);
         cCollidable.collisionBox.setSize(texture.getWidth(), texture.getHeight());
         cCollidable.collisionBox.setCenter(new Vector2(x, y));
 
-        return entityC;
+        return entity;
     }
 
-    public int createItem(com.artemis.World world, float x, float y, com.badlogic.gdx.graphics.Texture texture) {
+    public int createItem(World world, float x, float y, Texture texture) {
         int entity = world.create();
 
         TransformComponent cTransform = mTransform.create(entity);
@@ -99,6 +101,27 @@ public class EntitiesFactory {
 
         ItemComponent cItem = mItem.create(entity);
         cItem.isHeld = false;
+
+        return entity;
+    }
+
+    public int createInteractiveBlock(World world, float x, float y, InteractiveBlock.Type type, Texture texture) {
+        int entity = world.create();
+
+        TransformComponent cTransform = mTransform.create(entity);
+        cTransform.position.set(x, y);
+        cTransform.scaleX = 1f;
+        cTransform.scaleY = 1f;
+
+        SpriteComponent cSprite = mSprite.create(entity);
+        cSprite.sprite = new com.badlogic.gdx.graphics.g2d.Sprite(texture);
+
+        CollidableComponent cCollidable = mCollidable.create(entity);
+        cCollidable.collisionBox.setSize(texture.getWidth(), texture.getHeight());
+        cCollidable.collisionBox.setCenter(new Vector2(x, y));
+
+        InteractiveBlock cInteractiveBlock = mInteractiveBlock.create(entity);
+        cInteractiveBlock.type = type;
 
         return entity;
     }
