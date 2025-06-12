@@ -20,6 +20,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.utils.Timer;
 
 public class GameScreen extends ScreenAdapter {
 
@@ -34,7 +37,7 @@ public class GameScreen extends ScreenAdapter {
     private HudRenderer hudRenderer;
 
     @Override
-    public void show () {
+    public void show() {
         viewport = new FitViewport(Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT, camera);
 
         batch = new SpriteBatch();
@@ -81,12 +84,12 @@ public class GameScreen extends ScreenAdapter {
     }
 
     @Override
-    public void render (float delta) {
+    public void render(float delta) {
         // Desenha o fundo
         batch.begin();
-        batch.draw(backgroundTexture, 0, 0,camera.viewportWidth, camera.viewportHeight);
+        batch.draw(backgroundTexture, 0, 0, camera.viewportWidth, camera.viewportHeight);
         batch.end();
-        world.generateClients(world);
+        timespace();
 
         // Atualiza e desenha entidades
         world.update(delta);
@@ -100,15 +103,15 @@ public class GameScreen extends ScreenAdapter {
             Gdx.app.exit();
         }
 
-        if(ChefBoom.DEBUG){
-            if(Gdx.input.isKeyJustPressed(Input.Keys.B)){
-                if(world.getEntityTrackerWindow() != null){
+        if (ChefBoom.DEBUG) {
+            if (Gdx.input.isKeyJustPressed(Input.Keys.B)) {
+                if (world.getEntityTrackerWindow() != null) {
                     world.getEntityTrackerWindow().setVisible(!world.getEntityTrackerWindow().isVisible());
                 }
             }
 
             /* TODO - TIRAR DEPOIS
-            if(Gdx.app.getInput().isTouched()) {
+            if (Gdx.app.getInput().isTouched()) {
                 screenCordinate.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 
                 camera.unproject(screenCordinate);
@@ -123,6 +126,19 @@ public class GameScreen extends ScreenAdapter {
 
     @Override
     public void dispose() {
+
         super.dispose();
+    }
+
+    //SETA QUANTO TEMPO VAI PRECISAR PRA APARECER OS PRIMEIROS CLIENTES
+    public void timespace() {
+
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                world.generateClients(world);
+            }
+        }, 10, 1);
+
     }
 }

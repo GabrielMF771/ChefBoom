@@ -4,6 +4,7 @@ import br.com.gabriel.chefboom.ChefBoom;
 import br.com.gabriel.chefboom.entity.component.*;
 import br.com.gabriel.chefboom.resource.Assets;
 import br.com.gabriel.chefboom.screen.MenuScreen;
+import br.com.gabriel.chefboom.screen.YouLoseScreen;
 import br.com.gabriel.chefboom.world.World;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
@@ -75,7 +76,7 @@ public class ClientControllerSystem extends IteratingSystem {
                 if (player.hp < 0) player.hp = 0;
                 //player.invulnerableTime = 1.0f;
                 if (player.hp == 0) {
-                    ChefBoom.getInstance().setScreen(new MenuScreen());
+                    ChefBoom.getInstance().setScreen(new YouLoseScreen());
                 }
             }
         }
