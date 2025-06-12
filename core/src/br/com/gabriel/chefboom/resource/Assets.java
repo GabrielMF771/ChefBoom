@@ -11,6 +11,13 @@ public class Assets {
 
     public static final AnnotationAssetManager manager = new AnnotationAssetManager(new InternalFileHandleResolver());
 
+    /* TODO:
+        * Atualizar as texturas do player
+        * Fazer o player segurando a comida na cabeça
+        * Adicionar animação de andar do player e dos clientes
+        * Adicionar animação de explosão do cliente
+     */
+
     //TEXTURAS PERSONAGEM
     @Asset public static final AssetDescriptor<Texture> playerFrente = new AssetDescriptor<Texture>("player/player-frente.png", Texture.class);
     @Asset public static final AssetDescriptor<Texture> playerCostas = new AssetDescriptor<Texture>("player/player-costas.png", Texture.class);

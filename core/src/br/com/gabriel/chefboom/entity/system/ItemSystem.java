@@ -91,6 +91,13 @@ public class ItemSystem extends IteratingSystem {
                             world.getArtemis().delete(player.heldItemEntity);
                             player.heldItemEntity = null;
                         }
+
+                        /*TODO:
+                         * Blocos: Chapa (Hamburguer)
+                         * Fritadeira (Batata)
+                         * Geladeira (Salada)
+                         * Maquina de Bebidas (Refrigerante)
+                         */
                     }
                 }
             }

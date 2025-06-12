@@ -89,6 +89,8 @@ public class GameScreen extends ScreenAdapter {
         batch.begin();
         batch.draw(backgroundTexture, 0, 0, camera.viewportWidth, camera.viewportHeight);
         batch.end();
+
+        // Tempo para gerar os primeiros clientes
         timespace();
 
         // Atualiza e desenha entidades
@@ -138,7 +140,7 @@ public class GameScreen extends ScreenAdapter {
             public void run() {
                 world.generateClients(world);
             }
-        }, 10, 1);
+        }, 1, 15);
 
     }
 }

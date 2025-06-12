@@ -152,6 +152,8 @@ public class World {
         EntitiesFactory entitiesFactory = new EntitiesFactory();
         artemis.inject(entitiesFactory);
 
+        //TODO - Componentizar isso em um único método e ajustar a seed do random
+
         switch (Level){
 
             //NIVEL 1------------------------------------------------------------------------------------------------------
@@ -317,7 +319,7 @@ public class World {
                         if(clientesSpawnados< spawn[0]) {
                             //cria var random
                             Random random = new Random();
-                            int num = random.nextInt(800);
+                            int num = random.nextInt(2500);
                             //se cair 1 ele spawna outro
                             if (num == 1) {
                                 entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 10 * Block.TILE_SIZE, 0);
@@ -357,7 +359,7 @@ public class World {
                         if(clientesSpawnados1< spawn[1]) {
                             //cria var random
                             Random random = new Random();
-                            int num = random.nextInt(800);
+                            int num = random.nextInt(2500);
                             //se cair 1 ele spawna outro
                             if (num == 1) {
                                 entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 7 * Block.TILE_SIZE, 1);
@@ -397,7 +399,7 @@ public class World {
                         if(clientesSpawnados2< spawn[2]) {
                             //cria var random
                             Random random = new Random();
-                            int num = random.nextInt(800);
+                            int num = random.nextInt(2500);
                             //se cair 1 ele spawna outro
                             if (num == 1) {
                                 entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 4 * Block.TILE_SIZE, 2);

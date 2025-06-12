@@ -7,7 +7,7 @@ public class PlayerComponent extends Component {
 
     public boolean canWalk = true;
 
-    public float walkSpeed = 150f;
+    public float walkSpeed = 100f;
 
     public int hp = 3;
 
