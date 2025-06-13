@@ -72,9 +72,18 @@ public class HudRenderer {
             }
 
             if (orderForSlot != null) {
-                Texture itemTexture = orderForSlot.wantedItemId == 0
-                        ? Assets.manager.get(Assets.apple)
-                        : Assets.manager.get(Assets.bread);
+                Texture itemTexture;
+                switch (orderForSlot.wantedItemId) {
+                    case 0:
+                        itemTexture = Assets.manager.get(Assets.burguer);
+                        break;
+                    case 1:
+                        itemTexture = Assets.manager.get(Assets.fries);
+                        break;
+                    default:
+                        itemTexture = Assets.manager.get(Assets.soda);
+                        break;
+                }
                 batch.draw(itemTexture, x, y, itemSize, itemSize);
             } else {
                 batch.setColor(1, 1, 1, 1);

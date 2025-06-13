@@ -46,7 +46,8 @@ public class World {
 
     private int item;
 
-    private int[] interactiveBlock = new int[3];
+    //TODO - Todo bloco interativo adicionado precisa aumentar esse número
+    private int[] interactiveBlock = new int[10];
 
     private int[][] clienteNivelFila = new int[4][3];
 
@@ -72,18 +73,23 @@ public class World {
     //VAI RECEBER A QUANTIDADE DE CLIENTES QUE VÃO SPAWNAR EM CADA FILA - CADA INDICE É UMA FILA
     int[] spawn = new int[3];
 
+    private final EntitiesFactory entitiesFactory;
 
     public World(OrthographicCamera camera){
+        entitiesFactory = new EntitiesFactory();
+
         WorldConfigurationBuilder worldConfigBuilder = new WorldConfigurationBuilder()
                 .with(new PlayerControllerSystem())
                 .with(new ClientControllerSystem(this))
                 .with(new MovementSystem(this))
                 .with(new StateSystem())
-                .with(new ItemSystem(this))
                 .with(new OrderSystem())
                 .with(new SpriteRenderSystem(camera))
-                .with(new ClientInteractionSystem(this));
+                .with(new ClientInteractionSystem(this))
+                .with(new ItemSystem(this, entitiesFactory));
 
+        WorldConfiguration config = worldConfigBuilder.build();
+        artemis = new com.artemis.World(config);
 
         if(ChefBoom.DEBUG){
 
@@ -91,10 +97,6 @@ public class World {
             entityTrackerWindow = new EntityTrackerMainWindow(false, false);
             worldConfigBuilder.with(new EntityTracker(entityTrackerWindow));
         }
-
-        WorldConfiguration config = worldConfigBuilder.build();
-
-        artemis = new com.artemis.World(config);
 
         EntitiesFactory entitiesFactory = new EntitiesFactory();
         artemis.inject(entitiesFactory);
@@ -131,17 +133,18 @@ public class World {
         }
 
         // BLOCOS INTERATIVOS
-        interactiveBlock[0] = entitiesFactory.createInteractiveBlock(artemis, 22 * Block.TILE_SIZE, 1 * Block.TILE_SIZE, InteractiveBlock.Type.PLATE , Assets.manager.get(Assets.plate));
-        interactiveBlock[1] = entitiesFactory.createInteractiveBlock(artemis, 20 * Block.TILE_SIZE, 1 * Block.TILE_SIZE, InteractiveBlock.Type.PLATE, Assets.manager.get(Assets.plate));
+        interactiveBlock[0] = entitiesFactory.createInteractiveBlock(artemis, 23 * Block.TILE_SIZE, 1 * Block.TILE_SIZE, InteractiveBlock.Type.PLATE,0 , Assets.manager.get(Assets.plate));
+        interactiveBlock[1] = entitiesFactory.createInteractiveBlock(artemis, 21 * Block.TILE_SIZE, 1 * Block.TILE_SIZE, InteractiveBlock.Type.PLATE, 0, Assets.manager.get(Assets.plate));
+        interactiveBlock[2] = entitiesFactory.createInteractiveBlock(artemis, 19 * Block.TILE_SIZE, 1 * Block.TILE_SIZE, InteractiveBlock.Type.PLATE, 0,Assets.manager.get(Assets.plate));
+        interactiveBlock[3] = entitiesFactory.createInteractiveBlock(artemis, 23 * Block.TILE_SIZE, 13 * Block.TILE_SIZE, InteractiveBlock.Type.PLATE, 0, Assets.manager.get(Assets.plate));
+        interactiveBlock[4] = entitiesFactory.createInteractiveBlock(artemis, 21 * Block.TILE_SIZE, 13 * Block.TILE_SIZE, InteractiveBlock.Type.PLATE, 0, Assets.manager.get(Assets.plate));
+        interactiveBlock[5] = entitiesFactory.createInteractiveBlock(artemis, 19 * Block.TILE_SIZE, 13 * Block.TILE_SIZE, InteractiveBlock.Type.PLATE, 0, Assets.manager.get(Assets.plate));
 
-        interactiveBlock[1] = entitiesFactory.createInteractiveBlock(artemis, 26 * Block.TILE_SIZE, 1 * Block.TILE_SIZE, InteractiveBlock.Type.TRASH, Assets.manager.get(Assets.trash));
-
-        // ITENS
-        item = entitiesFactory.createItem(artemis, 19 * Block.TILE_SIZE, 9 * Block.TILE_SIZE, Assets.manager.get(Assets.apple));
-        item = entitiesFactory.createItem(artemis, 17 * Block.TILE_SIZE, 8 * Block.TILE_SIZE, Assets.manager.get(Assets.apple));
-        item = entitiesFactory.createItem(artemis, 17 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, Assets.manager.get(Assets.bread));
-        item = entitiesFactory.createItem(artemis, 19 * Block.TILE_SIZE, 5 * Block.TILE_SIZE, Assets.manager.get(Assets.bread));
-
+        interactiveBlock[6] = entitiesFactory.createInteractiveBlock(artemis, 26 * Block.TILE_SIZE, 1 * Block.TILE_SIZE, InteractiveBlock.Type.TRASH, 0, Assets.manager.get(Assets.trash));
+        // TODO - Ajustar o timer de cada bloco
+        interactiveBlock[7] = entitiesFactory.createInteractiveBlock(artemis, 30 * Block.TILE_SIZE, 11 * Block.TILE_SIZE, InteractiveBlock.Type.FRIESMACHINE, 5, Assets.manager.get(Assets.friesmachine));
+        interactiveBlock[8] = entitiesFactory.createInteractiveBlock(artemis, 30 * Block.TILE_SIZE, 7 * Block.TILE_SIZE, InteractiveBlock.Type.GRILL, 6, Assets.manager.get(Assets.grill));
+        interactiveBlock[9] = entitiesFactory.createInteractiveBlock(artemis, 30 * Block.TILE_SIZE, 3 * Block.TILE_SIZE, InteractiveBlock.Type.SODAMACHINE, 7, Assets.manager.get(Assets.sodamachine));
     }
 
     public void generateClients(World world) {

@@ -2,6 +2,7 @@ package br.com.gabriel.chefboom.entity.system;
 
 import br.com.gabriel.chefboom.block.Block;
 import br.com.gabriel.chefboom.entity.component.ClientComponent;
+import br.com.gabriel.chefboom.entity.component.InteractiveBlock;
 import br.com.gabriel.chefboom.entity.component.SpriteComponent;
 import br.com.gabriel.chefboom.resource.Assets;
 import br.com.gabriel.chefboom.entity.component.TransformComponent;
@@ -24,6 +25,7 @@ public class SpriteRenderSystem extends IteratingSystem {
     private ComponentMapper<TransformComponent> mTransform;
     private ComponentMapper<SpriteComponent> mSprite;
     private ComponentMapper<ClientComponent> mClient;
+    private ComponentMapper<InteractiveBlock> mInteractiveBlock;
 
     OrthographicCamera camera;
     SpriteBatch batch;
@@ -91,6 +93,7 @@ public class SpriteRenderSystem extends IteratingSystem {
                 cSprite.flipY
         );
 
+        // Timer dos clientes
         if (mClient.has(entityId)) {
             ClientComponent cClient = mClient.get(entityId);
             if (cClient.inQueue) {
@@ -109,6 +112,19 @@ public class SpriteRenderSystem extends IteratingSystem {
 
                 timerFont.draw(batch, timeText, blockCenterX, blockCenterY + Block.TILE_SIZE);
                 timerFont.setColor(1, 1, 1, 1); // reset cor
+            }
+        }
+
+        // Timer dos blocos interativos
+        if (mInteractiveBlock.has(entityId)) {
+            InteractiveBlock cBlock = mInteractiveBlock.get(entityId);
+            if (cBlock.timerActive && cBlock.timeLeft > 0f) {
+                float blockCenterX = Math.round(cTransform.position.x / Block.TILE_SIZE) * Block.TILE_SIZE;
+                float blockCenterY = Math.round(cTransform.position.y / Block.TILE_SIZE) * Block.TILE_SIZE + Block.TILE_SIZE;
+                String timeText = String.valueOf((int)Math.ceil(cBlock.timeLeft));
+
+                timerFont.draw(batch, timeText, blockCenterX, blockCenterY + Block.TILE_SIZE);
+                timerFont.setColor(1, 1, 1, 1);
             }
         }
     }

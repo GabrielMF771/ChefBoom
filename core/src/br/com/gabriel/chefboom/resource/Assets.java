@@ -35,12 +35,16 @@ public class Assets {
     @Asset public static final AssetDescriptor<Texture> iniciarBotao = new AssetDescriptor<>("menu/IniciarBotao.png", Texture.class);
 
     // TEXTURAS DOS ITENS
-    @Asset public static final AssetDescriptor<Texture> apple = new AssetDescriptor<>("item/apple.png", Texture.class);
-    @Asset public static final AssetDescriptor<Texture> bread = new AssetDescriptor<>("item/bread.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> burguer = new AssetDescriptor<>("item/burguer.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> fries = new AssetDescriptor<>("item/fries.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> soda = new AssetDescriptor<>("item/soda.png", Texture.class);
 
     // TEXTURAS DOS BLOCO INTERATIVOS
     @Asset public static final AssetDescriptor<Texture> plate = new AssetDescriptor<>("blocks/plate.png", Texture.class);
     @Asset public static final AssetDescriptor<Texture> trash = new AssetDescriptor<>("blocks/trash.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> grill = new AssetDescriptor<>("blocks/grill.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> friesmachine = new AssetDescriptor<>("blocks/friesmachine.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> sodamachine = new AssetDescriptor<>("blocks/sodamachine.png", Texture.class);
 
 
     public static void load(){

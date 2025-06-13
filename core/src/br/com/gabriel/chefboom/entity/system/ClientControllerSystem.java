@@ -61,7 +61,6 @@ public class ClientControllerSystem extends IteratingSystem {
                 // TODO - Fazer o cliente explodir
                 clientsExplodedThisFrame++;
                 getWorld().delete(entityId);
-                //System.out.println("CLIENTE FOI EMBORA");
             }
         }
     }
