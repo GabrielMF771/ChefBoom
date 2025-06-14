@@ -14,6 +14,7 @@ import br.com.gabriel.chefboom.hud.HudRenderer;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -36,8 +37,15 @@ public class GameScreen extends ScreenAdapter {
     private Texture backgroundTexture;
     private HudRenderer hudRenderer;
 
+    private Music gameMusic;
+
     @Override
     public void show() {
+        gameMusic = Assets.manager.get(Assets.gameMusic);
+        gameMusic.setLooping(true);
+        gameMusic.setVolume(Config.MUSIC_VOLUME);
+        gameMusic.play();
+
         viewport = new FitViewport(Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT, camera);
 
         batch = new SpriteBatch();
@@ -102,7 +110,8 @@ public class GameScreen extends ScreenAdapter {
         batch.end();
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-            Gdx.app.exit();
+            ChefBoom.getInstance().setScreen(new MenuScreen());
+            gameMusic.stop();
         }
 
         if (ChefBoom.DEBUG) {
@@ -128,7 +137,10 @@ public class GameScreen extends ScreenAdapter {
 
     @Override
     public void dispose() {
-
+        if (gameMusic != null) {
+            gameMusic.stop();
+            gameMusic.dispose();
+        }
         super.dispose();
     }
 

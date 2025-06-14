@@ -29,7 +29,7 @@ public class HudRenderer {
     private BitmapFont font;
 
     public HudRenderer(OrderSystem orderSystem, World artemisWorld, ComponentMapper<ClientComponent> mClient) {
-        this.hudImageTexture = Assets.manager.get(Assets.hudbackground);
+        this.hudImageTexture = Assets.manager.get(Assets.hudBackground);
         this.orderSystem = orderSystem;
         this.artemisWorld = artemisWorld;
         this.mClient = mClient;

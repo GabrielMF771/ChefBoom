@@ -1,12 +1,16 @@
 package br.com.gabriel.chefboom;
 
 public class Config {
-    public static final int SCREEN_WIDTH = 1280;
-    public static final int SCREEN_HEIGHT = 720;
-    public static final String GAME_TITLE = "ChefBoom!";
-    public static final String GAME_ICON = "logo.png";
-    public static final int FPS = 60;
-    public static final boolean FULLSCREEN = false;
-    public static final boolean MAXIMIZED = false;
+    public static int SCREEN_WIDTH = 1280;
+    public static int SCREEN_HEIGHT = 720;
+    public static String GAME_TITLE = "ChefBoom!";
+    public static String GAME_ICON = "logo.png";
+    public static int FPS = 60;
+    public static boolean FULLSCREEN = false;
+    public static boolean MAXIMIZED = false;
+
+    public static float MUSIC_VOLUME = 0.1f;
+    public static float EFFECTS_VOLUME = 0.3f;
+    public static boolean VSYNC = true;
 
 }

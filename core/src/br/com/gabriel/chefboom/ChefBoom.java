@@ -12,7 +12,7 @@ public class ChefBoom extends Game {
 
 	public static final boolean DEBUG = true;
 
-	private ChefBoom() {}
+	ChefBoom() {}
 
 	@Override
 	public void create() {
@@ -28,7 +28,7 @@ public class ChefBoom extends Game {
 
 	@Override
 	public void render() {
-		Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1f);
+		Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		super.render();

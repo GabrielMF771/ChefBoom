@@ -25,6 +25,7 @@ import java.util.Random;
 // TODO - Fazer o sistema de seleção de nível e o método que verifica se o nível foi concluído
 
 public class World {
+    private boolean paused = false;
 
     private final EntityTrackerMainWindow entityTrackerWindow;
 
@@ -88,15 +89,17 @@ public class World {
                 .with(new ClientInteractionSystem(this))
                 .with(new ItemSystem(this, entitiesFactory));
 
-        WorldConfiguration config = worldConfigBuilder.build();
-        artemis = new com.artemis.World(config);
-
         if(ChefBoom.DEBUG){
-
             worldConfigBuilder.with(new CollisionDebugSystem(camera, this));
             entityTrackerWindow = new EntityTrackerMainWindow(false, false);
             worldConfigBuilder.with(new EntityTracker(entityTrackerWindow));
+        } else {
+            entityTrackerWindow = null;
         }
+
+        WorldConfiguration config = worldConfigBuilder.build();
+        artemis = new com.artemis.World(config);
+
 
         EntitiesFactory entitiesFactory = new EntitiesFactory();
         artemis.inject(entitiesFactory);
@@ -142,9 +145,22 @@ public class World {
 
         interactiveBlock[6] = entitiesFactory.createInteractiveBlock(artemis, 26 * Block.TILE_SIZE, 1 * Block.TILE_SIZE, InteractiveBlock.Type.TRASH, 0, Assets.manager.get(Assets.trash));
         // TODO - Ajustar o timer de cada bloco
-        interactiveBlock[7] = entitiesFactory.createInteractiveBlock(artemis, 30 * Block.TILE_SIZE, 11 * Block.TILE_SIZE, InteractiveBlock.Type.FRIESMACHINE, 5, Assets.manager.get(Assets.friesmachine));
+        interactiveBlock[7] = entitiesFactory.createInteractiveBlock(artemis, 30 * Block.TILE_SIZE, 11 * Block.TILE_SIZE, InteractiveBlock.Type.FRIESMACHINE, 5, Assets.manager.get(Assets.friesMachine));
         interactiveBlock[8] = entitiesFactory.createInteractiveBlock(artemis, 30 * Block.TILE_SIZE, 7 * Block.TILE_SIZE, InteractiveBlock.Type.GRILL, 6, Assets.manager.get(Assets.grill));
-        interactiveBlock[9] = entitiesFactory.createInteractiveBlock(artemis, 30 * Block.TILE_SIZE, 3 * Block.TILE_SIZE, InteractiveBlock.Type.SODAMACHINE, 7, Assets.manager.get(Assets.sodamachine));
+        interactiveBlock[9] = entitiesFactory.createInteractiveBlock(artemis, 30 * Block.TILE_SIZE, 3 * Block.TILE_SIZE, InteractiveBlock.Type.SODAMACHINE, 7, Assets.manager.get(Assets.sodaMachine));
+    }
+
+    public void setPaused(boolean paused) {
+        this.paused = paused;
+    }
+
+    public void render() {
+        // Apenas processa os sistemas de renderização
+        for (com.artemis.BaseSystem system : artemis.getSystems()) {
+            if (system instanceof SpriteRenderSystem) {
+                system.process();
+            }
+        }
     }
 
     public void generateClients(World world) {
@@ -611,8 +627,10 @@ public class World {
             }
         }
 
-        artemis.setDelta(delta);
-        artemis.process();
+        if(!paused){
+            artemis.setDelta(delta);
+            artemis.process();
+        }
     }
 
     // Define o nível atual do jogo
