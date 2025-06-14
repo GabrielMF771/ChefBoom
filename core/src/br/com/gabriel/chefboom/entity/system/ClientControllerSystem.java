@@ -3,12 +3,15 @@ package br.com.gabriel.chefboom.entity.system;
 import br.com.gabriel.chefboom.ChefBoom;
 import br.com.gabriel.chefboom.entity.component.*;
 import br.com.gabriel.chefboom.resource.Assets;
+import br.com.gabriel.chefboom.screen.GameScreen;
 import br.com.gabriel.chefboom.screen.MenuScreen;
+import br.com.gabriel.chefboom.screen.NextLevelScreen;
 import br.com.gabriel.chefboom.screen.YouLoseScreen;
 import br.com.gabriel.chefboom.world.World;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.systems.IteratingSystem;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 
 public class ClientControllerSystem extends IteratingSystem {
@@ -25,6 +28,8 @@ public class ClientControllerSystem extends IteratingSystem {
     private int clientsExplodedThisFrame = 0;
 
     private final World gameWorld;
+
+    private Music gameMusic = GameScreen.getGameMusic();
 
     public ClientControllerSystem(World gameWorld) {
         super(Aspect.all(ClientComponent.class, RigidBodyComponent.class, CollidableComponent.class));
@@ -75,7 +80,12 @@ public class ClientControllerSystem extends IteratingSystem {
                 if (player.hp < 0) player.hp = 0;
                 //player.invulnerableTime = 1.0f;
                 if (player.hp == 0) {
+                    gameMusic.stop();
                     ChefBoom.getInstance().setScreen(new YouLoseScreen());
+
+                    // TODO - Fazer a lógica de detectar se o nivel foi completado
+                    // Já fiz a lógica de passar de nível, mas não está implementada
+                    //ChefBoom.getInstance().setScreen(new NextLevelScreen());
                 }
             }
         }

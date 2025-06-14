@@ -37,7 +37,7 @@ public class GameScreen extends ScreenAdapter {
     private Texture backgroundTexture;
     private HudRenderer hudRenderer;
 
-    private Music gameMusic;
+    private static Music gameMusic;
 
     @Override
     public void show() {
@@ -63,11 +63,20 @@ public class GameScreen extends ScreenAdapter {
         OrderSystem orderSystem = world.getArtemis().getSystem(OrderSystem.class);
         ComponentMapper<ClientComponent> mClient = world.getArtemis().getMapper(ClientComponent.class);
         hudRenderer = new HudRenderer(orderSystem, world, mClient);
-        hudRenderer.showLevelMessage(world.getLevel());
+        hudRenderer.showLevelMessage(World.getLevel());
 
 
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
+
+    public GameScreen() {
+
+    }
+
+    public GameScreen(HudRenderer existingHudRenderer) {
+        this.hudRenderer = existingHudRenderer;
+    }
+
 
     @Override
     // FUNÇÃO PRA ATUALIZAR O TAMANHO DA TELA
@@ -155,4 +164,13 @@ public class GameScreen extends ScreenAdapter {
         }, 1, 15);
 
     }
+
+    public static Music getGameMusic() {
+        return gameMusic;
+    }
+
+    public HudRenderer getHudRenderer() {
+        return hudRenderer;
+    }
+
 }

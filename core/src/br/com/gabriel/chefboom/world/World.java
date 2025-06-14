@@ -67,7 +67,7 @@ public class World {
     // 2 = NIVEL 3
     // 3 = MODO INFINITO
 
-    private int Level = 2;
+    private static int Level = 0;
 
 // TODO - Fazer o sistema de seleção de nível
 
@@ -130,9 +130,11 @@ public class World {
             spawn[1] = gerarNumClientes.nextInt(4) + 2;
             spawn[2] = gerarNumClientes.nextInt(4) + 2;
 
-            System.out.println("spawn[0]: " + spawn[0]);
-            System.out.println("spawn[1]: " + spawn[1]);
-            System.out.println("spawn[2]: " + spawn[2]);
+            if(ChefBoom.DEBUG){
+                System.out.println("spawn[0]: " + spawn[0]);
+                System.out.println("spawn[1]: " + spawn[1]);
+                System.out.println("spawn[2]: " + spawn[2]);
+            }
         }
 
         // BLOCOS INTERATIVOS
@@ -634,12 +636,12 @@ public class World {
     }
 
     // Define o nível atual do jogo
-    public void setLevel(int level) {
+    public static void setLevel(int level) {
         Level = level;
     }
 
     // Retorna o nível atual do jogo
-    public int getLevel() {
+    public static int getLevel() {
         return Level;
     }
 

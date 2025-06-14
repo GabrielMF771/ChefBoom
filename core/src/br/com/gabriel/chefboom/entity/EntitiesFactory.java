@@ -1,5 +1,6 @@
 package br.com.gabriel.chefboom.entity;
 
+import br.com.gabriel.chefboom.ChefBoom;
 import br.com.gabriel.chefboom.entity.component.*;
 import br.com.gabriel.chefboom.entity.state.PlayerState;
 import br.com.gabriel.chefboom.entity.system.ItemSystem;
@@ -125,7 +126,9 @@ public class EntitiesFactory {
         ItemComponent cItem = mItem.create(entity);
         cItem.isHeld = false;
 
-        Gdx.app.log("EntitiesFactory", "Item criado na posição: " + x + ", " + y);
+        if(ChefBoom.DEBUG){
+            Gdx.app.log("EntitiesFactory", "Item criado na posição: " + x + ", " + y);
+        }
 
         return entity;
     }
