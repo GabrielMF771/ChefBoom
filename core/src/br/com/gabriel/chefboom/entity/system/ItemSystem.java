@@ -1,5 +1,6 @@
 package br.com.gabriel.chefboom.entity.system;
 
+import br.com.gabriel.chefboom.Config;
 import br.com.gabriel.chefboom.block.Block;
 import br.com.gabriel.chefboom.entity.EntitiesFactory;
 import br.com.gabriel.chefboom.entity.component.*;
@@ -10,6 +11,7 @@ import com.artemis.ComponentMapper;
 import com.artemis.systems.IteratingSystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
 import br.com.gabriel.chefboom.util.ClientUtils;
 
@@ -23,6 +25,8 @@ public class ItemSystem extends IteratingSystem {
 
     private final World world;
     private final EntitiesFactory entitiesFactory;
+
+    private Sound readySound = Assets.manager.get(Assets.readySound);
 
     public ItemSystem(World world, EntitiesFactory entitiesFactory) {
         super(Aspect.all(PlayerComponent.class, TransformComponent.class));
@@ -73,12 +77,17 @@ public class ItemSystem extends IteratingSystem {
                     int y = World.worldToMap(mTransform.get(ids[i]).position.y);
                     if (block.type == InteractiveBlock.Type.GRILL) {
                         createItemOnBlock(Assets.burguer.fileName, x, y);
+                        readySound.play(Config.EFFECTS_VOLUME);
+                        block.timeLeft = World.GRILLTIME;
                     } else if (block.type == InteractiveBlock.Type.SODAMACHINE) {
                         createItemOnBlock(Assets.soda.fileName, x, y);
+                        readySound.play(Config.EFFECTS_VOLUME);
+                        block.timeLeft = World.SODATIME;
                     } else if (block.type == InteractiveBlock.Type.FRIESMACHINE) {
                         createItemOnBlock(Assets.fries.fileName, x, y);
+                        readySound.play(Config.EFFECTS_VOLUME);
+                        block.timeLeft = World.FRIESTIME;
                     }
-                    block.timeLeft = 5f;
                     block.timerActive = false;
                 }
             }

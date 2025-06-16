@@ -32,6 +32,10 @@ public class World {
     public static final int BG = 1;
     public static final int FG = 0;
 
+    // Variável que guarda o tempo das máquinas de itens
+    public static float FRIESTIME = 1f;
+    public static float GRILLTIME = 2f;
+    public static float SODATIME = 3f;
 
     //VETOR Q ARMAZENA O MAPA - OS TILES SÃO FORMADOS DEPENDENDO DO TAMANHO DA TELA
     //2 COLUNAS DE PROFUNDIDADE - FOREGOUND E BACKGROUND
@@ -147,9 +151,9 @@ public class World {
 
         interactiveBlock[6] = entitiesFactory.createInteractiveBlock(artemis, 26 * Block.TILE_SIZE, 1 * Block.TILE_SIZE, InteractiveBlock.Type.TRASH, 0, Assets.manager.get(Assets.trash));
         // TODO - Ajustar o timer de cada bloco
-        interactiveBlock[7] = entitiesFactory.createInteractiveBlock(artemis, 30 * Block.TILE_SIZE, 11 * Block.TILE_SIZE, InteractiveBlock.Type.FRIESMACHINE, 5, Assets.manager.get(Assets.friesMachine));
-        interactiveBlock[8] = entitiesFactory.createInteractiveBlock(artemis, 30 * Block.TILE_SIZE, 7 * Block.TILE_SIZE, InteractiveBlock.Type.GRILL, 6, Assets.manager.get(Assets.grill));
-        interactiveBlock[9] = entitiesFactory.createInteractiveBlock(artemis, 30 * Block.TILE_SIZE, 3 * Block.TILE_SIZE, InteractiveBlock.Type.SODAMACHINE, 7, Assets.manager.get(Assets.sodaMachine));
+        interactiveBlock[7] = entitiesFactory.createInteractiveBlock(artemis, 30 * Block.TILE_SIZE, 11 * Block.TILE_SIZE, InteractiveBlock.Type.FRIESMACHINE, FRIESTIME, Assets.manager.get(Assets.friesMachine));
+        interactiveBlock[8] = entitiesFactory.createInteractiveBlock(artemis, 30 * Block.TILE_SIZE, 7 * Block.TILE_SIZE, InteractiveBlock.Type.GRILL, GRILLTIME, Assets.manager.get(Assets.grill));
+        interactiveBlock[9] = entitiesFactory.createInteractiveBlock(artemis, 30 * Block.TILE_SIZE, 3 * Block.TILE_SIZE, InteractiveBlock.Type.SODAMACHINE, SODATIME, Assets.manager.get(Assets.sodaMachine));
     }
 
     public void setPaused(boolean paused) {

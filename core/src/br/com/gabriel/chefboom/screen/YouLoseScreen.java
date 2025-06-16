@@ -6,6 +6,7 @@ import br.com.gabriel.chefboom.resource.Assets;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -33,6 +34,8 @@ public class YouLoseScreen extends ScreenAdapter {
     private float titleX, titleY, titleWidth, titleHeight;
     private float startButtonX, startButtonY, startButtonWidth, startButtonHeight;
 
+    private Sound gameoverSound = Assets.manager.get(Assets.gameoverSound);
+
     @Override
     public void show() {
         camera = new OrthographicCamera();
@@ -54,6 +57,9 @@ public class YouLoseScreen extends ScreenAdapter {
         startButtonTexture = Assets.manager.get(Assets.iniciarBotao);
 
         calculateDimensionsAndPositions();
+
+        // Toca o som de game over
+        gameoverSound.play(Config.EFFECTS_VOLUME);
     }
 
     private void calculateDimensionsAndPositions() {

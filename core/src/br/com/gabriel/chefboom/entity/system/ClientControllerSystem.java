@@ -1,6 +1,7 @@
 package br.com.gabriel.chefboom.entity.system;
 
 import br.com.gabriel.chefboom.ChefBoom;
+import br.com.gabriel.chefboom.Config;
 import br.com.gabriel.chefboom.entity.component.*;
 import br.com.gabriel.chefboom.resource.Assets;
 import br.com.gabriel.chefboom.screen.GameScreen;
@@ -12,6 +13,7 @@ import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.systems.IteratingSystem;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 
 public class ClientControllerSystem extends IteratingSystem {
@@ -30,6 +32,8 @@ public class ClientControllerSystem extends IteratingSystem {
     private final World gameWorld;
 
     private Music gameMusic = GameScreen.getGameMusic();
+
+    private Sound explosionSound = Assets.manager.get(Assets.explosionSound);
 
     public ClientControllerSystem(World gameWorld) {
         super(Aspect.all(ClientComponent.class, RigidBodyComponent.class, CollidableComponent.class));
@@ -65,6 +69,7 @@ public class ClientControllerSystem extends IteratingSystem {
             if (cClient.timeLeft <= 0) {
                 // TODO - Fazer o cliente explodir
                 clientsExplodedThisFrame++;
+                explosionSound.play(Config.EFFECTS_VOLUME);
                 getWorld().delete(entityId);
             }
         }

@@ -10,7 +10,7 @@ public class Config {
     public static boolean MAXIMIZED = false;
 
     public static float MUSIC_VOLUME = 0.1f;
-    public static float EFFECTS_VOLUME = 0.3f;
+    public static float EFFECTS_VOLUME = 0.4f;
     public static boolean VSYNC = true;
 
 }
