@@ -634,15 +634,6 @@ public class World extends CurrentLevel {
         }
     }
 
-    // Define o nível atual do jogo
-    public static void setLevel(int level) {
-        Level = level;
-    }
-
-    // Retorna o nível atual do jogo
-    public static int getLevel() {
-        return Level;
-    }
 
     // Alterna o modo de debug de colisão
     public void toggleCollisionDebug() {
