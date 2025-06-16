@@ -24,7 +24,7 @@ import java.util.Random;
 
 // TODO - Fazer o sistema de seleção de nível e o método que verifica se o nível foi concluído
 
-public class World {
+public class World extends CurrentLevel {
 
     private final EntityTrackerMainWindow entityTrackerWindow;
 
@@ -51,7 +51,7 @@ public class World {
     private int[][] clienteNivelFila = new int[4][3];
 
     private boolean debugCollisionEnabled = false;
-    //TODO tem q zerar esses clientesSpawnados toda vez q trocar de fase (os 3)
+    // tem q zerar esses clientesSpawnados toda vez q trocar de fase (os 3)
     public int clientesSpawnados = 0 ;
 
     public int clientesSpawnados1 = 0 ;
@@ -65,7 +65,7 @@ public class World {
     // 2 = NIVEL 3
     // 3 = MODO INFINITO
 
-    private int Level = 2;
+
 
 // TODO - Fazer o sistema de seleção de nível
 
@@ -73,7 +73,7 @@ public class World {
     int[] spawn = new int[3];
 
 
-    public World(OrthographicCamera camera){
+    public World(OrthographicCamera camera ){
         WorldConfigurationBuilder worldConfigBuilder = new WorldConfigurationBuilder()
                 .with(new PlayerControllerSystem())
                 .with(new ClientControllerSystem(this))
@@ -118,7 +118,7 @@ public class World {
         clienteNivelFila[2][1] = 3;
         clienteNivelFila[2][2] = 2;
 
-        if(Level == 3) {
+        if(getLevel() == 3) {
             Random gerarNumClientes = new Random();
 
             spawn[0] = gerarNumClientes.nextInt(4) + 2;
@@ -133,7 +133,6 @@ public class World {
         // BLOCOS INTERATIVOS
         interactiveBlock[0] = entitiesFactory.createInteractiveBlock(artemis, 22 * Block.TILE_SIZE, 1 * Block.TILE_SIZE, InteractiveBlock.Type.PLATE , Assets.manager.get(Assets.plate));
         interactiveBlock[1] = entitiesFactory.createInteractiveBlock(artemis, 20 * Block.TILE_SIZE, 1 * Block.TILE_SIZE, InteractiveBlock.Type.PLATE, Assets.manager.get(Assets.plate));
-
         interactiveBlock[1] = entitiesFactory.createInteractiveBlock(artemis, 26 * Block.TILE_SIZE, 1 * Block.TILE_SIZE, InteractiveBlock.Type.TRASH, Assets.manager.get(Assets.trash));
 
         // ITENS
@@ -152,9 +151,7 @@ public class World {
         EntitiesFactory entitiesFactory = new EntitiesFactory();
         artemis.inject(entitiesFactory);
 
-        //TODO - Componentizar isso em um único método e ajustar a seed do random
-
-        switch (Level){
+        switch (getLevel()){
 
             //NIVEL 1------------------------------------------------------------------------------------------------------
 
@@ -612,15 +609,6 @@ public class World {
         artemis.process();
     }
 
-    // Define o nível atual do jogo
-    public void setLevel(int level) {
-        Level = level;
-    }
-
-    // Retorna o nível atual do jogo
-    public int getLevel() {
-        return Level;
-    }
 
     // Alterna o modo de debug de colisão
     public void toggleCollisionDebug() {

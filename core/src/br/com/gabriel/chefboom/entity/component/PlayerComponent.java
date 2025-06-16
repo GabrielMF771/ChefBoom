@@ -9,7 +9,7 @@ public class PlayerComponent extends Component {
 
     public float walkSpeed = 100f;
 
-    public int hp = 3;
+    public int hp = 1;
 
     public Vector2 position = new Vector2();
 

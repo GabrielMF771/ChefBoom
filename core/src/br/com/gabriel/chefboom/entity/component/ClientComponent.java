@@ -7,7 +7,7 @@ public class ClientComponent extends Component {
 
     public boolean canWalk = true;
 
-    public float walkSpeed = 75f;
+    public float walkSpeed = 65;
 
     public int wantedItemId = -1;
 
@@ -15,7 +15,7 @@ public class ClientComponent extends Component {
 
     public Vector2 position = new Vector2();
 
-    public float timeLeft = 30f; // Tempo em segundos
+    public float timeLeft = 5f; // Tempo em segundos
 
     public int queueId = -1; // ID do cliente na fila, -1 se não estiver na fila
 }

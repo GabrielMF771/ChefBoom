@@ -23,6 +23,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Timer;
+import br.com.gabriel.chefboom.world.CurrentLevel;
 
 public class GameScreen extends ScreenAdapter {
 
@@ -30,11 +31,13 @@ public class GameScreen extends ScreenAdapter {
     protected OrthographicCamera camera;
     protected World world;
 
+
     FitViewport viewport;
     public final Vector3 screenCordinate = new Vector3();
 
     private Texture backgroundTexture;
     private HudRenderer hudRenderer;
+
 
     @Override
     public void show() {
@@ -49,13 +52,14 @@ public class GameScreen extends ScreenAdapter {
 
         backgroundTexture = Assets.manager.get(Assets.map);
 
+
         world = new World(camera);
         world.regenerate();
 
         OrderSystem orderSystem = world.getArtemis().getSystem(OrderSystem.class);
         ComponentMapper<ClientComponent> mClient = world.getArtemis().getMapper(ClientComponent.class);
         hudRenderer = new HudRenderer(orderSystem, world, mClient);
-        hudRenderer.showLevelMessage(world.getLevel());
+        hudRenderer.showLevelMessage(CurrentLevel.getLevel());
 
 
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -89,8 +93,6 @@ public class GameScreen extends ScreenAdapter {
         batch.begin();
         batch.draw(backgroundTexture, 0, 0, camera.viewportWidth, camera.viewportHeight);
         batch.end();
-
-        // Tempo para gerar os primeiros clientes
         timespace();
 
         // Atualiza e desenha entidades
@@ -140,7 +142,8 @@ public class GameScreen extends ScreenAdapter {
             public void run() {
                 world.generateClients(world);
             }
-        }, 1, 15);
+        }, 5, 15);
 
     }
 }
+

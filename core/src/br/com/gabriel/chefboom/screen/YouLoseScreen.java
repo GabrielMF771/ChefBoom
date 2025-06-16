@@ -28,7 +28,7 @@ public class YouLoseScreen extends ScreenAdapter {
     private BitmapFont fontTitle;  // fonte para o título
     private GlyphLayout layoutTitle;
 
-    private com.badlogic.gdx.graphics.Texture startButtonTexture;
+    private com.badlogic.gdx.graphics.Texture TryAgainTexture;
 
     private float titleX, titleY, titleWidth, titleHeight;
     private float startButtonX, startButtonY, startButtonWidth, startButtonHeight;
@@ -51,7 +51,7 @@ public class YouLoseScreen extends ScreenAdapter {
 
         layoutTitle = new GlyphLayout();
 
-        startButtonTexture = Assets.manager.get(Assets.iniciarBotao);
+        TryAgainTexture = Assets.manager.get(Assets.TentarNovamente);
 
         calculateDimensionsAndPositions();
     }
@@ -103,7 +103,7 @@ public class YouLoseScreen extends ScreenAdapter {
         fontTitle.draw(batch, layoutTitle, textX, textY);
 
         // Desenha o botão iniciar normalmente
-        batch.draw(startButtonTexture, startButtonX, startButtonY, startButtonWidth, startButtonHeight);
+        batch.draw(TryAgainTexture, startButtonX, startButtonY, startButtonWidth, startButtonHeight);
 
         batch.end();
     }
@@ -134,6 +134,6 @@ public class YouLoseScreen extends ScreenAdapter {
     public void dispose() {
         batch.dispose();
         fontTitle.dispose();
-        startButtonTexture.dispose();
+        TryAgainTexture.dispose();
     }
 }
