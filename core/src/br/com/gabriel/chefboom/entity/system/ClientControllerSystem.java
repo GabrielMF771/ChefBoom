@@ -16,6 +16,8 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 
+import static br.com.gabriel.chefboom.resource.Assets.explosao2;
+
 
 public class ClientControllerSystem extends IteratingSystem {
 
@@ -27,6 +29,8 @@ public class ClientControllerSystem extends IteratingSystem {
 
     private boolean moveRight;
     private Texture texDireita;
+    private Texture explosion01;
+    private Texture explosion02;
 
     private int clientsExplodedThisFrame = 0;
 
@@ -49,6 +53,8 @@ public class ClientControllerSystem extends IteratingSystem {
     @Override
     protected void initialize() {
         texDireita = Assets.manager.get(Assets.playerDireita);
+        explosion01 = Assets.manager.get(Assets.explosao1);
+        explosion02 = Assets.manager.get(Assets.explosao2);
     }
 
     @Override
@@ -57,6 +63,24 @@ public class ClientControllerSystem extends IteratingSystem {
         CollidableComponent cCollidable = mCollidable.get(entityId);
         RigidBodyComponent cRigidBody = mRigidBody.get(entityId);
         SpriteComponent cSprite = mSprite.get(entityId);
+
+        // Lógica da animação de explosão
+        if (cClient.isExploding) {
+            cClient.explosionTimer += world.getDelta();
+
+            // Após 0.2s, a animação termina e o cliente é removido
+            if (cClient.explosionTimer >= 0.2f) {
+                clientsExplodedThisFrame++; // Dano ao jogador é contado aqui
+                getWorld().delete(entityId);
+
+                // Após 0.1s, muda para o segundo frame da explosão
+            } else if (cClient.explosionTimer >= 0.1f) {
+                cSprite.sprite.setTexture(explosion02);
+            }
+
+            return;
+        }
+
 
         if (cClient.canWalk) {
             float speed = cClient.walkSpeed;
@@ -68,10 +92,12 @@ public class ClientControllerSystem extends IteratingSystem {
             cClient.timeLeft -= world.getDelta();
             if (cClient.timeLeft < 0) cClient.timeLeft = 0;
             if (cClient.timeLeft <= 0) {
-                // TODO - Fazer o cliente explodir
-                clientsExplodedThisFrame++;
+                // Inicia a explosão
+                cClient.isExploding = true;
+                cSprite.sprite.setTexture(explosion01);
+                cRigidBody.velocity.x = 0;
                 explosionSound.play(Config.EFFECTS_VOLUME);
-                getWorld().delete(entityId);
+
             }
         }
     }

@@ -26,6 +26,10 @@ public class Assets {
     @Asset public static final AssetDescriptor<Texture> playerDireita = new AssetDescriptor<Texture>("player/player-direita.png", Texture.class);
     @Asset public static final AssetDescriptor<Texture> playerEsquerda = new AssetDescriptor<Texture>("player/player-esquerda.png", Texture.class);
 
+    //TEXTURAS CLIENTES
+    @Asset public static final AssetDescriptor<Texture> explosao1 = new AssetDescriptor<Texture>("npc/explosion-01.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> explosao2 = new AssetDescriptor<Texture>("npc/explosion-02.png", Texture.class);
+
     //TEXTURA MAPA
     @Asset public static final AssetDescriptor<Texture> map = new AssetDescriptor<Texture>("mapa.png", Texture.class);
 
@@ -52,7 +56,6 @@ public class Assets {
     @Asset public static final AssetDescriptor<Texture> sodaMachine = new AssetDescriptor<>("blocks/sodamachine.png", Texture.class);
 
     // SONS
-
     @Asset public static final AssetDescriptor<Music> gameMusic = new AssetDescriptor<>("music/game-music.mp3", Music.class);
     @Asset public static final AssetDescriptor<Sound> explosionSound = new AssetDescriptor<>("sound/explosion.mp3", Sound.class);
     @Asset public static final AssetDescriptor<Sound> readySound = new AssetDescriptor<>("sound/ready.mp3", Sound.class);
