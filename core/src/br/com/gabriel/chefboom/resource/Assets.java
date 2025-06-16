@@ -35,6 +35,9 @@ public class Assets {
 
     // TEXTURAS DO MENU
     @Asset public static final AssetDescriptor<Texture> iniciarBotao = new AssetDescriptor<>("menu/IniciarBotao.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> iniciarProximaFase = new AssetDescriptor<>("menu/Proximafase.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> TentarNovamente = new AssetDescriptor<>("menu/Tentarnovamente.png", Texture.class);
+
 
     // TEXTURAS DOS ITENS
     @Asset public static final AssetDescriptor<Texture> burguer = new AssetDescriptor<>("item/burguer.png", Texture.class);

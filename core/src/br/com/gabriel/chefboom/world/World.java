@@ -24,7 +24,8 @@ import java.util.Random;
 
 // TODO - Fazer o sistema de seleção de nível e o método que verifica se o nível foi concluído
 
-public class World {
+public class World extends CurrentLevel {
+
     private boolean paused = false;
 
     private final EntityTrackerMainWindow entityTrackerWindow;
@@ -57,7 +58,7 @@ public class World {
     private int[][] clienteNivelFila = new int[4][3];
 
     private boolean debugCollisionEnabled = false;
-    //TODO tem q zerar esses clientesSpawnados toda vez q trocar de fase (os 3)
+    // tem q zerar esses clientesSpawnados toda vez q trocar de fase (os 3)
     public int clientesSpawnados = 0 ;
 
     public int clientesSpawnados1 = 0 ;
@@ -71,7 +72,7 @@ public class World {
     // 2 = NIVEL 3
     // 3 = MODO INFINITO
 
-    private static int Level = 0;
+
 
 // TODO - Fazer o sistema de seleção de nível
 
@@ -127,7 +128,7 @@ public class World {
         clienteNivelFila[2][1] = 3;
         clienteNivelFila[2][2] = 2;
 
-        if(Level == 3) {
+        if(getLevel() == 3) {
             Random gerarNumClientes = new Random();
 
             spawn[0] = gerarNumClientes.nextInt(4) + 2;
@@ -177,9 +178,7 @@ public class World {
         EntitiesFactory entitiesFactory = new EntitiesFactory();
         artemis.inject(entitiesFactory);
 
-        //TODO - Componentizar isso em um único método e ajustar a seed do random
-
-        switch (Level){
+        switch (getLevel()){
 
             //NIVEL 1------------------------------------------------------------------------------------------------------
 
@@ -639,15 +638,6 @@ public class World {
         }
     }
 
-    // Define o nível atual do jogo
-    public static void setLevel(int level) {
-        Level = level;
-    }
-
-    // Retorna o nível atual do jogo
-    public static int getLevel() {
-        return Level;
-    }
 
     // Alterna o modo de debug de colisão
     public void toggleCollisionDebug() {

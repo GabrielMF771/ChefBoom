@@ -20,6 +20,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import br.com.gabriel.chefboom.world.CurrentLevel;
 
 public class NextLevelScreen extends ScreenAdapter {
     private static final float WORLD_WIDTH = Config.SCREEN_WIDTH;
@@ -34,9 +35,13 @@ public class NextLevelScreen extends ScreenAdapter {
     private GlyphLayout layoutTitle;
 
     private com.badlogic.gdx.graphics.Texture startButtonTexture;
+    private com.badlogic.gdx.graphics.Texture NextLevelTexture;
 
     private float titleX, titleY, titleWidth, titleHeight;
     private float startButtonX, startButtonY, startButtonWidth, startButtonHeight;
+    private float MenuButtonX, MenuButtonY, MenuButtonWidth, MenuButtonHeight;
+
+    protected World world;
 
     private int level;
     private HudRenderer hudRenderer;
@@ -71,6 +76,7 @@ public class NextLevelScreen extends ScreenAdapter {
         layoutTitle = new GlyphLayout();
 
         startButtonTexture = Assets.manager.get(Assets.iniciarBotao);
+        NextLevelTexture = Assets.manager.get(Assets.iniciarProximaFase);
 
         calculateDimensionsAndPositions();
 
@@ -89,6 +95,14 @@ public class NextLevelScreen extends ScreenAdapter {
 
         startButtonX = (WORLD_WIDTH - startButtonWidth) / 2.0f;
         startButtonY = WORLD_HEIGHT * 0.45f;
+
+        MenuButtonWidth = WORLD_WIDTH / 6.0f;
+        MenuButtonHeight = WORLD_HEIGHT / 8.0f;
+
+        MenuButtonX = (WORLD_WIDTH - startButtonWidth) / 2.0f;
+        MenuButtonY = WORLD_HEIGHT * 0.25f;
+
+
     }
 
     @Override
@@ -123,7 +137,8 @@ public class NextLevelScreen extends ScreenAdapter {
         fontTitle.draw(batch, layoutTitle, textX, textY);
 
         // Desenha o botão iniciar normalmente
-        batch.draw(startButtonTexture, startButtonX, startButtonY, startButtonWidth, startButtonHeight);
+        batch.draw(NextLevelTexture, startButtonX, startButtonY, startButtonWidth, startButtonHeight);
+        batch.draw(startButtonTexture, MenuButtonX, MenuButtonY, MenuButtonWidth, MenuButtonHeight);
 
         batch.end();
     }
@@ -144,15 +159,21 @@ public class NextLevelScreen extends ScreenAdapter {
                             worldY >= startButtonY && worldY <= startButtonY + startButtonHeight;
 
             if (touchedStartButton) {
-                    level++; // Incrementa o nível
-                    World.setLevel(level); // Define o novo nível
-                if(level < 3){
-                    hudRenderer.showLevelMessage(level); // Atualiza a mensagem do nível
-                    ChefBoom.getInstance().setScreen(new GameScreen(hudRenderer));
-                } else {
-                    ChefBoom.getInstance().setScreen(new MenuScreen());
-                }
+                CurrentLevel.setLevel(CurrentLevel.getLevel() + 1);
+                 ChefBoom.getInstance().setScreen(new GameScreen());
+
             }
+
+            boolean touchedMenuButton =
+                    worldX >= MenuButtonX && worldX <= MenuButtonX + MenuButtonWidth &&
+                            worldY >= MenuButtonY && worldY <= MenuButtonY + MenuButtonHeight;
+
+            if (touchedMenuButton) {
+                ChefBoom.getInstance().setScreen(new MenuScreen());
+            }
+
+
+
         }
     }
 
