@@ -2,6 +2,10 @@ package br.com.gabriel.chefboom.world;
 
 public class CurrentLevel {
 
+    // 0 = NIVEL 1
+    // 1 = NIVEL 2
+    // 2 = NIVEL 3
+    // 3 = MODO INFINITO
     public static int level = 0;
 
     public static int getLevel() {

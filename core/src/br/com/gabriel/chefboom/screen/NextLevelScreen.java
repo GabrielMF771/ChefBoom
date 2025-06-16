@@ -129,16 +129,19 @@ public class NextLevelScreen extends ScreenAdapter {
 
         // Calcula X para centralizar o texto dentro da área do título (titleX até titleX + titleWidth)
         float textX = titleX + (titleWidth - layoutTitle.width) / 2f;
+
         // Calcula Y para posicionar o baseline do texto para ficar na vertical da área do título
-        // Como titleY é o canto inferior do retângulo que você usava para o título (provavelmente),
-        // vamos posicionar o baseline um pouco acima de titleY para centralizar verticalmente:
         float textY = titleY + (titleHeight + layoutTitle.height) / 2f;
 
         fontTitle.draw(batch, layoutTitle, textX, textY);
 
-        // Desenha o botão iniciar normalmente
-        batch.draw(NextLevelTexture, startButtonX, startButtonY, startButtonWidth, startButtonHeight);
-        batch.draw(startButtonTexture, MenuButtonX, MenuButtonY, MenuButtonWidth, MenuButtonHeight);
+        // Desenha o botão iniciar
+        if (CurrentLevel.getLevel() < 3){
+            batch.draw(NextLevelTexture, startButtonX, startButtonY, startButtonWidth, startButtonHeight);
+            batch.draw(startButtonTexture, MenuButtonX, MenuButtonY, MenuButtonWidth, MenuButtonHeight);
+        } else {
+            batch.draw(startButtonTexture, startButtonX, startButtonY - (MenuButtonY / 2), startButtonWidth, startButtonHeight);
+        }
 
         batch.end();
     }
@@ -160,7 +163,11 @@ public class NextLevelScreen extends ScreenAdapter {
 
             if (touchedStartButton) {
                 CurrentLevel.setLevel(CurrentLevel.getLevel() + 1);
-                 ChefBoom.getInstance().setScreen(new GameScreen());
+                if (CurrentLevel.getLevel() < 3) {
+                    ChefBoom.getInstance().setScreen(new GameScreen());
+                } else {
+                    ChefBoom.getInstance().setScreen(new MenuScreen()); // Volta para o menu se for o modo infinito
+                }
 
             }
 
@@ -169,7 +176,12 @@ public class NextLevelScreen extends ScreenAdapter {
                             worldY >= MenuButtonY && worldY <= MenuButtonY + MenuButtonHeight;
 
             if (touchedMenuButton) {
-                ChefBoom.getInstance().setScreen(new MenuScreen());
+                if( CurrentLevel.getLevel() == 3) {
+                    ChefBoom.getInstance().setScreen(new MenuScreen());
+                } else {
+                    CurrentLevel.setLevel(CurrentLevel.getLevel() + 1);
+                    ChefBoom.getInstance().setScreen(new MenuScreen());
+                }
             }
 
 

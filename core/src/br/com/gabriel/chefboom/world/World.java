@@ -67,13 +67,6 @@ public class World extends CurrentLevel {
 
     public int chegouNoBalcao = 0;
 
-    // 0 = NIVEL 1
-    // 1 = NIVEL 2
-    // 2 = NIVEL 3
-    // 3 = MODO INFINITO
-
-
-
 // TODO - Fazer o sistema de seleção de nível
 
     //VAI RECEBER A QUANTIDADE DE CLIENTES QUE VÃO SPAWNAR EM CADA FILA - CADA INDICE É UMA FILA
