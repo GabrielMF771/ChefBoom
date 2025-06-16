@@ -14,6 +14,7 @@ import br.com.gabriel.chefboom.hud.HudRenderer;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -31,16 +32,21 @@ public class GameScreen extends ScreenAdapter {
     protected OrthographicCamera camera;
     protected World world;
 
-
     FitViewport viewport;
     public final Vector3 screenCordinate = new Vector3();
 
     private Texture backgroundTexture;
     private HudRenderer hudRenderer;
 
+    private static Music gameMusic;
 
     @Override
     public void show() {
+        gameMusic = Assets.manager.get(Assets.gameMusic);
+        gameMusic.setLooping(true);
+        gameMusic.setVolume(Config.MUSIC_VOLUME);
+        gameMusic.play();
+
         viewport = new FitViewport(Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT, camera);
 
         batch = new SpriteBatch();
@@ -64,6 +70,15 @@ public class GameScreen extends ScreenAdapter {
 
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
+
+    public GameScreen() {
+
+    }
+
+    public GameScreen(HudRenderer existingHudRenderer) {
+        this.hudRenderer = existingHudRenderer;
+    }
+
 
     @Override
     // FUNÇÃO PRA ATUALIZAR O TAMANHO DA TELA
@@ -104,7 +119,8 @@ public class GameScreen extends ScreenAdapter {
         batch.end();
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-            Gdx.app.exit();
+            ChefBoom.getInstance().setScreen(new MenuScreen());
+            gameMusic.stop();
         }
 
         if (ChefBoom.DEBUG) {
@@ -130,7 +146,10 @@ public class GameScreen extends ScreenAdapter {
 
     @Override
     public void dispose() {
-
+        if (gameMusic != null) {
+            gameMusic.stop();
+            gameMusic.dispose();
+        }
         super.dispose();
     }
 
@@ -142,8 +161,16 @@ public class GameScreen extends ScreenAdapter {
             public void run() {
                 world.generateClients(world);
             }
-        }, 5, 15);
+        }, 1, 15);
 
     }
-}
 
+    public static Music getGameMusic() {
+        return gameMusic;
+    }
+
+    public HudRenderer getHudRenderer() {
+        return hudRenderer;
+    }
+
+}

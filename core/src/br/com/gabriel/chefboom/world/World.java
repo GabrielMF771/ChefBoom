@@ -26,6 +26,8 @@ import java.util.Random;
 
 public class World extends CurrentLevel {
 
+    private boolean paused = false;
+
     private final EntityTrackerMainWindow entityTrackerWindow;
 
     public static final int BG = 1;
@@ -46,7 +48,8 @@ public class World extends CurrentLevel {
 
     private int item;
 
-    private int[] interactiveBlock = new int[3];
+    //TODO - Todo bloco interativo adicionado precisa aumentar esse número
+    private int[] interactiveBlock = new int[10];
 
     private int[][] clienteNivelFila = new int[4][3];
 
@@ -72,29 +75,32 @@ public class World extends CurrentLevel {
     //VAI RECEBER A QUANTIDADE DE CLIENTES QUE VÃO SPAWNAR EM CADA FILA - CADA INDICE É UMA FILA
     int[] spawn = new int[3];
 
+    private final EntitiesFactory entitiesFactory;
 
-    public World(OrthographicCamera camera ){
+    public World(OrthographicCamera camera){
+        entitiesFactory = new EntitiesFactory();
+
         WorldConfigurationBuilder worldConfigBuilder = new WorldConfigurationBuilder()
                 .with(new PlayerControllerSystem())
                 .with(new ClientControllerSystem(this))
                 .with(new MovementSystem(this))
                 .with(new StateSystem())
-                .with(new ItemSystem(this))
                 .with(new OrderSystem())
                 .with(new SpriteRenderSystem(camera))
-                .with(new ClientInteractionSystem(this));
-
+                .with(new ClientInteractionSystem(this))
+                .with(new ItemSystem(this, entitiesFactory));
 
         if(ChefBoom.DEBUG){
-
             worldConfigBuilder.with(new CollisionDebugSystem(camera, this));
             entityTrackerWindow = new EntityTrackerMainWindow(false, false);
             worldConfigBuilder.with(new EntityTracker(entityTrackerWindow));
+        } else {
+            entityTrackerWindow = null;
         }
 
         WorldConfiguration config = worldConfigBuilder.build();
-
         artemis = new com.artemis.World(config);
+
 
         EntitiesFactory entitiesFactory = new EntitiesFactory();
         artemis.inject(entitiesFactory);
@@ -125,22 +131,39 @@ public class World extends CurrentLevel {
             spawn[1] = gerarNumClientes.nextInt(4) + 2;
             spawn[2] = gerarNumClientes.nextInt(4) + 2;
 
-            System.out.println("spawn[0]: " + spawn[0]);
-            System.out.println("spawn[1]: " + spawn[1]);
-            System.out.println("spawn[2]: " + spawn[2]);
+            if(ChefBoom.DEBUG){
+                System.out.println("spawn[0]: " + spawn[0]);
+                System.out.println("spawn[1]: " + spawn[1]);
+                System.out.println("spawn[2]: " + spawn[2]);
+            }
         }
 
         // BLOCOS INTERATIVOS
-        interactiveBlock[0] = entitiesFactory.createInteractiveBlock(artemis, 22 * Block.TILE_SIZE, 1 * Block.TILE_SIZE, InteractiveBlock.Type.PLATE , Assets.manager.get(Assets.plate));
-        interactiveBlock[1] = entitiesFactory.createInteractiveBlock(artemis, 20 * Block.TILE_SIZE, 1 * Block.TILE_SIZE, InteractiveBlock.Type.PLATE, Assets.manager.get(Assets.plate));
-        interactiveBlock[1] = entitiesFactory.createInteractiveBlock(artemis, 26 * Block.TILE_SIZE, 1 * Block.TILE_SIZE, InteractiveBlock.Type.TRASH, Assets.manager.get(Assets.trash));
+        interactiveBlock[0] = entitiesFactory.createInteractiveBlock(artemis, 23 * Block.TILE_SIZE, 1 * Block.TILE_SIZE, InteractiveBlock.Type.PLATE,0 , Assets.manager.get(Assets.plate));
+        interactiveBlock[1] = entitiesFactory.createInteractiveBlock(artemis, 21 * Block.TILE_SIZE, 1 * Block.TILE_SIZE, InteractiveBlock.Type.PLATE, 0, Assets.manager.get(Assets.plate));
+        interactiveBlock[2] = entitiesFactory.createInteractiveBlock(artemis, 19 * Block.TILE_SIZE, 1 * Block.TILE_SIZE, InteractiveBlock.Type.PLATE, 0,Assets.manager.get(Assets.plate));
+        interactiveBlock[3] = entitiesFactory.createInteractiveBlock(artemis, 23 * Block.TILE_SIZE, 13 * Block.TILE_SIZE, InteractiveBlock.Type.PLATE, 0, Assets.manager.get(Assets.plate));
+        interactiveBlock[4] = entitiesFactory.createInteractiveBlock(artemis, 21 * Block.TILE_SIZE, 13 * Block.TILE_SIZE, InteractiveBlock.Type.PLATE, 0, Assets.manager.get(Assets.plate));
+        interactiveBlock[5] = entitiesFactory.createInteractiveBlock(artemis, 19 * Block.TILE_SIZE, 13 * Block.TILE_SIZE, InteractiveBlock.Type.PLATE, 0, Assets.manager.get(Assets.plate));
 
-        // ITENS
-        item = entitiesFactory.createItem(artemis, 19 * Block.TILE_SIZE, 9 * Block.TILE_SIZE, Assets.manager.get(Assets.apple));
-        item = entitiesFactory.createItem(artemis, 17 * Block.TILE_SIZE, 8 * Block.TILE_SIZE, Assets.manager.get(Assets.apple));
-        item = entitiesFactory.createItem(artemis, 17 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, Assets.manager.get(Assets.bread));
-        item = entitiesFactory.createItem(artemis, 19 * Block.TILE_SIZE, 5 * Block.TILE_SIZE, Assets.manager.get(Assets.bread));
+        interactiveBlock[6] = entitiesFactory.createInteractiveBlock(artemis, 26 * Block.TILE_SIZE, 1 * Block.TILE_SIZE, InteractiveBlock.Type.TRASH, 0, Assets.manager.get(Assets.trash));
+        // TODO - Ajustar o timer de cada bloco
+        interactiveBlock[7] = entitiesFactory.createInteractiveBlock(artemis, 30 * Block.TILE_SIZE, 11 * Block.TILE_SIZE, InteractiveBlock.Type.FRIESMACHINE, 5, Assets.manager.get(Assets.friesMachine));
+        interactiveBlock[8] = entitiesFactory.createInteractiveBlock(artemis, 30 * Block.TILE_SIZE, 7 * Block.TILE_SIZE, InteractiveBlock.Type.GRILL, 6, Assets.manager.get(Assets.grill));
+        interactiveBlock[9] = entitiesFactory.createInteractiveBlock(artemis, 30 * Block.TILE_SIZE, 3 * Block.TILE_SIZE, InteractiveBlock.Type.SODAMACHINE, 7, Assets.manager.get(Assets.sodaMachine));
+    }
 
+    public void setPaused(boolean paused) {
+        this.paused = paused;
+    }
+
+    public void render() {
+        // Apenas processa os sistemas de renderização
+        for (com.artemis.BaseSystem system : artemis.getSystems()) {
+            if (system instanceof SpriteRenderSystem) {
+                system.process();
+            }
+        }
     }
 
     public void generateClients(World world) {
@@ -605,10 +628,21 @@ public class World extends CurrentLevel {
             }
         }
 
-        artemis.setDelta(delta);
-        artemis.process();
+        if(!paused){
+            artemis.setDelta(delta);
+            artemis.process();
+        }
     }
 
+    // Define o nível atual do jogo
+    public static void setLevel(int level) {
+        Level = level;
+    }
+
+    // Retorna o nível atual do jogo
+    public static int getLevel() {
+        return Level;
+    }
 
     // Alterna o modo de debug de colisão
     public void toggleCollisionDebug() {

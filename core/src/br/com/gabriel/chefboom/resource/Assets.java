@@ -2,6 +2,7 @@ package br.com.gabriel.chefboom.resource;
 
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 
 import net.dermetfan.gdx.assets.AnnotationAssetManager;
@@ -28,7 +29,7 @@ public class Assets {
     @Asset public static final AssetDescriptor<Texture> map = new AssetDescriptor<Texture>("mapa.png", Texture.class);
 
     // TEXTURAS DO HUD
-    @Asset public static final AssetDescriptor<Texture> hudbackground = new AssetDescriptor<Texture>("hud/hudBackground.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> hudBackground = new AssetDescriptor<Texture>("hud/hudBackground.png", Texture.class);
     @Asset public static final AssetDescriptor<Texture> heart = new AssetDescriptor<Texture>("hud/heart.png", Texture.class);
 
     // TEXTURAS DO MENU
@@ -38,13 +39,20 @@ public class Assets {
 
 
     // TEXTURAS DOS ITENS
-    @Asset public static final AssetDescriptor<Texture> apple = new AssetDescriptor<>("item/apple.png", Texture.class);
-    @Asset public static final AssetDescriptor<Texture> bread = new AssetDescriptor<>("item/bread.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> burguer = new AssetDescriptor<>("item/burguer.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> fries = new AssetDescriptor<>("item/fries.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> soda = new AssetDescriptor<>("item/soda.png", Texture.class);
 
     // TEXTURAS DOS BLOCO INTERATIVOS
     @Asset public static final AssetDescriptor<Texture> plate = new AssetDescriptor<>("blocks/plate.png", Texture.class);
     @Asset public static final AssetDescriptor<Texture> trash = new AssetDescriptor<>("blocks/trash.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> grill = new AssetDescriptor<>("blocks/grill.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> friesMachine = new AssetDescriptor<>("blocks/friesmachine.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> sodaMachine = new AssetDescriptor<>("blocks/sodamachine.png", Texture.class);
 
+    // SONS
+
+    @Asset public static final AssetDescriptor<Music> gameMusic = new AssetDescriptor<>("music/game-music.mp3", Music.class);
 
     public static void load(){
         Texture.setAssetManager(manager);

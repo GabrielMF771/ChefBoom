@@ -1,13 +1,13 @@
 package br.com.gabriel.chefboom.entity.system;
 
 import br.com.gabriel.chefboom.block.Block;
-import br.com.gabriel.chefboom.block.BlockBarrier;
+import br.com.gabriel.chefboom.entity.EntitiesFactory;
 import br.com.gabriel.chefboom.entity.component.*;
+import br.com.gabriel.chefboom.resource.Assets;
 import br.com.gabriel.chefboom.world.World;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.systems.IteratingSystem;
-import com.artemis.utils.IntBag;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
@@ -22,10 +22,12 @@ public class ItemSystem extends IteratingSystem {
     private ComponentMapper<InteractiveBlock> mInteractiveBlock;
 
     private final World world;
+    private final EntitiesFactory entitiesFactory;
 
-    public ItemSystem(World world) {
+    public ItemSystem(World world, EntitiesFactory entitiesFactory) {
         super(Aspect.all(PlayerComponent.class, TransformComponent.class));
         this.world = world;
+        this.entitiesFactory = entitiesFactory;
     }
 
     private int findNearbyClient(Vector2 pos) {
@@ -51,64 +53,121 @@ public class ItemSystem extends IteratingSystem {
 
     @Override
     protected void process(int entityId) {
-        PlayerComponent player = mPlayer.get(entityId);
-        TransformComponent playerTransform = mTransform.get(entityId);
-        SpriteComponent playerSprite = mSprite.get(entityId);
+        // Decrementa o timer apenas dos blocos ativos
+        com.artemis.utils.IntBag entities = getWorld().getAspectSubscriptionManager()
+                .get(Aspect.all(TransformComponent.class, InteractiveBlock.class))
+                .getEntities();
+        int[] ids = entities.getData();
+        int size = entities.size();
+        float delta = Gdx.graphics.getDeltaTime();
+
+        for (int i = 0; i < size; i++) {
+            InteractiveBlock block = mInteractiveBlock.get(ids[i]);
+            if (block != null && block.timerActive && block.timeLeft > 0f) {
+                block.timeLeft -= delta;
+                if (block.timeLeft < 0f) block.timeLeft = 0f;
+
+                // Quando chega a zero, gera o item e reseta/desativa o timer
+                if (block.timeLeft == 0f) {
+                    int x = World.worldToMap(mTransform.get(ids[i]).position.x);
+                    int y = World.worldToMap(mTransform.get(ids[i]).position.y);
+                    if (block.type == InteractiveBlock.Type.GRILL) {
+                        createItemOnBlock(Assets.burguer.fileName, x, y);
+                    } else if (block.type == InteractiveBlock.Type.SODAMACHINE) {
+                        createItemOnBlock(Assets.soda.fileName, x, y);
+                    } else if (block.type == InteractiveBlock.Type.FRIESMACHINE) {
+                        createItemOnBlock(Assets.fries.fileName, x, y);
+                    }
+                    block.timeLeft = 5f;
+                    block.timerActive = false;
+                }
+            }
+        }
+
+        PlayerComponent cPlayer = mPlayer.get(entityId);
+        TransformComponent cTransform = mTransform.get(entityId);
+        SpriteComponent cSprite = mSprite.get(entityId);
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
-            if (player.heldItemEntity == null) {
-                Vector2 frontBlock = getBlockInFront(playerTransform, playerSprite);
+            if (cPlayer.heldItemEntity == null) {
+                Vector2 frontBlock = getBlockInFront(cTransform, cSprite);
                 int x = World.worldToMap(frontBlock.x);
                 int y = World.worldToMap(frontBlock.y);
 
-                int itemId = findNearbyItem(playerTransform, playerSprite);
-                if (itemId != -1) {
-                    player.heldItemEntity = itemId;
-                    mItem.get(itemId).isHeld = true;
+                boolean isGrill = isInteractiveBlockAt(x, y, InteractiveBlock.Type.GRILL);
+                boolean isSodaMachine = isInteractiveBlockAt(x, y, InteractiveBlock.Type.SODAMACHINE);
+                boolean isFriesMachine = isInteractiveBlockAt(x, y, InteractiveBlock.Type.FRIESMACHINE);
+
+                // Busca o bloco interativo à frente para acessar o timer
+                com.artemis.utils.IntBag blockEntities = getWorld().getAspectSubscriptionManager()
+                        .get(Aspect.all(TransformComponent.class, InteractiveBlock.class))
+                        .getEntities();
+                int[] blockIds = blockEntities.getData();
+                int blockSize = blockEntities.size();
+                InteractiveBlock frontInteractiveBlock = null;
+                for (int i = 0; i < blockSize; i++) {
+                    int eid = blockIds[i];
+                    TransformComponent t = mTransform.get(eid);
+                    int bx = World.worldToMap(t.position.x);
+                    int by = World.worldToMap(t.position.y);
+                    if (bx == x && by == y) {
+                        frontInteractiveBlock = mInteractiveBlock.get(eid);
+                        break;
+                    }
                 }
+
+                if (frontInteractiveBlock != null) {
+                    if ((isGrill || isSodaMachine || isFriesMachine) && !isItemOnBlock(x, y)) {
+                        if (!frontInteractiveBlock.timerActive) {
+                            frontInteractiveBlock.timerActive = true;
+                            if (frontInteractiveBlock.timeLeft == 0f) {
+                                frontInteractiveBlock.timeLeft = 5f;
+                            }
+                        }
+                    } else {
+                        // Tenta pegar o item do bloco à frente
+                        int itemId = findNearbyItem(cTransform, cSprite);
+                        if (itemId != -1) {
+                            cPlayer.heldItemEntity = itemId;
+                            mItem.get(itemId).isHeld = true;
+                        }
+                    }
+                }
+
             } else {
                 // Colocar item no bloco à frente, se não houver cliente e não houver item no bloco
                 int clientId = ClientUtils.findNearbyClient(
-                        world.getArtemis(), mTransform, playerTransform.position
+                        world.getArtemis(), mTransform, cTransform.position
                 );
                 if (clientId == -1) {
-                    Vector2 placePos = getBlockInFront(playerTransform, playerSprite);
+                    Vector2 placePos = getBlockInFront(cTransform, cSprite);
                     int x = World.worldToMap(placePos.x);
                     int y = World.worldToMap(placePos.y);
 
-                    boolean isPlate = isPlateAt(x, y);
-                    boolean isTrash = isTrashAt(x, y);
+                    boolean isPlate = isInteractiveBlockAt(x, y, InteractiveBlock.Type.PLATE);
+                    boolean isTrash = isInteractiveBlockAt(x, y, InteractiveBlock.Type.TRASH);
 
                     if (world.isValid(x, y) && !isItemOnBlock(x, y)) {
-                        // TODO - Funções dos outros blocos interativos
                         if (isPlate) {
-                            TransformComponent itemTransform = mTransform.get(player.heldItemEntity);
+                            TransformComponent itemTransform = mTransform.get(cPlayer.heldItemEntity);
                             itemTransform.position.set(x * Block.TILE_SIZE, y * Block.TILE_SIZE);
-                            mItem.get(player.heldItemEntity).isHeld = false;
-                            player.heldItemEntity = null;
+                            mItem.get(cPlayer.heldItemEntity).isHeld = false;
+                            cPlayer.heldItemEntity = null;
                         } else if (isTrash) {
-                            // Deleta o item do mundo
-                            world.getArtemis().delete(player.heldItemEntity);
-                            player.heldItemEntity = null;
+                            world.getArtemis().delete(cPlayer.heldItemEntity);
+                            cPlayer.heldItemEntity = null;
                         }
-
-                        /*TODO:
-                         * Blocos: Chapa (Hamburguer)
-                         * Fritadeira (Batata)
-                         * Geladeira (Salada)
-                         * Maquina de Bebidas (Refrigerante)
-                         */
                     }
                 }
             }
         }
 
         // Mantém o item acima do jogador se estiver segurando
-        if (player.heldItemEntity != null) {
-            TransformComponent itemTransform = mTransform.get(player.heldItemEntity);
+        if (cPlayer.heldItemEntity != null) {
+            TransformComponent itemTransform = mTransform.get(cPlayer.heldItemEntity);
             itemTransform.position.set(
-                    playerTransform.position.x,
-                    playerTransform.position.y + Block.TILE_SIZE
+                    cTransform.position.x,
+                    cTransform.position.y + Block.TILE_SIZE
             );
         }
     }
@@ -213,13 +272,25 @@ public class ItemSystem extends IteratingSystem {
         return false;
     }
 
+    public static int randomItemByProbability(double[] chances) {
+        double total = 0;
+        for (double c : chances) total += c;
+        double r = Math.random() * total;
+        double acumulado = 0;
+        for (int i = 0; i < chances.length; i++) {
+            acumulado += chances[i];
+            if (r < acumulado) return i;
+        }
+        return chances.length - 1;
+    }
+
     private com.artemis.utils.IntBag getItemEntities() {
         return getWorld().getAspectSubscriptionManager()
                 .get(Aspect.all(ItemComponent.class, TransformComponent.class))
                 .getEntities();
     }
 
-    private boolean isPlateAt(int x, int y) {
+    private boolean isInteractiveBlockAt(int x, int y, InteractiveBlock.Type type) {
         com.artemis.utils.IntBag entities = getWorld().getAspectSubscriptionManager()
                 .get(Aspect.all(TransformComponent.class, InteractiveBlock.class))
                 .getEntities();
@@ -230,35 +301,24 @@ public class ItemSystem extends IteratingSystem {
             int entityId = ids[i];
             TransformComponent transform = mTransform.get(entityId);
             InteractiveBlock interactiveBlock = mInteractiveBlock.get(entityId);
-            int plateX = World.worldToMap(transform.position.x);
-            int plateY = World.worldToMap(transform.position.y);
-            if (plateX == x && plateY == y && interactiveBlock != null && interactiveBlock.type == InteractiveBlock.Type.PLATE) {
+            int blockX = World.worldToMap(transform.position.x);
+            int blockY = World.worldToMap(transform.position.y);
+            if (blockX == x && blockY == y && interactiveBlock != null && interactiveBlock.type == type) {
                 return true;
             }
         }
         return false;
     }
 
-    private boolean isTrashAt(int x, int y) {
-        com.artemis.utils.IntBag entities = getWorld().getAspectSubscriptionManager()
-                .get(Aspect.all(TransformComponent.class, InteractiveBlock.class))
-                .getEntities();
-        int[] ids = entities.getData();
-        int size = entities.size();
-
-        for (int i = 0; i < size; i++) {
-            int entityId = ids[i];
-            TransformComponent transform = mTransform.get(entityId);
-            InteractiveBlock interactiveBlock = mInteractiveBlock.get(entityId);
-            int plateX = World.worldToMap(transform.position.x);
-            int plateY = World.worldToMap(transform.position.y);
-            if (plateX == x && plateY == y && interactiveBlock != null && interactiveBlock.type == InteractiveBlock.Type.TRASH) {
-                return true;
-            }
-        }
-        return false;
+    private int createItemOnBlock(String assetPath, int x, int y) {
+        com.badlogic.gdx.graphics.Texture texture = Assets.manager.get(assetPath);
+        int itemId = entitiesFactory.createItem(
+                world.getArtemis(),
+                x * Block.TILE_SIZE,
+                y * Block.TILE_SIZE,
+                texture
+        );
+        mItem.get(itemId).isHeld = false;
+        return itemId;
     }
-
-
-
 }

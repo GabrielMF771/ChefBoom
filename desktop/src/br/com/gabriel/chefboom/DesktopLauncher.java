@@ -1,5 +1,6 @@
 package br.com.gabriel.chefboom;
 
+import br.com.gabriel.chefboom.screen.ConfigScreen;
 import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
@@ -28,7 +29,7 @@ public class DesktopLauncher {
 		}
 
 		config.setResizable(true);
-		config.useVsync(true);
+		config.useVsync(Config.VSYNC);
 		new Lwjgl3Application(ChefBoom.getInstance(), config);
 	}
 }

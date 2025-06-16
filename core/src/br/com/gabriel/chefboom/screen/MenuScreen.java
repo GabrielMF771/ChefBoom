@@ -34,6 +34,11 @@ public class MenuScreen extends ScreenAdapter {
     private float titleX, titleY, titleWidth, titleHeight;
     private float startButtonX, startButtonY, startButtonWidth, startButtonHeight;
 
+    private float fadeAlpha = 0f;
+    private boolean fadingOut = false;
+    private boolean startGameAfterFade = false;
+    private float fadeSpeed = 1.5f; // ajuste a velocidade do fade
+
     @Override
     public void show() {
         camera = new OrthographicCamera();
@@ -83,6 +88,7 @@ public class MenuScreen extends ScreenAdapter {
     public void render(float delta) {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             Gdx.app.exit();
+
         }
 
         handleInput();
@@ -105,8 +111,28 @@ public class MenuScreen extends ScreenAdapter {
 
         // Desenha o botão iniciar normalmente
         batch.draw(startButtonTexture, startButtonX, startButtonY, startButtonWidth, startButtonHeight);
-
         batch.end();
+
+        // Desenhe o fade por cima de tudo
+        if (fadeAlpha > 0f) {
+            batch.begin();
+            batch.setColor(0, 0, 0, fadeAlpha);
+            batch.draw(startButtonTexture, 0, 0, WORLD_WIDTH, WORLD_HEIGHT);
+            batch.setColor(1, 1, 1, 1);
+            batch.end();
+        }
+
+        // Atualize o alpha do fade
+        if (fadingOut) {
+            fadeAlpha += fadeSpeed * delta;
+            if (fadeAlpha >= 1f) {
+                fadeAlpha = 1f;
+                fadingOut = false;
+                if (startGameAfterFade) {
+                    ChefBoom.getInstance().setScreen(new GameScreen());
+                }
+            }
+        }
     }
 
     private void handleInput() {
@@ -125,7 +151,8 @@ public class MenuScreen extends ScreenAdapter {
                             worldY >= startButtonY && worldY <= startButtonY + startButtonHeight;
 
             if (touchedStartButton) {
-                ChefBoom.getInstance().setScreen(new GameScreen());
+                fadingOut = true;
+                startGameAfterFade = true;
             }
         }
     }

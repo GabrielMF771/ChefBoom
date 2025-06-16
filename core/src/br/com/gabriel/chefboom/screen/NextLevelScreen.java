@@ -2,8 +2,12 @@ package br.com.gabriel.chefboom.screen;
 
 import br.com.gabriel.chefboom.Config;
 import br.com.gabriel.chefboom.ChefBoom;
+import br.com.gabriel.chefboom.entity.component.ClientComponent;
+import br.com.gabriel.chefboom.entity.system.OrderSystem;
+import br.com.gabriel.chefboom.hud.HudRenderer;
 import br.com.gabriel.chefboom.resource.Assets;
 import br.com.gabriel.chefboom.world.World;
+import com.artemis.ComponentMapper;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
@@ -39,6 +43,10 @@ public class NextLevelScreen extends ScreenAdapter {
 
     protected World world;
 
+    private int level;
+    private HudRenderer hudRenderer;
+
+
     @Override
     public void show() {
         camera = new OrthographicCamera();
@@ -46,6 +54,16 @@ public class NextLevelScreen extends ScreenAdapter {
         viewport.apply();
 
         batch = new SpriteBatch();
+
+        level = World.getLevel();
+
+        // Cria um novo HudRenderer
+        OrderSystem orderSystem = new OrderSystem();
+        World world = new World(camera);
+        ComponentMapper<ClientComponent> mClient = world.getArtemis().getMapper(ClientComponent.class);
+
+        this.hudRenderer = new HudRenderer(orderSystem, world, mClient);
+        this.hudRenderer.showLevelMessage(level);
 
         // Inicializa a fonte do título usando FreeTypeFontGenerator
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Roboto-Bold.ttf"));
@@ -61,6 +79,7 @@ public class NextLevelScreen extends ScreenAdapter {
         NextLevelTexture = Assets.manager.get(Assets.iniciarProximaFase);
 
         calculateDimensionsAndPositions();
+
     }
 
     private void calculateDimensionsAndPositions() {

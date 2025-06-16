@@ -1,7 +1,6 @@
 package br.com.gabriel.chefboom.entity.system;
 
 import br.com.gabriel.chefboom.block.Block;
-import br.com.gabriel.chefboom.dictionary.Blocks;
 import br.com.gabriel.chefboom.entity.component.*;
 import br.com.gabriel.chefboom.resource.Assets;
 import br.com.gabriel.chefboom.util.ClientUtils;
@@ -41,10 +40,13 @@ public class ClientInteractionSystem extends IteratingSystem {
             if (clientId != -1) {
                 SpriteComponent itemSprite = mSprite.get(player.heldItemEntity);
                 int itemTypeId;
-                if (itemSprite.sprite.getTexture() == Assets.manager.get(Assets.apple)) {
+                // TODO - Todo item novo que adicionar, deve ser adicionado aqui
+                if (itemSprite.sprite.getTexture() == Assets.manager.get(Assets.burguer)) {
                     itemTypeId = 0;
-                } else if (itemSprite.sprite.getTexture() == Assets.manager.get(Assets.bread)) {
+                } else if (itemSprite.sprite.getTexture() == Assets.manager.get(Assets.fries)) {
                     itemTypeId = 1;
+                } else if (itemSprite.sprite.getTexture() == Assets.manager.get(Assets.soda)) {
+                    itemTypeId = 2;
                 } else {
                     itemTypeId = -1; // tipo desconhecido
                 }
@@ -52,11 +54,10 @@ public class ClientInteractionSystem extends IteratingSystem {
                 ClientComponent client = mClient.get(clientId);
                 if (itemTypeId == client.wantedItemId) {
                     // Deleta o item do jogador
+                    world.getArtemis().delete(player.heldItemEntity);
+                    player.heldItemEntity = null;
 
-                    // TODO - TIRAR DO COMENTÁRIO QUANDO IMPLEMENTAR A LÓGICA DOS ITENS
-                    //world.getArtemis().delete(player.heldItemEntity);
-                    //player.heldItemEntity = null;
-
+                    // TODO - Fazer o cliente explodir
                     // Deleta o cliente que foi alimentado
                     world.getArtemis().delete(clientId);
                 }

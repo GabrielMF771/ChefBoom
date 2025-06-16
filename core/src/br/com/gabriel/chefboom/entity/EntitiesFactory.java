@@ -1,16 +1,21 @@
 package br.com.gabriel.chefboom.entity;
 
+import br.com.gabriel.chefboom.ChefBoom;
 import br.com.gabriel.chefboom.entity.component.*;
 import br.com.gabriel.chefboom.entity.state.PlayerState;
+import br.com.gabriel.chefboom.entity.system.ItemSystem;
 import br.com.gabriel.chefboom.resource.Assets;
 import com.artemis.ComponentMapper;
+import com.artemis.annotations.Wire;
 import com.artemis.Entity;
 import com.artemis.World;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 
+@Wire
 public class EntitiesFactory {
 
     private ComponentMapper<PlayerComponent> mPlayer;
@@ -30,6 +35,18 @@ public class EntitiesFactory {
     private ComponentMapper<ItemComponent> mItem;
 
     private ComponentMapper<InteractiveBlock> mInteractiveBlock;
+
+    public void setWorld(World world) {
+        mPlayer = world.getMapper(PlayerComponent.class);
+        mSprite = world.getMapper(SpriteComponent.class);
+        mTransform = world.getMapper(TransformComponent.class);
+        mRigidBody = world.getMapper(RigidBodyComponent.class);
+        mCollidable = world.getMapper(CollidableComponent.class);
+        mState = world.getMapper(StateComponent.class);
+        mClient = world.getMapper(ClientComponent.class);
+        mItem = world.getMapper(ItemComponent.class);
+        mInteractiveBlock = world.getMapper(InteractiveBlock.class);
+    }
 
     public int createPlayer(World world, float x, float y) {
         int entity = world.create();
@@ -73,11 +90,10 @@ public class EntitiesFactory {
         ClientComponent cClient = mClient.create(entity);
         cClient.queueId = queueId;
 
-        // Total de tipos de itens disponíveis ( TODO - ALTERAR DEPOIS, NAO PODE FICAR AQUI)
-        int totalItens = 2;
-
-        // Sorteio de itens
-        cClient.wantedItemId = (int) (Math.random() * totalItens);
+        // TODO - Todo item novo que adicionar, deve ser adicionado aqui
+        // Define as chances para cada item
+        double[] chances = {0.5, 0.3, 0.2}; // 50% burguer, 30% fries, 20% soda
+        cClient.wantedItemId = ItemSystem.randomItemByProbability(chances);
 
         RigidBodyComponent cRigidBody = mRigidBody.create(entity);
 
@@ -91,6 +107,14 @@ public class EntitiesFactory {
     public int createItem(World world, float x, float y, Texture texture) {
         int entity = world.create();
 
+        // Garante que os ComponentMappers estão inicializados
+        if (mTransform == null || mSprite == null || mItem == null) {
+            setWorld(world); // Inicializa os mappers se eles forem nulos
+            if (mTransform == null || mSprite == null || mItem == null) {
+                throw new IllegalStateException("ComponentMappers não foram inicializados corretamente.");
+            }
+        }
+
         TransformComponent cTransform = mTransform.create(entity);
         cTransform.position.set(x, y);
         cTransform.scaleX = 2f;
@@ -102,10 +126,14 @@ public class EntitiesFactory {
         ItemComponent cItem = mItem.create(entity);
         cItem.isHeld = false;
 
+        if(ChefBoom.DEBUG){
+            Gdx.app.log("EntitiesFactory", "Item criado na posição: " + x + ", " + y);
+        }
+
         return entity;
     }
 
-    public int createInteractiveBlock(World world, float x, float y, InteractiveBlock.Type type, Texture texture) {
+    public int createInteractiveBlock(World world, float x, float y, InteractiveBlock.Type type, float TimeLeft ,Texture texture) {
         int entity = world.create();
 
         TransformComponent cTransform = mTransform.create(entity);
@@ -122,6 +150,8 @@ public class EntitiesFactory {
 
         InteractiveBlock cInteractiveBlock = mInteractiveBlock.create(entity);
         cInteractiveBlock.type = type;
+
+        cInteractiveBlock.timeLeft = TimeLeft;
 
         return entity;
     }
