@@ -124,14 +124,6 @@ public class EntitiesFactory {
     public int createItem(World world, float x, float y, Texture texture) {
         int entity = world.create();
 
-        // Garante que os ComponentMappers estão inicializados
-        if (mTransform == null || mSprite == null || mItem == null) {
-            setWorld(world); // Inicializa os mappers se eles forem nulos
-            if (mTransform == null || mSprite == null || mItem == null) {
-                throw new IllegalStateException("ComponentMappers não foram inicializados corretamente.");
-            }
-        }
-
         TransformComponent cTransform = mTransform.create(entity);
         cTransform.position.set(x, y);
         cTransform.scaleX = 2f;
