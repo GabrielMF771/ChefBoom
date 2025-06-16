@@ -27,6 +27,13 @@ public class Assets {
     @Asset public static final AssetDescriptor<Texture> playerEsquerda = new AssetDescriptor<Texture>("player/player-esquerda.png", Texture.class);
 
     //TEXTURAS CLIENTES
+    @Asset public static final AssetDescriptor<Texture> cliente1 = new AssetDescriptor<Texture>("npc/cliente1.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> cliente2 = new AssetDescriptor<Texture>("npc/cliente2.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> cliente3 = new AssetDescriptor<Texture>("npc/cliente3.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> cliente4 = new AssetDescriptor<Texture>("npc/cliente4.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> cliente5 = new AssetDescriptor<Texture>("npc/cliente5.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> cliente6 = new AssetDescriptor<Texture>("npc/cliente6.png", Texture.class);
+
     @Asset public static final AssetDescriptor<Texture> explosao1 = new AssetDescriptor<Texture>("npc/explosion-01.png", Texture.class);
     @Asset public static final AssetDescriptor<Texture> explosao2 = new AssetDescriptor<Texture>("npc/explosion-02.png", Texture.class);
 

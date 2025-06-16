@@ -6,7 +6,7 @@ public class CurrentLevel {
     // 1 = NIVEL 2
     // 2 = NIVEL 3
     // 3 = MODO INFINITO
-    public static int level = 0;
+    public static int level = 3;
 
     public static int getLevel() {
         return level;

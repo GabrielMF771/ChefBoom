@@ -80,12 +80,12 @@ public class World extends CurrentLevel {
         WorldConfigurationBuilder worldConfigBuilder = new WorldConfigurationBuilder()
                 .with(new PlayerControllerSystem())
                 .with(new ClientControllerSystem(this))
-                .with(new MovementSystem(this))
                 .with(new StateSystem())
-                .with(new OrderSystem())
-                .with(new SpriteRenderSystem(camera))
+                .with(new MovementSystem(this))
+                .with(new ItemSystem(this, entitiesFactory))
                 .with(new ClientInteractionSystem(this))
-                .with(new ItemSystem(this, entitiesFactory));
+                .with(new OrderSystem())
+                .with(new SpriteRenderSystem(camera));
 
         if(ChefBoom.DEBUG){
             worldConfigBuilder.with(new CollisionDebugSystem(camera, this));

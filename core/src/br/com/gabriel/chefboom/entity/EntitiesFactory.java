@@ -11,9 +11,12 @@ import com.artemis.Entity;
 import com.artemis.World;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
+import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
+
+import java.util.Random;
 
 @Wire
 public class EntitiesFactory {
@@ -82,7 +85,21 @@ public class EntitiesFactory {
         cTransform.scaleX = 2f;
         cTransform.scaleY = 2f;
 
-        Texture texture = Assets.manager.get(Assets.playerDireita);
+        // Array com as texturas dos clientes
+        AssetDescriptor<Texture>[] clientTextures = new AssetDescriptor[] {
+                Assets.cliente1,
+                Assets.cliente2,
+                Assets.cliente3,
+                Assets.cliente4,
+                Assets.cliente5,
+                Assets.cliente6
+        };
+
+        // Escolhe uma textura aleatória
+        Random random = new Random();
+        AssetDescriptor<Texture> randomTextureDescriptor = clientTextures[random.nextInt(clientTextures.length)];
+        Texture texture = Assets.manager.get(randomTextureDescriptor);
+
 
         SpriteComponent cSprite = mSprite.create(entity);
         cSprite.sprite = new Sprite(texture);

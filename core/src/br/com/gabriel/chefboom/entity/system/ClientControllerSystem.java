@@ -28,7 +28,6 @@ public class ClientControllerSystem extends IteratingSystem {
     private ComponentMapper<PlayerComponent> mPlayer;
 
     private boolean moveRight;
-    private Texture texDireita;
     private Texture explosion01;
     private Texture explosion02;
 
@@ -52,7 +51,6 @@ public class ClientControllerSystem extends IteratingSystem {
 
     @Override
     protected void initialize() {
-        texDireita = Assets.manager.get(Assets.playerDireita);
         explosion01 = Assets.manager.get(Assets.explosao1);
         explosion02 = Assets.manager.get(Assets.explosao2);
     }
@@ -85,7 +83,6 @@ public class ClientControllerSystem extends IteratingSystem {
         if (cClient.canWalk) {
             float speed = cClient.walkSpeed;
             cRigidBody.velocity.x = speed;
-            cSprite.sprite.setTexture(texDireita);
         }
 
         if (cClient.inQueue) {
