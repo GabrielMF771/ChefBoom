@@ -4,7 +4,6 @@ import br.com.gabriel.chefboom.block.Block;
 import br.com.gabriel.chefboom.entity.component.ClientComponent;
 import br.com.gabriel.chefboom.entity.component.InteractiveBlock;
 import br.com.gabriel.chefboom.entity.component.SpriteComponent;
-import br.com.gabriel.chefboom.resource.Assets;
 import br.com.gabriel.chefboom.entity.component.TransformComponent;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
@@ -12,7 +11,6 @@ import com.artemis.systems.IteratingSystem;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.Gdx;
 
 // TODO - TIRAR DEPOIS

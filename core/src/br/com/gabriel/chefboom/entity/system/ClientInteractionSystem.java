@@ -1,5 +1,6 @@
 package br.com.gabriel.chefboom.entity.system;
 
+import br.com.gabriel.chefboom.Config;
 import br.com.gabriel.chefboom.block.Block;
 import br.com.gabriel.chefboom.entity.component.*;
 import br.com.gabriel.chefboom.resource.Assets;
@@ -11,6 +12,7 @@ import com.artemis.systems.IteratingSystem;
 import com.artemis.utils.IntBag;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
 
 public class ClientInteractionSystem extends IteratingSystem {
@@ -22,6 +24,10 @@ public class ClientInteractionSystem extends IteratingSystem {
     private ComponentMapper<SpriteComponent> mSprite;
 
     private final World world;
+
+    private final Sound explosionSound = Assets.manager.get(Assets.explosionSound);
+
+    private final Sound wrongSound = Assets.manager.get(Assets.wrongSound);
 
     public ClientInteractionSystem(World world) {
         super(Aspect.all(PlayerComponent.class, TransformComponent.class));
@@ -57,9 +63,21 @@ public class ClientInteractionSystem extends IteratingSystem {
                     world.getArtemis().delete(player.heldItemEntity);
                     player.heldItemEntity = null;
 
-                    // TODO - Fazer o cliente explodir
-                    // Deleta o cliente que foi alimentado
-                    world.getArtemis().delete(clientId);
+                    // Lógica de explosão do cliente ao receber o item correto
+                    client.isExploding = true;
+                    client.inQueue = false; // Cliente não está mais na fila
+                    client.explosionTimer = 0f; // Reseta o timer de explosão
+                    client.explodedByServe = true; // Marca que o cliente explodiu por receber o item correto
+
+                    // Troca o sprite para o primeiro frame da explosão
+                    SpriteComponent clientSprite = mSprite.get(clientId);
+                    if (clientSprite != null) {
+                        clientSprite.sprite.setTexture(Assets.manager.get(Assets.explosao1));
+                    }
+
+                    explosionSound.play(Config.EFFECTS_VOLUME);
+                } else {
+                    wrongSound.play(Config.EFFECTS_VOLUME);
                 }
             }
         }

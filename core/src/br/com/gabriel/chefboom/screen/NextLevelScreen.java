@@ -43,10 +43,6 @@ public class NextLevelScreen extends ScreenAdapter {
 
     protected World world;
 
-    private int level;
-    private HudRenderer hudRenderer;
-
-
     @Override
     public void show() {
         camera = new OrthographicCamera();
@@ -55,15 +51,15 @@ public class NextLevelScreen extends ScreenAdapter {
 
         batch = new SpriteBatch();
 
-        level = World.getLevel();
+        int level = World.getLevel();
 
         // Cria um novo HudRenderer
         OrderSystem orderSystem = new OrderSystem();
         World world = new World(camera);
         ComponentMapper<ClientComponent> mClient = world.getArtemis().getMapper(ClientComponent.class);
 
-        this.hudRenderer = new HudRenderer(orderSystem, world, mClient);
-        this.hudRenderer.showLevelMessage(level);
+        HudRenderer hudRenderer = new HudRenderer(orderSystem, world, mClient);
+        hudRenderer.showLevelMessage(level);
 
         // Inicializa a fonte do título usando FreeTypeFontGenerator
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Roboto-Bold.ttf"));

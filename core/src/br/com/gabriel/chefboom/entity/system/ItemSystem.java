@@ -26,7 +26,7 @@ public class ItemSystem extends IteratingSystem {
     private final World world;
     private final EntitiesFactory entitiesFactory;
 
-    private Sound readySound = Assets.manager.get(Assets.readySound);
+    private final Sound readySound = Assets.manager.get(Assets.readySound);
 
     public ItemSystem(World world, EntitiesFactory entitiesFactory) {
         super(Aspect.all(PlayerComponent.class, TransformComponent.class));

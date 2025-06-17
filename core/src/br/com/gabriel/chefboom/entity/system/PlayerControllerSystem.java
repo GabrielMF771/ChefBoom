@@ -1,5 +1,6 @@
 package br.com.gabriel.chefboom.entity.system;
 
+import br.com.gabriel.chefboom.Config;
 import br.com.gabriel.chefboom.entity.component.CollidableComponent;
 import br.com.gabriel.chefboom.entity.component.PlayerComponent;
 import br.com.gabriel.chefboom.entity.component.RigidBodyComponent;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 
 public class PlayerControllerSystem extends IteratingSystem {
@@ -35,6 +37,18 @@ public class PlayerControllerSystem extends IteratingSystem {
     private Texture texDireita;
     private Texture texEsquerda;
 
+    private final Sound dashSound = Assets.manager.get(Assets.dashSound);
+
+    // Dash
+    private boolean isDashing = false;
+    private float dashTimeLeft = 0f;
+    private final float DASH_TIME = 0.18f; // duração do dash em segundos
+    private final float DASH_SPEED = 380f; // velocidade do dash
+    private float dashDirX = 0;
+    private float dashDirY = 0;
+    private float dashCooldown = 0f; // Tempo de recarga do dash
+    private final float DASH_COOLDOWN_TIME = 1f; // Tempo de cooldown do dash
+
     public PlayerControllerSystem() {
         super(Aspect.all(PlayerComponent.class, RigidBodyComponent.class, CollidableComponent.class));
 
@@ -56,16 +70,33 @@ public class PlayerControllerSystem extends IteratingSystem {
         RigidBodyComponent cRigidBody = mRigidBody.get(entityId);
         SpriteComponent cSprite = mSprite.get(entityId);
 
-        /*
-        if (cPlayer.invulnerableTime > 0f) {
-            cPlayer.invulnerableTime -= world.getDelta();
-            if (cPlayer.invulnerableTime < 0f) cPlayer.invulnerableTime = 0f;
+        float delta = world.getDelta();
+
+        // Atualização do cooldown
+        if (dashCooldown > 0f) {
+            dashCooldown -= delta;
+            if (dashCooldown < 0f)
+                dashCooldown = 0f;
         }
-         */
+
+        if (isDashing) {
+            dashTimeLeft -= delta;
+            if (dashTimeLeft <= 0) {
+                isDashing = false;
+                dashCooldown = DASH_COOLDOWN_TIME; // Inicia cooldown ao terminar dash
+                cRigidBody.velocity.x = 0;
+                cRigidBody.velocity.y = 0;
+            } else {
+                cRigidBody.velocity.x = dashDirX * DASH_SPEED;
+                cRigidBody.velocity.y = dashDirY * DASH_SPEED;
+            }
+            return;
+        }
+
 
         if (cPlayer.canWalk) {
             float speed = cPlayer.walkSpeed;
-            if (run) speed += 70;
+            //if (run) speed += 70;
 
             boolean movingX = moveRight ^ moveLeft;
             boolean movingY = moveUp ^ moveDown;
@@ -129,7 +160,32 @@ public class PlayerControllerSystem extends IteratingSystem {
                     break;
                 case Input.Keys.SHIFT_LEFT:
                 case Input.Keys.SHIFT_RIGHT:
-                    run = true;
+                    //run = true;
+                    if (!isDashing && dashCooldown == 0f) {
+                        // Toca o som do dash
+                        dashSound.play(Config.EFFECTS_VOLUME - 0.15f);
+
+                        // Calcula a direção atual
+                        dashDirX = 0;
+                        dashDirY = 0;
+
+                        if (moveRight) dashDirX += 1;
+                        if (moveLeft) dashDirX -= 1;
+                        if (moveUp) dashDirY += 1;
+                        if (moveDown) dashDirY -= 1;
+
+                        // Evita o dash sem direção
+                        if (dashDirX == 0 && dashDirY == 0) dashDirY = -1;
+
+                        // Normaliza o vetor para diagonal não ser mais rápido
+                        float len = (float)Math.sqrt(dashDirX * dashDirX + dashDirY * dashDirY);
+                        dashDirX /= len;
+                        dashDirY /= len;
+
+                        isDashing = true;
+                        dashTimeLeft = DASH_TIME;
+                    }
+
                     break;
             }
             return true;
@@ -159,7 +215,7 @@ public class PlayerControllerSystem extends IteratingSystem {
                     break;
                 case Input.Keys.SHIFT_LEFT:
                 case Input.Keys.SHIFT_RIGHT:
-                    run = false;
+                    //run = false;
                     break;
             }
             return true;

@@ -35,8 +35,8 @@ public class World extends CurrentLevel {
 
     // Variável que guarda o tempo das máquinas de itens
     public static float FRIESTIME = 1f;
-    public static float GRILLTIME = 2f;
-    public static float SODATIME = 3f;
+    public static float GRILLTIME = 1f;
+    public static float SODATIME = 1f;
 
     //VETOR Q ARMAZENA O MAPA - OS TILES SÃO FORMADOS DEPENDENDO DO TAMANHO DA TELA
     //2 COLUNAS DE PROFUNDIDADE - FOREGOUND E BACKGROUND
@@ -102,6 +102,20 @@ public class World extends CurrentLevel {
         EntitiesFactory entitiesFactory = new EntitiesFactory();
         artemis.inject(entitiesFactory);
 
+        // BLOCOS INTERATIVOS
+        interactiveBlock[0] = entitiesFactory.createInteractiveBlock(artemis, 23 * Block.TILE_SIZE, 1 * Block.TILE_SIZE, InteractiveBlock.Type.PLATE,0 , Assets.manager.get(Assets.plate));
+        interactiveBlock[1] = entitiesFactory.createInteractiveBlock(artemis, 21 * Block.TILE_SIZE, 1 * Block.TILE_SIZE, InteractiveBlock.Type.PLATE, 0, Assets.manager.get(Assets.plate));
+        interactiveBlock[2] = entitiesFactory.createInteractiveBlock(artemis, 19 * Block.TILE_SIZE, 1 * Block.TILE_SIZE, InteractiveBlock.Type.PLATE, 0,Assets.manager.get(Assets.plate));
+        interactiveBlock[3] = entitiesFactory.createInteractiveBlock(artemis, 23 * Block.TILE_SIZE, 13 * Block.TILE_SIZE, InteractiveBlock.Type.PLATE, 0, Assets.manager.get(Assets.plate));
+        interactiveBlock[4] = entitiesFactory.createInteractiveBlock(artemis, 21 * Block.TILE_SIZE, 13 * Block.TILE_SIZE, InteractiveBlock.Type.PLATE, 0, Assets.manager.get(Assets.plate));
+        interactiveBlock[5] = entitiesFactory.createInteractiveBlock(artemis, 19 * Block.TILE_SIZE, 13 * Block.TILE_SIZE, InteractiveBlock.Type.PLATE, 0, Assets.manager.get(Assets.plate));
+
+        interactiveBlock[6] = entitiesFactory.createInteractiveBlock(artemis, 26 * Block.TILE_SIZE, 1 * Block.TILE_SIZE, InteractiveBlock.Type.TRASH, 0, Assets.manager.get(Assets.trash));
+        // TODO - Ajustar o timer de cada bloco
+        interactiveBlock[7] = entitiesFactory.createInteractiveBlock(artemis, 30 * Block.TILE_SIZE, 11 * Block.TILE_SIZE, InteractiveBlock.Type.FRIESMACHINE, FRIESTIME, Assets.manager.get(Assets.friesMachine));
+        interactiveBlock[8] = entitiesFactory.createInteractiveBlock(artemis, 30 * Block.TILE_SIZE, 7 * Block.TILE_SIZE, InteractiveBlock.Type.GRILL, GRILLTIME, Assets.manager.get(Assets.grill));
+        interactiveBlock[9] = entitiesFactory.createInteractiveBlock(artemis, 30 * Block.TILE_SIZE, 3 * Block.TILE_SIZE, InteractiveBlock.Type.SODAMACHINE, SODATIME, Assets.manager.get(Assets.sodaMachine));
+
         // PLAYER
         player = entitiesFactory.createPlayer(artemis, 16 * Block.TILE_SIZE, 7 * Block.TILE_SIZE);
 
@@ -134,20 +148,6 @@ public class World extends CurrentLevel {
                 System.out.println("spawn[2]: " + spawn[2]);
             }
         }
-
-        // BLOCOS INTERATIVOS
-        interactiveBlock[0] = entitiesFactory.createInteractiveBlock(artemis, 23 * Block.TILE_SIZE, 1 * Block.TILE_SIZE, InteractiveBlock.Type.PLATE,0 , Assets.manager.get(Assets.plate));
-        interactiveBlock[1] = entitiesFactory.createInteractiveBlock(artemis, 21 * Block.TILE_SIZE, 1 * Block.TILE_SIZE, InteractiveBlock.Type.PLATE, 0, Assets.manager.get(Assets.plate));
-        interactiveBlock[2] = entitiesFactory.createInteractiveBlock(artemis, 19 * Block.TILE_SIZE, 1 * Block.TILE_SIZE, InteractiveBlock.Type.PLATE, 0,Assets.manager.get(Assets.plate));
-        interactiveBlock[3] = entitiesFactory.createInteractiveBlock(artemis, 23 * Block.TILE_SIZE, 13 * Block.TILE_SIZE, InteractiveBlock.Type.PLATE, 0, Assets.manager.get(Assets.plate));
-        interactiveBlock[4] = entitiesFactory.createInteractiveBlock(artemis, 21 * Block.TILE_SIZE, 13 * Block.TILE_SIZE, InteractiveBlock.Type.PLATE, 0, Assets.manager.get(Assets.plate));
-        interactiveBlock[5] = entitiesFactory.createInteractiveBlock(artemis, 19 * Block.TILE_SIZE, 13 * Block.TILE_SIZE, InteractiveBlock.Type.PLATE, 0, Assets.manager.get(Assets.plate));
-
-        interactiveBlock[6] = entitiesFactory.createInteractiveBlock(artemis, 26 * Block.TILE_SIZE, 1 * Block.TILE_SIZE, InteractiveBlock.Type.TRASH, 0, Assets.manager.get(Assets.trash));
-        // TODO - Ajustar o timer de cada bloco
-        interactiveBlock[7] = entitiesFactory.createInteractiveBlock(artemis, 30 * Block.TILE_SIZE, 11 * Block.TILE_SIZE, InteractiveBlock.Type.FRIESMACHINE, FRIESTIME, Assets.manager.get(Assets.friesMachine));
-        interactiveBlock[8] = entitiesFactory.createInteractiveBlock(artemis, 30 * Block.TILE_SIZE, 7 * Block.TILE_SIZE, InteractiveBlock.Type.GRILL, GRILLTIME, Assets.manager.get(Assets.grill));
-        interactiveBlock[9] = entitiesFactory.createInteractiveBlock(artemis, 30 * Block.TILE_SIZE, 3 * Block.TILE_SIZE, InteractiveBlock.Type.SODAMACHINE, SODATIME, Assets.manager.get(Assets.sodaMachine));
     }
 
     public void setPaused(boolean paused) {

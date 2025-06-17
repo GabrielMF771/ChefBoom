@@ -34,7 +34,7 @@ public class YouLoseScreen extends ScreenAdapter {
     private float titleX, titleY, titleWidth, titleHeight;
     private float startButtonX, startButtonY, startButtonWidth, startButtonHeight;
 
-    private Sound gameoverSound = Assets.manager.get(Assets.gameoverSound);
+    private final Sound gameoverSound = Assets.manager.get(Assets.gameoverSound);
 
     @Override
     public void show() {

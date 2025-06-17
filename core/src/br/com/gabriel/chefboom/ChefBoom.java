@@ -10,6 +10,21 @@ import com.badlogic.gdx.graphics.GL20;
 public class ChefBoom extends Game {
 	private static ChefBoom instance;
 
+	/* TODO:
+	 * Fazer uma tela de pause com as configurações do jogo
+	 * Remover o DEBUG quando for publicar o jogo
+	 * Fazer o contador de FPS quando o DEBUG estiver ativo
+	 * Implementar um console para o jogo, onde o usuário pode digitar comandos
+	 *
+	 * Comandos do console:
+	 * Ativar ou desativar fps
+	 * Lista de comandos
+	 * Ativar ou desativar debug
+	 * Pegar um item específico
+	 * Spawnar cliente em uma posição específica
+	 * Ativar o modo secreto para jogar multiplayer local
+	 */
+
 	public static final boolean DEBUG = true;
 
 	ChefBoom() {}

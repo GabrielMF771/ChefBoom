@@ -24,10 +24,10 @@ public class MovementSystem extends IteratingSystem {
 
     private ComponentMapper<ClientComponent> mClient;
 
-    private World world;
+    private final World world;
 
-    private Array<Rectangle> tiles = new Array<Rectangle>();
-    private Vector2 velocity = new Vector2();
+    private final Array<Rectangle> tiles = new Array<Rectangle>();
+    private final Vector2 velocity = new Vector2();
 
     public MovementSystem(World world) {
         super(Aspect.all(TransformComponent.class, RigidBodyComponent.class));

@@ -1,13 +1,11 @@
 package br.com.gabriel.chefboom.entity.state;
 
-import br.com.gabriel.chefboom.ChefBoom;
 import br.com.gabriel.chefboom.entity.component.CollidableComponent;
 import br.com.gabriel.chefboom.entity.component.RigidBodyComponent;
 import br.com.gabriel.chefboom.entity.component.StateComponent;
 import br.com.gabriel.chefboom.entity.component.TransformComponent;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.ai.msg.Telegram;
 

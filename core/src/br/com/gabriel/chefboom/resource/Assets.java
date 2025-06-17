@@ -67,6 +67,8 @@ public class Assets {
     @Asset public static final AssetDescriptor<Sound> explosionSound = new AssetDescriptor<>("sound/explosion.mp3", Sound.class);
     @Asset public static final AssetDescriptor<Sound> readySound = new AssetDescriptor<>("sound/ready.mp3", Sound.class);
     @Asset public static final AssetDescriptor<Sound> gameoverSound = new AssetDescriptor<>("sound/youlose.mp3", Sound.class);
+    @Asset public static final AssetDescriptor<Sound> wrongSound = new AssetDescriptor<>("sound/wrong.mp3", Sound.class);
+    @Asset public static final AssetDescriptor<Sound> dashSound = new AssetDescriptor<>("sound/dash.mp3", Sound.class);
 
     public static void load(){
         Texture.setAssetManager(manager);

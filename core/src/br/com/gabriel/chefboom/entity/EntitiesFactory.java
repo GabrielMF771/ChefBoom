@@ -1,6 +1,7 @@
 package br.com.gabriel.chefboom.entity;
 
 import br.com.gabriel.chefboom.ChefBoom;
+import br.com.gabriel.chefboom.block.Block;
 import br.com.gabriel.chefboom.entity.component.*;
 import br.com.gabriel.chefboom.entity.state.PlayerState;
 import br.com.gabriel.chefboom.entity.system.ItemSystem;
@@ -124,6 +125,14 @@ public class EntitiesFactory {
     public int createItem(World world, float x, float y, Texture texture) {
         int entity = world.create();
 
+        // Garante que os ComponentMappers estão inicializados
+        if (mTransform == null || mSprite == null || mItem == null) {
+            setWorld(world); // Inicializa os mappers se eles forem nulos
+            if (mTransform == null || mSprite == null || mItem == null) {
+                throw new IllegalStateException("ComponentMappers não foram inicializados corretamente.");
+            }
+        }
+
         TransformComponent cTransform = mTransform.create(entity);
         cTransform.position.set(x, y);
         cTransform.scaleX = 2f;
@@ -136,7 +145,7 @@ public class EntitiesFactory {
         cItem.isHeld = false;
 
         if(ChefBoom.DEBUG){
-            Gdx.app.log("EntitiesFactory", "Item criado na posição: " + x + ", " + y);
+            Gdx.app.log("EntitiesFactory", "Item criado na posição: " + x / Block.TILE_SIZE + ", " + y / Block.TILE_SIZE);
         }
 
         return entity;

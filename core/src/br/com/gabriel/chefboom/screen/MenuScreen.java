@@ -37,7 +37,6 @@ public class MenuScreen extends ScreenAdapter {
     private float fadeAlpha = 0f;
     private boolean fadingOut = false;
     private boolean startGameAfterFade = false;
-    private float fadeSpeed = 1.5f; // ajuste a velocidade do fade
 
     @Override
     public void show() {
@@ -103,8 +102,6 @@ public class MenuScreen extends ScreenAdapter {
         // Calcula X para centralizar o texto dentro da área do título (titleX até titleX + titleWidth)
         float textX = titleX + (titleWidth - layoutTitle.width) / 2f;
         // Calcula Y para posicionar o baseline do texto para ficar na vertical da área do título
-        // Como titleY é o canto inferior do retângulo que você usava para o título (provavelmente),
-        // vamos posicionar o baseline um pouco acima de titleY para centralizar verticalmente:
         float textY = titleY + (titleHeight + layoutTitle.height) / 2f;
 
         fontTitle.draw(batch, layoutTitle, textX, textY);
@@ -124,6 +121,8 @@ public class MenuScreen extends ScreenAdapter {
 
         // Atualize o alpha do fade
         if (fadingOut) {
+            // ajuste a velocidade do fade
+            float fadeSpeed = 1.5f;
             fadeAlpha += fadeSpeed * delta;
             if (fadeAlpha >= 1f) {
                 fadeAlpha = 1f;

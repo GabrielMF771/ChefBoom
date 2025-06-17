@@ -38,6 +38,7 @@ Desenvolvido como parte da disciplina de Sistemas Operacionais, o projeto aplica
 ## Controles
 
 - **Setas/WASD**: Movimentação
+- **Shift**: Dash para frente
 - **E**: Interagir/entregar item
 - **ESC**: Sair do jogo
 

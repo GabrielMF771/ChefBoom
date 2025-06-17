@@ -153,7 +153,7 @@ public class GameScreen extends ScreenAdapter {
         super.dispose();
     }
 
-    //SETA QUANTO TEMPO VAI PRECISAR PRA APARECER OS PRIMEIROS CLIENTES
+    //SETA QUANTO TEMPO VAI PRECISAR PARA APARECER OS PRIMEIROS CLIENTES
     public void timespace() {
 
         Timer.schedule(new Timer.Task() {
@@ -168,9 +168,4 @@ public class GameScreen extends ScreenAdapter {
     public static Music getGameMusic() {
         return gameMusic;
     }
-
-    public HudRenderer getHudRenderer() {
-        return hudRenderer;
-    }
-
 }
