@@ -167,7 +167,6 @@ public class World extends CurrentLevel {
             }
         }
     }
-
     public void generateClients(World world) {
 
         //System.out.println("Gerando clientes");
@@ -186,7 +185,7 @@ public class World extends CurrentLevel {
                 switch (clientesSpawnados){
 
                     case 0:
-                        clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 7 * Block.TILE_SIZE, 0, true,'r');
+                        clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, 0, true,'r');
                         clientesSpawnados = 1;
                         break;
 
@@ -199,7 +198,7 @@ public class World extends CurrentLevel {
                         ClientComponent client = mClient.get(clients[0]);
                         //SPAWNA SE NÃO TIVER COMPLETADO O NUMERO DE CLIENTES E TIVER SUMIDO 1
                         if(chegouNoBalcao > 1 && client == null && clientesSpawnados < spawn[1]){
-                            clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 7 * Block.TILE_SIZE, 0, true,'r');
+                            clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, 0, true,'r');
                             clientesSpawnados++;
                         }
 
@@ -213,7 +212,7 @@ public class World extends CurrentLevel {
                             int num = random.nextInt(800);
                             //se cair 1 ele spawna outro
                             if (num == 1) {
-                                entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 7 * Block.TILE_SIZE, 0, true,'r');
+                                entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, 0, true,'r');
                                 clientesSpawnados++;
                                 break;
                             }
@@ -231,7 +230,7 @@ public class World extends CurrentLevel {
                 switch (clientesSpawnados){
 
                     case 0:
-                        clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 10 * Block.TILE_SIZE, 0, true,'r');
+                        clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, 0, true,'r');
                         clientesSpawnados = 1;
                         break;
 
@@ -244,7 +243,7 @@ public class World extends CurrentLevel {
                         ClientComponent client = mClient.get(clients[0]);
                         //SPAWNA SE NÃO TIVER COMPLETADO O NUMERO DE CLIENTES E TIVER SUMIDO 1
                         if(chegouNoBalcao > 1 && client == null && clientesSpawnados < spawn[0]){
-                            clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 10 * Block.TILE_SIZE, 0, true,'r');
+                            clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, 0, true,'r');
                             clientesSpawnados++;
                         }
 
@@ -258,7 +257,7 @@ public class World extends CurrentLevel {
                             int num = random.nextInt(800);
                             //se cair 1 ele spawna outro
                             if (num == 1) {
-                                entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 10 * Block.TILE_SIZE, 0, true,'r');
+                                entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, 0, true,'r');
                                 clientesSpawnados++;
                                 break;
                             }
@@ -271,7 +270,7 @@ public class World extends CurrentLevel {
                 switch (clientesSpawnados1){
 
                     case 0:
-                        clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 7 * Block.TILE_SIZE, 1, true,'r');
+                        clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, 1, true,'r');
                         clientesSpawnados1 = 1;
                         break;
 
@@ -284,7 +283,7 @@ public class World extends CurrentLevel {
                         ClientComponent client = mClient.get(clients[0]);
                         //SPAWNA SE NÃO TIVER COMPLETADO O NUMERO DE CLIENTES E TIVER SUMIDO 1
                         if(chegouNoBalcao > 1 && client == null && clientesSpawnados1 < spawn[1]){
-                            clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 7 * Block.TILE_SIZE, 1, true,'r');
+                            clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, 1, true,'r');
                             clientesSpawnados1++;
                         }
 
@@ -298,7 +297,7 @@ public class World extends CurrentLevel {
                             int num = random.nextInt(800);
                             //se cair 1 ele spawna outro
                             if (num == 1) {
-                                entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 7 * Block.TILE_SIZE, 1, true,'r');
+                                entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, 1, true,'r');
                                 clientesSpawnados1++;
                                 break;
                             }
@@ -309,7 +308,7 @@ public class World extends CurrentLevel {
 
                 break;
 
-          //NIVEL 3 --------------------------------------------------------------------------------------------
+            //NIVEL 3 --------------------------------------------------------------------------------------------
 
             case 2:
 
@@ -317,7 +316,7 @@ public class World extends CurrentLevel {
                 switch (clientesSpawnados){
 
                     case 0:
-                        clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 10 * Block.TILE_SIZE, 0, true,'r');
+                        clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 9 * Block.TILE_SIZE, 0, true,'r');
                         clientesSpawnados = 1;
                         break;
 
@@ -330,7 +329,7 @@ public class World extends CurrentLevel {
                         ClientComponent client = mClient.get(clients[0]);
                         //SPAWNA SE NÃO TIVER COMPLETADO O NUMERO DE CLIENTES E TIVER SUMIDO 1
                         if(chegouNoBalcao > 1 && client == null && clientesSpawnados < spawn[0]){
-                            clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 10 * Block.TILE_SIZE, 0, true,'r');
+                            clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 9 * Block.TILE_SIZE, 0, true,'r');
                             clientesSpawnados++;
                         }
 
@@ -344,7 +343,7 @@ public class World extends CurrentLevel {
                             int num = random.nextInt(2500);
                             //se cair 1 ele spawna outro
                             if (num == 1) {
-                                entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 10 * Block.TILE_SIZE, 0, true,'r');
+                                entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 9 * Block.TILE_SIZE, 0, true,'r');
                                 clientesSpawnados++;
                                 break;
                             }
@@ -357,7 +356,7 @@ public class World extends CurrentLevel {
                 switch (clientesSpawnados1){
 
                     case 0:
-                        clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 7 * Block.TILE_SIZE, 1, true,'r');
+                        clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, 1, true,'r');
                         clientesSpawnados1 = 1;
                         break;
 
@@ -370,7 +369,7 @@ public class World extends CurrentLevel {
                         ClientComponent client = mClient.get(clients[0]);
                         //SPAWNA SE NÃO TIVER COMPLETADO O NUMERO DE CLIENTES E TIVER SUMIDO 1
                         if(chegouNoBalcao > 1 && client == null && clientesSpawnados1 < spawn[1]){
-                            clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 7 * Block.TILE_SIZE, 1, true,'r');
+                            clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, 1, true,'r');
                             clientesSpawnados1++;
                         }
 
@@ -384,7 +383,7 @@ public class World extends CurrentLevel {
                             int num = random.nextInt(2500);
                             //se cair 1 ele spawna outro
                             if (num == 1) {
-                                entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 7 * Block.TILE_SIZE, 1, true,'r');
+                                entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, 1, true,'r');
                                 clientesSpawnados1++;
                                 break;
                             }
@@ -397,7 +396,7 @@ public class World extends CurrentLevel {
                 switch (clientesSpawnados2){
 
                     case 0:
-                        clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 4 * Block.TILE_SIZE, 2, true,'r');
+                        clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 3 * Block.TILE_SIZE, 2, true,'r');
                         clientesSpawnados2 = 1;
                         break;
 
@@ -410,7 +409,7 @@ public class World extends CurrentLevel {
                         ClientComponent client = mClient.get(clients[0]);
                         //SPAWNA SE NÃO TIVER COMPLETADO O NUMERO DE CLIENTES E TIVER SUMIDO 1
                         if(chegouNoBalcao > 1 && client == null && clientesSpawnados2 < spawn[2]){
-                            clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 4 * Block.TILE_SIZE, 2, true,'r');
+                            clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 3 * Block.TILE_SIZE, 2, true,'r');
                             clientesSpawnados2++;
                         }
 
@@ -424,7 +423,7 @@ public class World extends CurrentLevel {
                             int num = random.nextInt(2500);
                             //se cair 1 ele spawna outro
                             if (num == 1) {
-                                entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 4 * Block.TILE_SIZE, 2, true,'r');
+                                entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 3 * Block.TILE_SIZE, 2, true,'r');
                                 clientesSpawnados2++;
                                 break;
                             }
@@ -441,7 +440,7 @@ public class World extends CurrentLevel {
                 switch (clientesSpawnados){
 
                     case 0:
-                        clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 10 * Block.TILE_SIZE, 0, true,'r');
+                        clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 9 * Block.TILE_SIZE, 0, true,'r');
                         clientesSpawnados = 1;
                         break;
 
@@ -454,7 +453,7 @@ public class World extends CurrentLevel {
                         ClientComponent client = mClient.get(clients[0]);
                         //SPAWNA SE NÃO TIVER COMPLETADO O NUMERO DE CLIENTES E TIVER SUMIDO 1
                         if(chegouNoBalcao > 1 && client == null && clientesSpawnados < spawn[0]){
-                            clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 10 * Block.TILE_SIZE, 0, true,'r');
+                            clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 9 * Block.TILE_SIZE, 0, true,'r');
                             clientesSpawnados++;
                         }
 
@@ -468,7 +467,7 @@ public class World extends CurrentLevel {
                             int num = random.nextInt(1000);
                             //se cair 1 ele spawna outro
                             if (num == 1) {
-                                entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 10 * Block.TILE_SIZE, 0, true,'r');
+                                entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 9 * Block.TILE_SIZE, 0, true,'r');
                                 clientesSpawnados++;
                                 break;
                             }
@@ -480,7 +479,7 @@ public class World extends CurrentLevel {
                 switch (clientesSpawnados1){
 
                     case 0:
-                        clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 7 * Block.TILE_SIZE, 1, true,'r');
+                        clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, 1, true,'r');
                         clientesSpawnados1 = 1;
                         break;
 
@@ -493,7 +492,7 @@ public class World extends CurrentLevel {
                         ClientComponent client = mClient.get(clients[0]);
                         //SPAWNA SE NÃO TIVER COMPLETADO O NUMERO DE CLIENTES E TIVER SUMIDO 1
                         if(chegouNoBalcao > 1 && client == null && clientesSpawnados1 < spawn[1]){
-                            clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 7 * Block.TILE_SIZE, 1, true,'r');
+                            clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, 1, true,'r');
                             clientesSpawnados1++;
                         }
 
@@ -507,7 +506,7 @@ public class World extends CurrentLevel {
                             int num = random.nextInt(1000);
                             //se cair 1 ele spawna outro
                             if (num == 1) {
-                                entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 7 * Block.TILE_SIZE, 1, true,'r');
+                                entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, 1, true,'r');
                                 clientesSpawnados1++;
                                 break;
                             }
@@ -519,7 +518,7 @@ public class World extends CurrentLevel {
                 switch (clientesSpawnados2){
 
                     case 0:
-                        clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 4 * Block.TILE_SIZE, 2, true,'r');
+                        clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 3 * Block.TILE_SIZE, 2, true,'r');
                         clientesSpawnados2 = 1;
                         break;
 
@@ -532,7 +531,7 @@ public class World extends CurrentLevel {
                         ClientComponent client = mClient.get(clients[0]);
                         //SPAWNA SE NÃO TIVER COMPLETADO O NUMERO DE CLIENTES E TIVER SUMIDO 1
                         if(chegouNoBalcao > 1 && client == null && clientesSpawnados2 < spawn[2]){
-                            clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 4 * Block.TILE_SIZE, 2, true,'r');
+                            clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 3 * Block.TILE_SIZE, 2, true,'r');
                             clientesSpawnados2++;
                         }
 
@@ -546,7 +545,7 @@ public class World extends CurrentLevel {
                             int num = random.nextInt(1000);
                             //se cair 1 ele spawna outro
                             if (num == 1) {
-                                entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 4 * Block.TILE_SIZE, 2, true,'r');
+                                entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 3 * Block.TILE_SIZE, 2, true,'r');
                                 clientesSpawnados2++;
                                 break;
                             }
@@ -586,38 +585,36 @@ public class World extends CurrentLevel {
 
         //CIMA DIREITA
         if(vetor[0] == 1)
-        entitiesFactory.createClient(artemis, 8.5f * Block.TILE_SIZE, 12.7f * Block.TILE_SIZE, 0, false,'r');
+            entitiesFactory.createClient(artemis, 8f * Block.TILE_SIZE, 12f * Block.TILE_SIZE, 0, false,'r');
         if(vetor[1] == 1)
-        entitiesFactory.createClient(artemis, 10.5f * Block.TILE_SIZE, 12.7f * Block.TILE_SIZE, 0, false,'l');
+            entitiesFactory.createClient(artemis, 10f * Block.TILE_SIZE, 12f * Block.TILE_SIZE, 0, false,'l');
         if(vetor[2] == 1)
-        entitiesFactory.createClient(artemis, 9.5f * Block.TILE_SIZE, 11.7f * Block.TILE_SIZE, 0, false,'u');
+            entitiesFactory.createClient(artemis, 9f * Block.TILE_SIZE, 11f * Block.TILE_SIZE, 0, false,'u');
         if(vetor[3] == 1)
-        entitiesFactory.createClient(artemis, 9.5f * Block.TILE_SIZE, 13.7f * Block.TILE_SIZE, 0, false,'d');
+            entitiesFactory.createClient(artemis, 9f * Block.TILE_SIZE, 13f * Block.TILE_SIZE, 0, false,'d');
         //CIMA ESQUERDA
         if(vetor[4] == 1)
-        entitiesFactory.createClient(artemis, 1.5f * Block.TILE_SIZE, 12.7f * Block.TILE_SIZE, 0, false,'r');
+            entitiesFactory.createClient(artemis, 1f * Block.TILE_SIZE, 12f * Block.TILE_SIZE, 0, false,'r');
         if(vetor[5] == 1)
-        entitiesFactory.createClient(artemis, 3.5f * Block.TILE_SIZE, 12.7f * Block.TILE_SIZE, 0, false,'l');
+            entitiesFactory.createClient(artemis, 3f * Block.TILE_SIZE, 12f * Block.TILE_SIZE, 0, false,'l');
         if(vetor[6] == 1)
-        entitiesFactory.createClient(artemis, 2.5f * Block.TILE_SIZE, 11.7f * Block.TILE_SIZE, 0, false,'u');
+            entitiesFactory.createClient(artemis, 2f * Block.TILE_SIZE, 11f * Block.TILE_SIZE, 0, false,'u');
         if(vetor[7] == 1)
-        entitiesFactory.createClient(artemis, 2.5f * Block.TILE_SIZE, 13.7f * Block.TILE_SIZE, 0, false,'d');
+            entitiesFactory.createClient(artemis, 2f * Block.TILE_SIZE, 13f * Block.TILE_SIZE, 0, false,'d');
 
         //BAIXO DIREITA
         if(vetor[8] == 1)
-        entitiesFactory.createClient(artemis, 8.5f * Block.TILE_SIZE, 1.3f * Block.TILE_SIZE, 0, false,'r');
+            entitiesFactory.createClient(artemis, 8f * Block.TILE_SIZE, 1f * Block.TILE_SIZE, 0, false,'r');
         if(vetor[9] == 1)
-        entitiesFactory.createClient(artemis, 10.5f * Block.TILE_SIZE, 1.3f * Block.TILE_SIZE, 0, false,'l');
-        if(vetor[10] == 1)
-        entitiesFactory.createClient(artemis, 9.5f * Block.TILE_SIZE, 0.3f * Block.TILE_SIZE, 0, false,'u');
+            entitiesFactory.createClient(artemis, 1f * Block.TILE_SIZE, 1f * Block.TILE_SIZE, 0, false,'l');
+
+
         if(vetor[11] == 1)
-        entitiesFactory.createClient(artemis, 9.5f * Block.TILE_SIZE, 2.3f * Block.TILE_SIZE, 0, false,'d');
+            entitiesFactory.createClient(artemis, 9f * Block.TILE_SIZE, 2f * Block.TILE_SIZE, 0, false,'d');
 
         //BAIXO MEIO
-        if(vetor[12] == 1)
-        entitiesFactory.createClient(artemis, 6 * Block.TILE_SIZE, 0.3f * Block.TILE_SIZE, 0, false,'u');
         if(vetor[13] == 1)
-        entitiesFactory.createClient(artemis, 6 * Block.TILE_SIZE, 2.3f * Block.TILE_SIZE, 0, false,'d');
+            entitiesFactory.createClient(artemis, 6 * Block.TILE_SIZE, 2f * Block.TILE_SIZE, 0, false,'d');
 
     }
 
