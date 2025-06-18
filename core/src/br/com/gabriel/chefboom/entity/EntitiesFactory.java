@@ -78,7 +78,7 @@ public class EntitiesFactory {
 
         return entity;
     }
-    public int createClient(World world, float x, float y, int queueId) {
+    public int createClient(World world, float x, float y, int queueId, boolean canWalk) {
         int entity = world.create();
 
         TransformComponent cTransform = mTransform.create(entity);
@@ -107,6 +107,7 @@ public class EntitiesFactory {
 
         ClientComponent cClient = mClient.create(entity);
         cClient.queueId = queueId;
+        cClient.canWalk = canWalk;
 
         // TODO - Todo item novo que adicionar, deve ser adicionado aqui
         // Define as chances para cada item
