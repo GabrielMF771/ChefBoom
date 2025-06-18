@@ -627,8 +627,8 @@ public class World extends CurrentLevel {
     public void regenerate() {
         float startX = (getWidth() / 2.5f);
         int endX = getWidth();
-        int startY = 0;
-        int endY = getHeight();
+        int startY = -1;
+        int endY = getHeight() - 1;
 
         // Define a margem interna do retângulo central de barreiras (quanto maior, menor o retângulo)
         int innerRectMargin = 5;
