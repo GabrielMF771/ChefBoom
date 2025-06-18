@@ -16,7 +16,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 
-public class PlayerControllerSystem extends IteratingSystem {
+public class Player2ControllerSystem extends IteratingSystem {
 
     private ComponentMapper<PlayerComponent> mPlayer;
 
@@ -49,10 +49,10 @@ public class PlayerControllerSystem extends IteratingSystem {
     private float dashCooldown = 0f; // Tempo de recarga do dash
     private final float DASH_COOLDOWN_TIME = 1f; // Tempo de cooldown do dash
 
-    public PlayerControllerSystem() {
+    public Player2ControllerSystem() {
         super(Aspect.all(PlayerComponent.class, RigidBodyComponent.class, CollidableComponent.class));
 
-            Gdx.input.setInputProcessor(new InputMultiplexer(new GameInputAdapter()));
+        Gdx.input.setInputProcessor(new InputMultiplexer(new Player2ControllerSystem.GameInputAdapter()));
     }
 
     @Override
@@ -134,32 +134,32 @@ public class PlayerControllerSystem extends IteratingSystem {
         }
     }
 
+
+
+
+
     private class GameInputAdapter extends InputAdapter {
 
         @Override
         public boolean keyDown(int keycode) {
             switch (keycode) {
-
-                case Input.Keys.D:
+                case Input.Keys.RIGHT:
                     moveRight = true;
                     break;
 
-
-                case Input.Keys.A:
+                case Input.Keys.LEFT:
                     moveLeft = true;
                     break;
 
-
-                case Input.Keys.W:
+                case Input.Keys.UP:
                     moveUp = true;
                     break;
 
-
-                case Input.Keys.S:
+                case Input.Keys.DOWN:
                     moveDown = true;
                     break;
-                case Input.Keys.SHIFT_LEFT:
 
+                case Input.Keys.SHIFT_RIGHT:
                     //run = true;
                     if (!isDashing && dashCooldown == 0f) {
                         // Toca o som do dash
@@ -178,14 +178,13 @@ public class PlayerControllerSystem extends IteratingSystem {
                         if (dashDirX == 0 && dashDirY == 0) dashDirY = -1;
 
                         // Normaliza o vetor para diagonal não ser mais rápido
-                        float len = (float) Math.sqrt(dashDirX * dashDirX + dashDirY * dashDirY);
+                        float len = (float)Math.sqrt(dashDirX * dashDirX + dashDirY * dashDirY);
                         dashDirX /= len;
                         dashDirY /= len;
 
                         isDashing = true;
                         dashTimeLeft = DASH_TIME;
                     }
-
                     break;
             }
             return true;
@@ -194,27 +193,23 @@ public class PlayerControllerSystem extends IteratingSystem {
         @Override
         public boolean keyUp(int keycode) {
             switch (keycode) {
-
-                case Input.Keys.D:
+                case Input.Keys.RIGHT:
                     moveRight = false;
                     break;
 
-
-                case Input.Keys.A:
+                case Input.Keys.LEFT:
                     moveLeft = false;
                     break;
 
-
-                case Input.Keys.W:
+                case Input.Keys.UP:
                     moveUp = false;
                     break;
 
-
-                case Input.Keys.S:
+                case Input.Keys.DOWN:
                     moveDown = false;
                     break;
-                case Input.Keys.SHIFT_LEFT:
 
+                case Input.Keys.SHIFT_RIGHT:
                     //run = false;
                     break;
             }
@@ -222,3 +217,5 @@ public class PlayerControllerSystem extends IteratingSystem {
         }
     }
 }
+
+
