@@ -157,14 +157,8 @@ public class NextLevelScreen extends ScreenAdapter {
                     worldX >= startButtonX && worldX <= startButtonX + startButtonWidth &&
                             worldY >= startButtonY && worldY <= startButtonY + startButtonHeight;
 
-            if (touchedStartButton) {
-                CurrentLevel.setLevel(CurrentLevel.getLevel() + 1);
-                if (CurrentLevel.getLevel() < 3) {
+            if (touchedStartButton && CurrentLevel.getLevel() < 3) {
                     ChefBoom.getInstance().setScreen(new GameScreen());
-                } else {
-                    ChefBoom.getInstance().setScreen(new MenuScreen()); // Volta para o menu se for o modo infinito
-                }
-
             }
 
             boolean touchedMenuButton =
@@ -172,12 +166,7 @@ public class NextLevelScreen extends ScreenAdapter {
                             worldY >= MenuButtonY && worldY <= MenuButtonY + MenuButtonHeight;
 
             if (touchedMenuButton) {
-                if( CurrentLevel.getLevel() == 3) {
                     ChefBoom.getInstance().setScreen(new MenuScreen());
-                } else {
-                    CurrentLevel.setLevel(CurrentLevel.getLevel() + 1);
-                    ChefBoom.getInstance().setScreen(new MenuScreen());
-                }
             }
 
 

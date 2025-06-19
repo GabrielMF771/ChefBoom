@@ -167,16 +167,16 @@ public class SelectLevelScreen extends ScreenAdapter {
         fontTitle.draw(batch, layoutTitle, textX, textY);
 
 
-            if(CurrentLevel.getLevel() >= 0) {
+            if(CurrentLevel.getMaxlevel() >= 0) {
                 batch.draw(Level1ButtonTexture, Level1ButtonX, Level1ButtonY, Level1ButtonWidth, Level1ButtonHeight);
 
-                if(CurrentLevel.getLevel() >= 1) {
+                if(CurrentLevel.getMaxlevel() >= 1) {
                     batch.draw(Level2ButtonTexture, Level2ButtonX, Level2ButtonY, Level2ButtonWidth, Level2ButtonHeight);
 
-                    if (CurrentLevel.getLevel() >= 2) {
+                    if (CurrentLevel.getMaxlevel() >= 2) {
                         batch.draw(Level3ButtonTexture, Level3ButtonX, Level3ButtonY, Level3ButtonWidth, Level3ButtonHeight);
 
-                        if (CurrentLevel.getLevel() == 3) {
+                        if (CurrentLevel.getMaxlevel() == 3) {
                             batch.draw(InfiniteLevelButtonTexture, InfiniteLevelButtonX, InfiniteLevelButtonY, InfiniteLevelButtonWidth, InfiniteLevelButtonHeight);
 
                         }else {
@@ -218,7 +218,7 @@ public class SelectLevelScreen extends ScreenAdapter {
                     worldX >= Level1ButtonX && worldX <= Level1ButtonX + Level1ButtonWidth &&
                             worldY >= Level1ButtonY && worldY <= Level1ButtonY + Level1ButtonHeight;
 
-            if (Level1Button && CurrentLevel.getLevel() >= 0) {
+            if (Level1Button && CurrentLevel.getMaxlevel() >= 0) {
                     CurrentLevel.setLevel(0);
                     ChefBoom.getInstance().setScreen(new GameScreen());
                 }
@@ -228,7 +228,7 @@ public class SelectLevelScreen extends ScreenAdapter {
                     worldX >= Level2ButtonX && worldX <= Level2ButtonX + Level2ButtonWidth &&
                             worldY >= Level2ButtonY && worldY <= Level2ButtonY + Level2ButtonHeight;
 
-            if (Level2Button && CurrentLevel.getLevel() >= 1) {
+            if (Level2Button && CurrentLevel.getMaxlevel() >= 1) {
                 CurrentLevel.setLevel(1);
                 ChefBoom.getInstance().setScreen(new GameScreen());
             }
@@ -238,7 +238,7 @@ public class SelectLevelScreen extends ScreenAdapter {
                     worldX >= Level3ButtonX && worldX <= Level3ButtonX + Level3ButtonWidth &&
                             worldY >= Level3ButtonY && worldY <= Level3ButtonY + Level3ButtonHeight;
 
-            if (Level3Button && CurrentLevel.getLevel() >= 2) {
+            if (Level3Button && CurrentLevel.getMaxlevel() >= 2) {
                 CurrentLevel.setLevel(2);
                 ChefBoom.getInstance().setScreen(new GameScreen());
             }
@@ -248,7 +248,7 @@ public class SelectLevelScreen extends ScreenAdapter {
                     worldX >= InfiniteLevelButtonX && worldX <= InfiniteLevelButtonX + InfiniteLevelButtonWidth &&
                             worldY >= InfiniteLevelButtonY && worldY <= InfiniteLevelButtonY + InfiniteLevelButtonHeight;
 
-            if (InfiniteLevelButton && CurrentLevel.getLevel() >= 3) {
+            if (InfiniteLevelButton && CurrentLevel.getMaxlevel() >= 3) {
                 CurrentLevel.setLevel(3);
                 ChefBoom.getInstance().setScreen(new GameScreen());
             }
