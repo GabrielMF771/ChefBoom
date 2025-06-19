@@ -6,13 +6,14 @@ public class CurrentLevel {
     // 1 = NIVEL 2
     // 2 = NIVEL 3
     // 3 = MODO INFINITO
-    public static int level = 3;
+    public static int level = 0;
+    public static int Maxlevel = 0;
 
     public static int getLevel() {
         return level;
     }
     public static void setLevel(int levell) {
-       if(level != 3)
+        System.out.println("NIVEL: " + levell);
         level = levell;
     }
 }

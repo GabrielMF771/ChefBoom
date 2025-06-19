@@ -225,12 +225,11 @@ public class World extends CurrentLevel {
             //NIVEL 2-----------------------------------------------------------------------------------------------------------
 
             case 1:
-
                 spawn[0] = clienteNivelFila[1][0];
                 switch (clientesSpawnados){
 
                     case 0:
-                        clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, 0, true,'r');
+                        clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 9 * Block.TILE_SIZE, 0, true,'r');
                         clientesSpawnados = 1;
                         break;
 
@@ -243,7 +242,7 @@ public class World extends CurrentLevel {
                         ClientComponent client = mClient.get(clients[0]);
                         //SPAWNA SE NÃO TIVER COMPLETADO O NUMERO DE CLIENTES E TIVER SUMIDO 1
                         if(chegouNoBalcao > 1 && client == null && clientesSpawnados < spawn[0]){
-                            clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, 0, true,'r');
+                            clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 9 * Block.TILE_SIZE, 0, true,'r');
                             clientesSpawnados++;
                         }
 
@@ -254,10 +253,10 @@ public class World extends CurrentLevel {
                         if(clientesSpawnados< spawn[0]) {
                             //cria var random
                             Random random = new Random();
-                            int num = random.nextInt(800);
+                            int num = random.nextInt(2500);
                             //se cair 1 ele spawna outro
                             if (num == 1) {
-                                entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, 0, true,'r');
+                                entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 9 * Block.TILE_SIZE, 0, true,'r');
                                 clientesSpawnados++;
                                 break;
                             }
@@ -294,7 +293,7 @@ public class World extends CurrentLevel {
                         if(clientesSpawnados1< spawn[1]) {
                             //cria var random
                             Random random = new Random();
-                            int num = random.nextInt(800);
+                            int num = random.nextInt(2500);
                             //se cair 1 ele spawna outro
                             if (num == 1) {
                                 entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, 1, true,'r');

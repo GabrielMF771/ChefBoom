@@ -40,7 +40,7 @@ public class PreloadScreen extends ScreenAdapter {
     @Override
     public void render(float delta) {
         if (Assets.manager.update()) {
-            ChefBoom.getInstance().setScreen(new MenuScreen());
+            ChefBoom.getInstance().setScreen(new SelectLevelScreen());
         } else {
             String text = "Loading...";
             layout.setText(font, text);
