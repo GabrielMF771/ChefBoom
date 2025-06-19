@@ -1,10 +1,7 @@
 package br.com.gabriel.chefboom.entity.system;
 
 import br.com.gabriel.chefboom.Config;
-import br.com.gabriel.chefboom.entity.component.CollidableComponent;
-import br.com.gabriel.chefboom.entity.component.PlayerComponent;
-import br.com.gabriel.chefboom.entity.component.RigidBodyComponent;
-import br.com.gabriel.chefboom.entity.component.SpriteComponent;
+import br.com.gabriel.chefboom.entity.component.*;
 import br.com.gabriel.chefboom.resource.Assets;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
@@ -18,7 +15,7 @@ import com.badlogic.gdx.graphics.Texture;
 
 public class Player2ControllerSystem extends IteratingSystem {
 
-    private ComponentMapper<PlayerComponent> mPlayer;
+    private ComponentMapper<PlayerComponent2> mPlayer;
 
     private ComponentMapper<SpriteComponent> mSprite;
 
@@ -50,7 +47,7 @@ public class Player2ControllerSystem extends IteratingSystem {
     private final float DASH_COOLDOWN_TIME = 1f; // Tempo de cooldown do dash
 
     public Player2ControllerSystem() {
-        super(Aspect.all(PlayerComponent.class, RigidBodyComponent.class, CollidableComponent.class));
+        super(Aspect.all(PlayerComponent2.class, RigidBodyComponent.class, CollidableComponent.class));
 
         Gdx.input.setInputProcessor(new InputMultiplexer(new Player2ControllerSystem.GameInputAdapter()));
     }
@@ -65,7 +62,7 @@ public class Player2ControllerSystem extends IteratingSystem {
 
     @Override
     protected void process(int entityId) {
-        PlayerComponent cPlayer = mPlayer.get(entityId);
+        PlayerComponent2 cPlayer = mPlayer.get(entityId);
         CollidableComponent cCollidable = mCollidable.get(entityId);
         RigidBodyComponent cRigidBody = mRigidBody.get(entityId);
         SpriteComponent cSprite = mSprite.get(entityId);
