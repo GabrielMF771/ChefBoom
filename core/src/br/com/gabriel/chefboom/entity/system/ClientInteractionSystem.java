@@ -5,6 +5,7 @@ import br.com.gabriel.chefboom.block.Block;
 import br.com.gabriel.chefboom.entity.component.*;
 import br.com.gabriel.chefboom.resource.Assets;
 import br.com.gabriel.chefboom.util.ClientUtils;
+import br.com.gabriel.chefboom.world.LevelEnded;
 import br.com.gabriel.chefboom.world.World;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
@@ -68,6 +69,9 @@ public class ClientInteractionSystem extends IteratingSystem {
                     client.inQueue = false; // Cliente não está mais na fila
                     client.explosionTimer = 0f; // Reseta o timer de explosão
                     client.explodedByServe = true; // Marca que o cliente explodiu por receber o item correto
+
+                    //AUMENTA A QUANTIDADE DE CLIENTES ATENDIDOS
+                    LevelEnded.setClientesAtendidos((LevelEnded.getClientesAtendidos() + 1 ));
 
                     // Troca o sprite para o primeiro frame da explosão
                     SpriteComponent clientSprite = mSprite.get(clientId);

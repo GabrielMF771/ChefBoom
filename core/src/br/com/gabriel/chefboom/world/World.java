@@ -51,9 +51,11 @@ public class World extends CurrentLevel {
 
     private final int player;
 
-   // private final int player2;
+   //private final int player2;
 
     private int[] clients = new int[20];
+
+    public int[] qntdTotalClientesPorFase = new int[4];
 
     private int item;
 
@@ -73,11 +75,11 @@ public class World extends CurrentLevel {
     public int chegouNoBalcao = 0;
 
 // TODO - Fazer o sistema de seleção de nível
-
     //VAI RECEBER A QUANTIDADE DE CLIENTES QUE VÃO SPAWNAR EM CADA FILA - CADA INDICE É UMA FILA
     int[] spawn = new int[3];
 
     private final EntitiesFactory entitiesFactory;
+
 
     public World(OrthographicCamera camera){
         entitiesFactory = new EntitiesFactory();
@@ -175,7 +177,15 @@ public class World extends CurrentLevel {
                 System.out.println("spawn[1]: " + spawn[1]);
                 System.out.println("spawn[2]: " + spawn[2]);
             }
+
         }
+        qntdTotalClientesPorFase[0] =   (clienteNivelFila[0][0] + clienteNivelFila[0][1] +  clienteNivelFila[0][2] );
+        qntdTotalClientesPorFase[1] =   (clienteNivelFila[1][0] + clienteNivelFila[1][1] +  clienteNivelFila[1][2] );
+        qntdTotalClientesPorFase[2] =   (clienteNivelFila[2][0] + clienteNivelFila[2][1] +  clienteNivelFila[2][2] );
+        qntdTotalClientesPorFase[3] =   (  spawn[0]  + spawn[1]  + spawn[2]);
+
+        LevelEnded.setQuantidadeClientesDaFase(qntdTotalClientesPorFase[getLevel()]);
+
     }
 
     public void setPaused(boolean paused) {
@@ -203,6 +213,9 @@ public class World extends CurrentLevel {
             //NIVEL 1------------------------------------------------------------------------------------------------------
 
             case 0:
+
+
+
                 //spawn guarda quantos bonecos spawnam na fila
                 spawn[1] = clienteNivelFila[0][1];
                 switch (clientesSpawnados){
@@ -210,6 +223,7 @@ public class World extends CurrentLevel {
                     case 0:
                         clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, 0, true,'r');
                         clientesSpawnados = 1;
+                        LevelEnded.setClientsSpawnados(1);
                         break;
 
                     default:
@@ -223,6 +237,7 @@ public class World extends CurrentLevel {
                         if(chegouNoBalcao > 1 && client == null && clientesSpawnados < spawn[1]){
                             clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, 0, true,'r');
                             clientesSpawnados++;
+                            LevelEnded.setClientsSpawnados(LevelEnded.getClientsSpawnados() + 1);
                         }
 
                         if(client != null && client.inQueue) {
@@ -237,6 +252,7 @@ public class World extends CurrentLevel {
                             if (num == 1) {
                                 entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, 0, true,'r');
                                 clientesSpawnados++;
+                                LevelEnded.setClientsSpawnados(LevelEnded.getClientsSpawnados() + 1);
                                 break;
                             }
                         }
@@ -248,12 +264,16 @@ public class World extends CurrentLevel {
             //NIVEL 2-----------------------------------------------------------------------------------------------------------
 
             case 1:
+
+
+
                 spawn[0] = clienteNivelFila[1][0];
                 switch (clientesSpawnados){
 
                     case 0:
                         clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 9 * Block.TILE_SIZE, 0, true,'r');
                         clientesSpawnados = 1;
+                        LevelEnded.setClientsSpawnados(1);
                         break;
 
                     default:
@@ -267,6 +287,7 @@ public class World extends CurrentLevel {
                         if(chegouNoBalcao > 1 && client == null && clientesSpawnados < spawn[0]){
                             clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 9 * Block.TILE_SIZE, 0, true,'r');
                             clientesSpawnados++;
+                            LevelEnded.setClientsSpawnados(LevelEnded.getClientsSpawnados() + 1);
                         }
 
                         if(client != null && client.inQueue) {
@@ -281,6 +302,7 @@ public class World extends CurrentLevel {
                             if (num == 1) {
                                 entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 9 * Block.TILE_SIZE, 0, true,'r');
                                 clientesSpawnados++;
+                                LevelEnded.setClientsSpawnados(LevelEnded.getClientsSpawnados() + 1);
                                 break;
                             }
                         }
@@ -294,6 +316,7 @@ public class World extends CurrentLevel {
                     case 0:
                         clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, 1, true,'r');
                         clientesSpawnados1 = 1;
+                        LevelEnded.setClientsSpawnados(1);
                         break;
 
                     default:
@@ -307,6 +330,7 @@ public class World extends CurrentLevel {
                         if(chegouNoBalcao > 1 && client == null && clientesSpawnados1 < spawn[1]){
                             clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, 1, true,'r');
                             clientesSpawnados1++;
+                            LevelEnded.setClientsSpawnados(LevelEnded.getClientsSpawnados() + 1);
                         }
 
                         if(client != null && client.inQueue) {
@@ -321,6 +345,7 @@ public class World extends CurrentLevel {
                             if (num == 1) {
                                 entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, 1, true,'r');
                                 clientesSpawnados1++;
+                                LevelEnded.setClientsSpawnados(LevelEnded.getClientsSpawnados() + 1);
                                 break;
                             }
                         }
@@ -334,12 +359,15 @@ public class World extends CurrentLevel {
 
             case 2:
 
+
+
                 spawn[0] = clienteNivelFila[2][0];
                 switch (clientesSpawnados){
 
                     case 0:
                         clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 9 * Block.TILE_SIZE, 0, true,'r');
                         clientesSpawnados = 1;
+                        LevelEnded.setClientsSpawnados( 1);
                         break;
 
                     default:
@@ -353,6 +381,7 @@ public class World extends CurrentLevel {
                         if(chegouNoBalcao > 1 && client == null && clientesSpawnados < spawn[0]){
                             clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 9 * Block.TILE_SIZE, 0, true,'r');
                             clientesSpawnados++;
+                            LevelEnded.setClientsSpawnados(LevelEnded.getClientsSpawnados() + 1);
                         }
 
                         if(client != null && client.inQueue) {
@@ -367,6 +396,7 @@ public class World extends CurrentLevel {
                             if (num == 1) {
                                 entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 9 * Block.TILE_SIZE, 0, true,'r');
                                 clientesSpawnados++;
+                                LevelEnded.setClientsSpawnados(LevelEnded.getClientsSpawnados() + 1);
                                 break;
                             }
                         }
@@ -380,6 +410,7 @@ public class World extends CurrentLevel {
                     case 0:
                         clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, 1, true,'r');
                         clientesSpawnados1 = 1;
+                        LevelEnded.setClientsSpawnados( 1);
                         break;
 
                     default:
@@ -393,6 +424,7 @@ public class World extends CurrentLevel {
                         if(chegouNoBalcao > 1 && client == null && clientesSpawnados1 < spawn[1]){
                             clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, 1, true,'r');
                             clientesSpawnados1++;
+                            LevelEnded.setClientsSpawnados(LevelEnded.getClientsSpawnados() + 1);
                         }
 
                         if(client != null && client.inQueue) {
@@ -407,6 +439,7 @@ public class World extends CurrentLevel {
                             if (num == 1) {
                                 entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, 1, true,'r');
                                 clientesSpawnados1++;
+                                LevelEnded.setClientsSpawnados(LevelEnded.getClientsSpawnados() + 1);
                                 break;
                             }
                         }
@@ -420,6 +453,7 @@ public class World extends CurrentLevel {
                     case 0:
                         clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 3 * Block.TILE_SIZE, 2, true,'r');
                         clientesSpawnados2 = 1;
+                        LevelEnded.setClientsSpawnados( 1);
                         break;
 
                     default:
@@ -433,6 +467,7 @@ public class World extends CurrentLevel {
                         if(chegouNoBalcao > 1 && client == null && clientesSpawnados2 < spawn[2]){
                             clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 3 * Block.TILE_SIZE, 2, true,'r');
                             clientesSpawnados2++;
+                            LevelEnded.setClientsSpawnados(LevelEnded.getClientsSpawnados() + 1);
                         }
 
                         if(client != null && client.inQueue) {
@@ -447,6 +482,7 @@ public class World extends CurrentLevel {
                             if (num == 1) {
                                 entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 3 * Block.TILE_SIZE, 2, true,'r');
                                 clientesSpawnados2++;
+                                LevelEnded.setClientsSpawnados(LevelEnded.getClientsSpawnados() + 1);
                                 break;
                             }
                         }
@@ -459,11 +495,14 @@ public class World extends CurrentLevel {
 
             case 3:
 
+
+
                 switch (clientesSpawnados){
 
                     case 0:
                         clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 9 * Block.TILE_SIZE, 0, true,'r');
                         clientesSpawnados = 1;
+                        LevelEnded.setClientsSpawnados(1);
                         break;
 
                     default:
@@ -477,6 +516,7 @@ public class World extends CurrentLevel {
                         if(chegouNoBalcao > 1 && client == null && clientesSpawnados < spawn[0]){
                             clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 9 * Block.TILE_SIZE, 0, true,'r');
                             clientesSpawnados++;
+                            LevelEnded.setClientsSpawnados(LevelEnded.getClientsSpawnados() + 1);
                         }
 
                         if(client != null && client.inQueue) {
@@ -491,6 +531,7 @@ public class World extends CurrentLevel {
                             if (num == 1) {
                                 entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 9 * Block.TILE_SIZE, 0, true,'r');
                                 clientesSpawnados++;
+                                LevelEnded.setClientsSpawnados(LevelEnded.getClientsSpawnados() + 1);
                                 break;
                             }
                         }
@@ -503,6 +544,7 @@ public class World extends CurrentLevel {
                     case 0:
                         clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, 1, true,'r');
                         clientesSpawnados1 = 1;
+                        LevelEnded.setClientsSpawnados( 1);
                         break;
 
                     default:
@@ -516,6 +558,7 @@ public class World extends CurrentLevel {
                         if(chegouNoBalcao > 1 && client == null && clientesSpawnados1 < spawn[1]){
                             clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, 1, true,'r');
                             clientesSpawnados1++;
+                            LevelEnded.setClientsSpawnados(LevelEnded.getClientsSpawnados() + 1);
                         }
 
                         if(client != null && client.inQueue) {
@@ -530,6 +573,7 @@ public class World extends CurrentLevel {
                             if (num == 1) {
                                 entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, 1, true,'r');
                                 clientesSpawnados1++;
+                                LevelEnded.setClientsSpawnados(LevelEnded.getClientsSpawnados() + 1);
                                 break;
                             }
                         }
@@ -542,6 +586,7 @@ public class World extends CurrentLevel {
                     case 0:
                         clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 3 * Block.TILE_SIZE, 2, true,'r');
                         clientesSpawnados2 = 1;
+                        LevelEnded.setClientsSpawnados( 1);
                         break;
 
                     default:
@@ -555,6 +600,7 @@ public class World extends CurrentLevel {
                         if(chegouNoBalcao > 1 && client == null && clientesSpawnados2 < spawn[2]){
                             clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 3 * Block.TILE_SIZE, 2, true,'r');
                             clientesSpawnados2++;
+                            LevelEnded.setClientsSpawnados(LevelEnded.getClientsSpawnados() + 1);
                         }
 
                         if(client != null && client.inQueue) {
@@ -569,6 +615,7 @@ public class World extends CurrentLevel {
                             if (num == 1) {
                                 entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 3 * Block.TILE_SIZE, 2, true,'r');
                                 clientesSpawnados2++;
+                                LevelEnded.setClientsSpawnados(LevelEnded.getClientsSpawnados() + 1);
                                 break;
                             }
                         }

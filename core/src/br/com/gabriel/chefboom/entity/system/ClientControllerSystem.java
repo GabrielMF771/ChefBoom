@@ -14,6 +14,7 @@ import com.artemis.utils.IntBag;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
+import br.com.gabriel.chefboom.world.LevelEnded;
 
 public class ClientControllerSystem extends IteratingSystem {
 
@@ -26,6 +27,7 @@ public class ClientControllerSystem extends IteratingSystem {
     private boolean moveRight;
     private Texture explosion01;
     private Texture explosion02;
+
 
     private int clientsExplodedThisFrame = 0;
 
@@ -111,6 +113,7 @@ public class ClientControllerSystem extends IteratingSystem {
                     ClientComponent cClient = mClient.get(id);
                     if (cClient != null && cClient.isExploding && !cClient.explodedByServe) {
                         clientsThatHurt++;
+                        LevelEnded.setClientesAtendidos((LevelEnded.getClientesAtendidos() + 1 ));
                     }
                 }
 
@@ -120,9 +123,9 @@ public class ClientControllerSystem extends IteratingSystem {
                     if (player.hp == 0) {
                         gameMusic.stop();
                         ChefBoom.getInstance().setScreen(new YouLoseScreen());
-
                         // TODO - Fazer a lógica de detectar se o nivel foi completado
-                        //ChefBoom.getInstance().setScreen(new NextLevelScreen());
+
+
                     }
                 }
             }
