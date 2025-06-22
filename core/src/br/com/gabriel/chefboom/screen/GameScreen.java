@@ -82,7 +82,7 @@ public class GameScreen extends ScreenAdapter {
 
 
     @Override
-    // FUNÇÃO PRA ATUALIZAR O TAMANHO DA TELA
+    // FUNÇÃO PRA ATUALIZAR O TAMANHO DA TELAA
     public void resize(int width, int height) {
         camera.update();
         batch.setProjectionMatrix(camera.combined);

@@ -184,7 +184,7 @@ public class NextLevelScreen extends ScreenAdapter {
         startButtonTexture.dispose();
     }
 
-
+    //SERVE PRA TESTAR SE A FASE FOI ALTERADA
     public static int getPassouDeNivel(){
         return PassouDeNivel;
     }

@@ -96,6 +96,7 @@ public class LevelEnded extends CurrentLevel {
 
     public static void setVidasRestantes(int vidasRestantes){
         VidasRestantes = vidasRestantes;
+
     }
 
     public static int getVidasRestantes(){
