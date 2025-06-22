@@ -105,7 +105,7 @@ public class SpriteRenderSystem extends IteratingSystem {
                 } else if (cClient.timeLeft < 7f) {
                     timerFont.setColor(1, 1, 0, 1); // amarelo
                 } else {
-                    timerFont.setColor(1, 1, 1, 1); // branco
+                    timerFont.setColor(0, 0, 0, 1); // preto
                 }
 
                 timerFont.draw(batch, timeText, blockCenterX, blockCenterY + Block.TILE_SIZE);
