@@ -16,43 +16,49 @@ public class LevelEnded extends CurrentLevel {
     public static int VidasRestantes = 3;
 
     public static void levelEndedCheck(){
-        if(QuantidadeClientesDaFase == ClientsSpawnados)  {
+
+        //TESTA SE PASSOU DE FASE PRA ZERAR OS CLIENTES SPAWNADOS
+        if(NextLevelScreen.getPassouDeNivel() == 1 || getVidasRestantes() == 0 ){
+            System.out.println("VALORES ZERADOS");
+            setClientsSpawnados(0);
+            setClientesAtendidos(0);
+            setVidasRestantes(3);
+            NextLevelScreen.setPassouDeNivel(0);
+        }
+
+        if(QuantidadeClientesDaFase <= ClientsSpawnados)  {
 
             //TESTA SE JA ATENDEU TODOS
-            if(ClientsSpawnados == ClientesAtendidos){
+            if(QuantidadeClientesDaFase == ClientesAtendidos){
                 ChefBoom.getInstance().setScreen(new NextLevelScreen());
                 setLevel(getLevel() + 1);
 
             }
 
+            //CONSEGUI FAZER SEM O CONTADOR, MAS É BOM DEIXAR ELE COMENTADO AI
+
             //TESTA SE FALTA 1(SO ENTRA 1 VEZ)
-            if(ClientsSpawnados == (ClientesAtendidos +1)){
+           /* if(QuantidadeClientesDaFase == (ClientesAtendidos +1)){
                 NivelAntesDoContador = getLevel();
                 if(!ContadorIniciou){
 
                     ContadorIniciou = true;
                     System.out.println("CONTADOR INICIOU");
+
                     Timer.schedule(new Timer.Task() {
                         @Override
                         public void run() {
                             if(NivelAntesDoContador == getLevel()) {
                                 ChefBoom.getInstance().setScreen(new NextLevelScreen());
+                                setLevel(getLevel() + 1);
                             }
                         }
                     }, 40);
 
                 }
-            }
 
-        }
+           }*/
 
-        //TESTA SE PASSOU DE FASE PRA ZERAR OS CLIENTES SPAWNADOS
-        if(NivelAntesDoContador == getLevel() - 1 || getVidasRestantes() == 0 ){
-            System.out.println("VALORES ZERADOS");
-            setClientsSpawnados(0);
-            setClientesAtendidos(0);
-            setVidasRestantes(3);
-            NivelAntesDoContador = getLevel();
         }
 
     }

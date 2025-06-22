@@ -43,6 +43,8 @@ public class NextLevelScreen extends ScreenAdapter {
 
     protected World world;
 
+    public static int PassouDeNivel;
+
     @Override
     public void show() {
         camera = new OrthographicCamera();
@@ -159,6 +161,7 @@ public class NextLevelScreen extends ScreenAdapter {
 
             if (touchedStartButton && CurrentLevel.getLevel() < 3) {
                     ChefBoom.getInstance().setScreen(new GameScreen());
+                    setPassouDeNivel(1);
             }
 
             boolean touchedMenuButton =
@@ -180,4 +183,14 @@ public class NextLevelScreen extends ScreenAdapter {
         fontTitle.dispose();
         startButtonTexture.dispose();
     }
+
+
+    public static int getPassouDeNivel(){
+        return PassouDeNivel;
+    }
+    public static void setPassouDeNivel(int passouDeNivel){
+        PassouDeNivel = passouDeNivel;
+    }
+
 }
+
