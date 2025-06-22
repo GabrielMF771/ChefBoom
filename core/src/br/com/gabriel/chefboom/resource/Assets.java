@@ -48,6 +48,12 @@ public class Assets {
     @Asset public static final AssetDescriptor<Texture> iniciarBotao = new AssetDescriptor<>("menu/IniciarBotao.png", Texture.class);
     @Asset public static final AssetDescriptor<Texture> iniciarProximaFase = new AssetDescriptor<>("menu/Proximafase.png", Texture.class);
     @Asset public static final AssetDescriptor<Texture> TentarNovamente = new AssetDescriptor<>("menu/Tentarnovamente.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> Fase1 = new AssetDescriptor<>("menu/FASE1.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> Fase2 = new AssetDescriptor<>("menu/FASE2.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> Fase3 = new AssetDescriptor<>("menu/FASE3.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> ModoInfinito = new AssetDescriptor<>("menu/INFINITO.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> VoltarProMenu = new AssetDescriptor<>("menu/VOLTAR PRO MENU.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> Bloqueado = new AssetDescriptor<>("menu/Bloqueado.png", Texture.class);
 
 
     // TEXTURAS DOS ITENS

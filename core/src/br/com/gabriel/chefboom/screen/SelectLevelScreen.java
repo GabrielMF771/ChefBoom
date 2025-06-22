@@ -74,18 +74,18 @@ public class SelectLevelScreen extends ScreenAdapter {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Roboto-Bold.ttf"));
         FreeTypeFontParameter parameter = new FreeTypeFontParameter();
         parameter.size = 80; // ajuste o tamanho para cobrir a área do título (ajuste conforme necessário)
-        parameter.color = Color.YELLOW;
+        parameter.color = Color.WHITE;
         fontTitle = generator.generateFont(parameter);
         generator.dispose();
 
         layoutTitle = new GlyphLayout();
 
-        LevelLockedButtonTexture = Assets.manager.get(Assets.iniciarProximaFase);
-        Level1ButtonTexture = Assets.manager.get(Assets.iniciarBotao);
-        Level2ButtonTexture = Assets.manager.get(Assets.iniciarBotao);
-        Level3ButtonTexture = Assets.manager.get(Assets.iniciarBotao);
-        InfiniteLevelButtonTexture = Assets.manager.get(Assets.iniciarBotao);
-        MenuButtonTexture = Assets.manager.get(Assets.iniciarProximaFase);
+        LevelLockedButtonTexture = Assets.manager.get(Assets.Bloqueado);
+        Level1ButtonTexture = Assets.manager.get(Assets.Fase1);
+        Level2ButtonTexture = Assets.manager.get(Assets.Fase2);
+        Level3ButtonTexture = Assets.manager.get(Assets.Fase3);
+        InfiniteLevelButtonTexture = Assets.manager.get(Assets.ModoInfinito);
+        MenuButtonTexture = Assets.manager.get(Assets.VoltarProMenu);
 
         calculateDimensionsAndPositions();
 

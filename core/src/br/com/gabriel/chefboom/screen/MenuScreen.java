@@ -128,7 +128,7 @@ public class MenuScreen extends ScreenAdapter {
                 fadeAlpha = 1f;
                 fadingOut = false;
                 if (startGameAfterFade) {
-                    ChefBoom.getInstance().setScreen(new GameScreen());
+                    ChefBoom.getInstance().setScreen(new SelectLevelScreen());
                 }
             }
         }

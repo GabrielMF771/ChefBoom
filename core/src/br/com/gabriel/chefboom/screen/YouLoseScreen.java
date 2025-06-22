@@ -29,10 +29,12 @@ public class YouLoseScreen extends ScreenAdapter {
     private BitmapFont fontTitle;  // fonte para o título
     private GlyphLayout layoutTitle;
 
-    private com.badlogic.gdx.graphics.Texture TryAgainTexture;
+    private com.badlogic.gdx.graphics.Texture TryAgainTexture, BackToMenuTexture;
 
     private float titleX, titleY, titleWidth, titleHeight;
-    private float startButtonX, startButtonY, startButtonWidth, startButtonHeight;
+    private float TryAgainButtonX, TryAgainButtonY, TryAgainButtonWidth, TryAgainButtonHeight;
+    private float MenuButtonX, MenuButtonY, MenuButtonWidth, MenuButtonHeight;
+
 
     private final Sound gameoverSound = Assets.manager.get(Assets.gameoverSound);
 
@@ -55,6 +57,7 @@ public class YouLoseScreen extends ScreenAdapter {
         layoutTitle = new GlyphLayout();
 
         TryAgainTexture = Assets.manager.get(Assets.TentarNovamente);
+        BackToMenuTexture = Assets.manager.get(Assets.VoltarProMenu);
 
         calculateDimensionsAndPositions();
 
@@ -70,11 +73,19 @@ public class YouLoseScreen extends ScreenAdapter {
         titleX = (WORLD_WIDTH - titleWidth) / 2.0f;
         titleY = WORLD_HEIGHT * 0.5f;
 
-        startButtonWidth = WORLD_WIDTH / 6.0f;
-        startButtonHeight = WORLD_HEIGHT / 8.0f;
+        TryAgainButtonWidth = WORLD_WIDTH / 6.0f;
+        TryAgainButtonHeight = WORLD_HEIGHT / 8.0f;
 
-        startButtonX = (WORLD_WIDTH - startButtonWidth) / 2.0f;
-        startButtonY = WORLD_HEIGHT * 0.3f;
+        TryAgainButtonX = (WORLD_WIDTH - TryAgainButtonWidth) / 2.0f;
+        TryAgainButtonY = WORLD_HEIGHT * 0.45f;
+
+
+        MenuButtonWidth = WORLD_WIDTH / 6.0f;
+        MenuButtonHeight = WORLD_HEIGHT / 8.0f;
+
+        MenuButtonX = (WORLD_WIDTH - TryAgainButtonWidth) / 2.0f;
+        MenuButtonY = WORLD_HEIGHT * 0.25f;
+
     }
 
     @Override
@@ -109,7 +120,8 @@ public class YouLoseScreen extends ScreenAdapter {
         fontTitle.draw(batch, layoutTitle, textX, textY);
 
         // Desenha o botão iniciar normalmente
-        batch.draw(TryAgainTexture, startButtonX, startButtonY, startButtonWidth, startButtonHeight);
+        batch.draw(TryAgainTexture, TryAgainButtonX, TryAgainButtonY, TryAgainButtonWidth, TryAgainButtonHeight);
+        batch.draw(BackToMenuTexture,MenuButtonX, MenuButtonY, MenuButtonWidth, MenuButtonHeight);
 
         batch.end();
     }
@@ -126,13 +138,23 @@ public class YouLoseScreen extends ScreenAdapter {
             float worldX = touchPos.x;
             float worldY = touchPos.y;
 
-            boolean touchedStartButton =
-                    worldX >= startButtonX && worldX <= startButtonX + startButtonWidth &&
-                            worldY >= startButtonY && worldY <= startButtonY + startButtonHeight;
+            boolean touchedTryAgainButton =
+                    worldX >= TryAgainButtonX && worldX <= TryAgainButtonX + TryAgainButtonWidth &&
+                            worldY >= TryAgainButtonY && worldY <= TryAgainButtonY + TryAgainButtonHeight;
 
-            if (touchedStartButton) {
+            if (touchedTryAgainButton) {
                 ChefBoom.getInstance().setScreen(new GameScreen());
             }
+
+            boolean touchedMenuButton =
+                    worldX >= MenuButtonX && worldX <= MenuButtonX + MenuButtonWidth &&
+                            worldY >= MenuButtonY && worldY <= MenuButtonY + MenuButtonHeight;
+
+            if (touchedMenuButton) {
+                ChefBoom.getInstance().setScreen(new MenuScreen());
+            }
+
+
         }
     }
 

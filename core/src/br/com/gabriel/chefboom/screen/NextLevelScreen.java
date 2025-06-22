@@ -34,7 +34,7 @@ public class NextLevelScreen extends ScreenAdapter {
     private BitmapFont fontTitle;  // fonte para o título
     private GlyphLayout layoutTitle;
 
-    private com.badlogic.gdx.graphics.Texture startButtonTexture;
+    private com.badlogic.gdx.graphics.Texture MenuButtonTexture;
     private com.badlogic.gdx.graphics.Texture NextLevelTexture;
 
     private float titleX, titleY, titleWidth, titleHeight;
@@ -73,7 +73,7 @@ public class NextLevelScreen extends ScreenAdapter {
 
         layoutTitle = new GlyphLayout();
 
-        startButtonTexture = Assets.manager.get(Assets.iniciarBotao);
+        MenuButtonTexture = Assets.manager.get(Assets.VoltarProMenu);
         NextLevelTexture = Assets.manager.get(Assets.iniciarProximaFase);
 
         calculateDimensionsAndPositions();
@@ -86,7 +86,7 @@ public class NextLevelScreen extends ScreenAdapter {
         titleHeight = WORLD_HEIGHT / 3.5f;
 
         titleX = (WORLD_WIDTH - titleWidth) / 2.0f;
-        titleY = WORLD_HEIGHT * 0.62f;
+        titleY = WORLD_HEIGHT * 0.5f;
 
         startButtonWidth = WORLD_WIDTH / 6.0f;
         startButtonHeight = WORLD_HEIGHT / 8.0f;
@@ -97,7 +97,7 @@ public class NextLevelScreen extends ScreenAdapter {
         MenuButtonWidth = WORLD_WIDTH / 6.0f;
         MenuButtonHeight = WORLD_HEIGHT / 8.0f;
 
-        MenuButtonX = (WORLD_WIDTH - startButtonWidth) / 2.0f;
+        MenuButtonX = (WORLD_WIDTH - MenuButtonWidth) / 2.0f;
         MenuButtonY = WORLD_HEIGHT * 0.25f;
 
 
@@ -136,9 +136,9 @@ public class NextLevelScreen extends ScreenAdapter {
         // Desenha o botão iniciar
         if (CurrentLevel.getLevel() < 3){
             batch.draw(NextLevelTexture, startButtonX, startButtonY, startButtonWidth, startButtonHeight);
-            batch.draw(startButtonTexture, MenuButtonX, MenuButtonY, MenuButtonWidth, MenuButtonHeight);
+            batch.draw(MenuButtonTexture, MenuButtonX, MenuButtonY, MenuButtonWidth, MenuButtonHeight);
         } else {
-            batch.draw(startButtonTexture, startButtonX, startButtonY - (MenuButtonY / 2), startButtonWidth, startButtonHeight);
+            batch.draw(MenuButtonTexture, startButtonX, startButtonY - (MenuButtonY / 2), startButtonWidth, startButtonHeight);
         }
 
         batch.end();
@@ -160,8 +160,8 @@ public class NextLevelScreen extends ScreenAdapter {
                             worldY >= startButtonY && worldY <= startButtonY + startButtonHeight;
 
             if (touchedStartButton && CurrentLevel.getLevel() < 3) {
-                    ChefBoom.getInstance().setScreen(new GameScreen());
-                    setPassouDeNivel(1);
+                ChefBoom.getInstance().setScreen(new GameScreen());
+                setPassouDeNivel(1);
             }
 
             boolean touchedMenuButton =
@@ -169,7 +169,7 @@ public class NextLevelScreen extends ScreenAdapter {
                             worldY >= MenuButtonY && worldY <= MenuButtonY + MenuButtonHeight;
 
             if (touchedMenuButton) {
-                    ChefBoom.getInstance().setScreen(new MenuScreen());
+                ChefBoom.getInstance().setScreen(new MenuScreen());
             }
 
 
@@ -181,7 +181,7 @@ public class NextLevelScreen extends ScreenAdapter {
     public void dispose() {
         batch.dispose();
         fontTitle.dispose();
-        startButtonTexture.dispose();
+        MenuButtonTexture.dispose();
     }
 
     //SERVE PRA TESTAR SE A FASE FOI ALTERADA

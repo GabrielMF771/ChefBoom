@@ -6,8 +6,8 @@ public class CurrentLevel {
     // 1 = NIVEL 2
     // 2 = NIVEL 3
     // 3 = MODO INFINITO
-    public static int level = 0;
-    public static int Maxlevel = 0;
+    public static int level = 2;
+    public static int Maxlevel = 2;
 
     public static int getMaxlevel(){
         return Maxlevel;
