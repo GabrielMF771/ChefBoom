@@ -24,7 +24,4 @@ public class ClientComponent extends Component {
     public float explosionTimer = 0f;
 
     public boolean explodedByServe = false;
-
-
-
 }

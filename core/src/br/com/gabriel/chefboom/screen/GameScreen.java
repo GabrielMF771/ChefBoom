@@ -131,18 +131,6 @@ public class GameScreen extends ScreenAdapter {
                     world.getEntityTrackerWindow().setVisible(!world.getEntityTrackerWindow().isVisible());
                 }
             }
-
-            /* TODO - TIRAR DEPOIS
-            if (Gdx.app.getInput().isTouched()) {
-                screenCordinate.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-
-                camera.unproject(screenCordinate);
-                world.getArtemis().getEntity(world.getPlayer()).getComponent(TransformComponent.class).position.set(screenCordinate.x, screenCordinate.y);
-                world.getArtemis().getEntity(world.getPlayer()).getComponent(RigidBodyComponent.class).velocity.set(Vector2.Zero);
-
-            }
-             */
-
         }
     }
 

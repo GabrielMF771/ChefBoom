@@ -9,7 +9,10 @@ import com.badlogic.gdx.graphics.Texture;
 import net.dermetfan.gdx.assets.AnnotationAssetManager;
 import net.dermetfan.gdx.assets.AnnotationAssetManager.Asset;
 
+
 public class Assets {
+
+    private static Texture pixelTexture;
 
     public static final AnnotationAssetManager manager = new AnnotationAssetManager(new InternalFileHandleResolver());
 
@@ -45,15 +48,15 @@ public class Assets {
     @Asset public static final AssetDescriptor<Texture> heart = new AssetDescriptor<Texture>("hud/heart.png", Texture.class);
 
     // TEXTURAS DO MENU
-    @Asset public static final AssetDescriptor<Texture> iniciarBotao = new AssetDescriptor<>("menu/IniciarBotao.png", Texture.class);
-    @Asset public static final AssetDescriptor<Texture> iniciarProximaFase = new AssetDescriptor<>("menu/Proximafase.png", Texture.class);
-    @Asset public static final AssetDescriptor<Texture> TentarNovamente = new AssetDescriptor<>("menu/Tentarnovamente.png", Texture.class);
-    @Asset public static final AssetDescriptor<Texture> Fase1 = new AssetDescriptor<>("menu/FASE1.png", Texture.class);
-    @Asset public static final AssetDescriptor<Texture> Fase2 = new AssetDescriptor<>("menu/FASE2.png", Texture.class);
-    @Asset public static final AssetDescriptor<Texture> Fase3 = new AssetDescriptor<>("menu/FASE3.png", Texture.class);
-    @Asset public static final AssetDescriptor<Texture> ModoInfinito = new AssetDescriptor<>("menu/INFINITO.png", Texture.class);
-    @Asset public static final AssetDescriptor<Texture> VoltarProMenu = new AssetDescriptor<>("menu/VOLTAR PRO MENU.png", Texture.class);
-    @Asset public static final AssetDescriptor<Texture> Bloqueado = new AssetDescriptor<>("menu/Bloqueado.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> botaoIniciar = new AssetDescriptor<>("menu/IniciarBotao.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> botaoProximaFase = new AssetDescriptor<>("menu/Proximafase.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> botaoTentarNovamente = new AssetDescriptor<>("menu/Tentarnovamente.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> botaoFase1 = new AssetDescriptor<>("menu/FASE1.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> botaoFase2 = new AssetDescriptor<>("menu/FASE2.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> botaoFase3 = new AssetDescriptor<>("menu/FASE3.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> botaoModoInfinito = new AssetDescriptor<>("menu/INFINITO.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> botaoVoltarProMenu = new AssetDescriptor<>("menu/VOLTAR PRO MENU.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> botaoBloqueado = new AssetDescriptor<>("menu/Bloqueado.png", Texture.class);
 
 
     // TEXTURAS DOS ITENS
@@ -75,6 +78,19 @@ public class Assets {
     @Asset public static final AssetDescriptor<Sound> gameoverSound = new AssetDescriptor<>("sound/youlose.mp3", Sound.class);
     @Asset public static final AssetDescriptor<Sound> wrongSound = new AssetDescriptor<>("sound/wrong.mp3", Sound.class);
     @Asset public static final AssetDescriptor<Sound> dashSound = new AssetDescriptor<>("sound/dash.mp3", Sound.class);
+
+    public static Texture pixel() {
+        if (pixelTexture == null) {
+            com.badlogic.gdx.graphics.Pixmap pixmap =
+                    new com.badlogic.gdx.graphics.Pixmap(1, 1, com.badlogic.gdx.graphics.Pixmap.Format.RGBA8888);
+            pixmap.setColor(1, 1, 1, 1); // Branco
+            pixmap.fill();
+            pixelTexture = new Texture(pixmap);
+            pixmap.dispose();
+        }
+        return pixelTexture;
+    }
+
 
     public static void load(){
         Texture.setAssetManager(manager);

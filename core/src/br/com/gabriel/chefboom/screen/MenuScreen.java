@@ -49,20 +49,19 @@ public class MenuScreen extends ScreenAdapter {
         // Inicializa a fonte do título usando FreeTypeFontGenerator
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Roboto-Bold.ttf"));
         FreeTypeFontParameter parameter = new FreeTypeFontParameter();
-        parameter.size = 80; // ajuste o tamanho para cobrir a área do título (ajuste conforme necessário)
+        parameter.size = 80;
         parameter.color = Color.WHITE;
         fontTitle = generator.generateFont(parameter);
         generator.dispose();
 
         layoutTitle = new GlyphLayout();
 
-        startButtonTexture = Assets.manager.get(Assets.iniciarBotao);
+        startButtonTexture = Assets.manager.get(Assets.botaoIniciar);
 
         calculateDimensionsAndPositions();
     }
 
     private void calculateDimensionsAndPositions() {
-        // Mesmas dimensões que usava para o título imagem
         titleWidth = WORLD_WIDTH / 2.5f;
         titleHeight = WORLD_HEIGHT / 3.5f;
 
@@ -87,7 +86,6 @@ public class MenuScreen extends ScreenAdapter {
     public void render(float delta) {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             Gdx.app.exit();
-
         }
 
         handleInput();

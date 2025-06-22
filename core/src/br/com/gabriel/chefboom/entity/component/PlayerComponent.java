@@ -7,8 +7,9 @@ public class PlayerComponent extends Component {
 
     public boolean canWalk = true;
 
-    public float walkSpeed = 300f;
-    //SE MEXER NA VIDA, TEM Q MEXER NO PARAMETRO DA LEVELENDED (VidasRestantes)
+    public float walkSpeed = 150f;
+
+    //TODO - SE MEXER NA VIDA, TEM Q MEXER NO PARAMETRO DA LEVELENDED (VidasRestantes)
     public int hp = 3;
 
     public Vector2 position = new Vector2();

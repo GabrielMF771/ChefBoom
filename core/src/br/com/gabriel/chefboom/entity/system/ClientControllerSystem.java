@@ -56,7 +56,6 @@ public class ClientControllerSystem extends IteratingSystem {
     @Override
     protected void process(int entityId) {
         ClientComponent cClient = mClient.get(entityId);
-        CollidableComponent cCollidable = mCollidable.get(entityId);
         RigidBodyComponent cRigidBody = mRigidBody.get(entityId);
         SpriteComponent cSprite = mSprite.get(entityId);
 
@@ -124,9 +123,6 @@ public class ClientControllerSystem extends IteratingSystem {
                     if (player.hp == 0) {
                         gameMusic.stop();
                         ChefBoom.getInstance().setScreen(new YouLoseScreen());
-                        // TODO - Fazer a lógica de detectar se o nivel foi completado
-
-
                     }
                 }
             }

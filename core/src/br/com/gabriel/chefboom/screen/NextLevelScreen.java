@@ -66,15 +66,15 @@ public class NextLevelScreen extends ScreenAdapter {
         // Inicializa a fonte do título usando FreeTypeFontGenerator
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Roboto-Bold.ttf"));
         FreeTypeFontParameter parameter = new FreeTypeFontParameter();
-        parameter.size = 80; // ajuste o tamanho para cobrir a área do título (ajuste conforme necessário)
+        parameter.size = 80;
         parameter.color = Color.WHITE;
         fontTitle = generator.generateFont(parameter);
         generator.dispose();
 
         layoutTitle = new GlyphLayout();
 
-        MenuButtonTexture = Assets.manager.get(Assets.VoltarProMenu);
-        NextLevelTexture = Assets.manager.get(Assets.iniciarProximaFase);
+        MenuButtonTexture = Assets.manager.get(Assets.botaoVoltarProMenu);
+        NextLevelTexture = Assets.manager.get(Assets.botaoProximaFase);
 
         calculateDimensionsAndPositions();
 

@@ -14,6 +14,10 @@ public class ChefBoom extends Game {
 	 * Fazer uma tela de pause com as configurações do jogo
 	 * Remover o DEBUG quando for publicar o jogo
 	 * Fazer o contador de FPS quando o DEBUG estiver ativo
+	 * Ajustar a música para pausar quando ganhar o jogo
+	 * Ajustar a música para pausar quando perder o jogo
+	 * Fazer as fases bloquearem quando o jogo iniciar e ir liberando conforme avança o jogo]
+	 *
 	 * Implementar um console para o jogo, onde o usuário pode digitar comandos
 	 *
 	 * Comandos do console:

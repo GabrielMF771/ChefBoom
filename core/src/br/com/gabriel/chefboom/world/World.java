@@ -127,30 +127,8 @@ public class World extends CurrentLevel {
         // PLAYER
         player = entitiesFactory.createPlayer(artemis, 16 * Block.TILE_SIZE, 6 * Block.TILE_SIZE);
 
-       /* WorldConfigurationBuilder worldConfigBuilder2 = new WorldConfigurationBuilder()
-                .with(new Player2ControllerSystem())
-                .with(new ClientControllerSystem(this))
-                .with(new StateSystem())
-                .with(new MovementSystem(this))
-                .with(new ItemSystem(this, entitiesFactory))
-                .with(new ClientInteractionSystem(this))
-                .with(new OrderSystem())
-                .with(new SpriteRenderSystem(camera));
-
-
-        WorldConfiguration config2 = worldConfigBuilder2.build();
-        artemis = new com.artemis.World(config2);
-
-        EntitiesFactory entitiesFactory2 = new EntitiesFactory();
-        artemis.inject(entitiesFactory2);
-
-        player2 = entitiesFactory2.createPlayer(artemis, 15 * Block.TILE_SIZE, 6 * Block.TILE_SIZE);
-
-        */
-
        //CHAMADA METODO QUE GERA CLIENTE FIGURANTE
         generateStaticClients();
-
 
         //FILA por NIVEL
         //0
@@ -682,9 +660,6 @@ public class World extends CurrentLevel {
             entitiesFactory.createClient(artemis, 6 * Block.TILE_SIZE, 2f * Block.TILE_SIZE, 0, false,'d');
 
     }
-
-
-
 
     public void regenerate() {
         float startX = (getWidth() / 2.5f);

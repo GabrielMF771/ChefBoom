@@ -109,7 +109,7 @@ public class SpriteRenderSystem extends IteratingSystem {
                 }
 
                 timerFont.draw(batch, timeText, blockCenterX, blockCenterY + Block.TILE_SIZE);
-                timerFont.setColor(1, 1, 1, 1); // reset cor
+                timerFont.setColor(0, 0, 0, 1); // reset cor
             }
         }
 
@@ -122,7 +122,7 @@ public class SpriteRenderSystem extends IteratingSystem {
                 String timeText = String.valueOf((int)Math.ceil(cBlock.timeLeft));
 
                 timerFont.draw(batch, timeText, blockCenterX, blockCenterY + Block.TILE_SIZE);
-                timerFont.setColor(1, 1, 1, 1);
+                timerFont.setColor(0, 0, 0, 1);
             }
         }
     }

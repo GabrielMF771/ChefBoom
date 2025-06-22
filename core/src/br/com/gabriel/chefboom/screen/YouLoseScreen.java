@@ -8,6 +8,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
@@ -29,7 +30,7 @@ public class YouLoseScreen extends ScreenAdapter {
     private BitmapFont fontTitle;  // fonte para o título
     private GlyphLayout layoutTitle;
 
-    private com.badlogic.gdx.graphics.Texture TryAgainTexture, BackToMenuTexture;
+    private Texture TryAgainTexture, BackToMenuTexture;
 
     private float titleX, titleY, titleWidth, titleHeight;
     private float TryAgainButtonX, TryAgainButtonY, TryAgainButtonWidth, TryAgainButtonHeight;
@@ -49,15 +50,15 @@ public class YouLoseScreen extends ScreenAdapter {
         // Inicializa a fonte do título usando FreeTypeFontGenerator
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Roboto-Bold.ttf"));
         FreeTypeFontParameter parameter = new FreeTypeFontParameter();
-        parameter.size = 80; // ajuste o tamanho para cobrir a área do título (ajuste conforme necessário)
+        parameter.size = 80;
         parameter.color = Color.WHITE;
         fontTitle = generator.generateFont(parameter);
         generator.dispose();
 
         layoutTitle = new GlyphLayout();
 
-        TryAgainTexture = Assets.manager.get(Assets.TentarNovamente);
-        BackToMenuTexture = Assets.manager.get(Assets.VoltarProMenu);
+        TryAgainTexture = Assets.manager.get(Assets.botaoTentarNovamente);
+        BackToMenuTexture = Assets.manager.get(Assets.botaoVoltarProMenu);
 
         calculateDimensionsAndPositions();
 
@@ -110,11 +111,10 @@ public class YouLoseScreen extends ScreenAdapter {
         String titleText = "SEUS CLIENTES EXPLODIRAM";
         layoutTitle.setText(fontTitle, titleText);
 
-        // Calcula X para centralizar o texto dentro da área do título (titleX até titleX + titleWidth)
+        // Calcula X para centralizar o texto dentro da área do título
         float textX = titleX + (titleWidth - layoutTitle.width) / 2f;
+
         // Calcula Y para posicionar o baseline do texto para ficar na vertical da área do título
-        // Como titleY é o canto inferior do retângulo que você usava para o título (provavelmente),
-        // vamos posicionar o baseline um pouco acima de titleY para centralizar verticalmente:
         float textY = titleY + (titleHeight + layoutTitle.height) / 2f;
 
         fontTitle.draw(batch, layoutTitle, textX, textY);
@@ -153,8 +153,6 @@ public class YouLoseScreen extends ScreenAdapter {
             if (touchedMenuButton) {
                 ChefBoom.getInstance().setScreen(new MenuScreen());
             }
-
-
         }
     }
 
