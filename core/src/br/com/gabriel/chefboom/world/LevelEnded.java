@@ -35,30 +35,6 @@ public class LevelEnded extends CurrentLevel {
 
             }
 
-            //CONSEGUI FAZER SEM O CONTADOR, MAS É BOM DEIXAR ELE COMENTADO AI
-
-            //TESTA SE FALTA 1(SO ENTRA 1 VEZ)
-           /* if(QuantidadeClientesDaFase == (ClientesAtendidos +1)){
-                NivelAntesDoContador = getLevel();
-                if(!ContadorIniciou){
-
-                    ContadorIniciou = true;
-                    System.out.println("CONTADOR INICIOU");
-
-                    Timer.schedule(new Timer.Task() {
-                        @Override
-                        public void run() {
-                            if(NivelAntesDoContador == getLevel()) {
-                                ChefBoom.getInstance().setScreen(new NextLevelScreen());
-                                setLevel(getLevel() + 1);
-                            }
-                        }
-                    }, 40);
-
-                }
-
-           }*/
-
         }
 
     }
