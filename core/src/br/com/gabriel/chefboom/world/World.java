@@ -10,6 +10,7 @@ import br.com.gabriel.chefboom.entity.component.ClientComponent;
 import br.com.gabriel.chefboom.entity.component.InteractiveBlock;
 import br.com.gabriel.chefboom.entity.system.*;
 import br.com.gabriel.chefboom.resource.Assets;
+import br.com.gabriel.chefboom.screen.MenuScreen;
 import com.artemis.BaseSystem;
 import com.artemis.ComponentMapper;
 import com.artemis.WorldConfiguration;
@@ -204,426 +205,421 @@ public class World extends CurrentLevel {
 
         //System.out.println("Gerando clientes");
 
-        //CHAMANDO A FABRICA
-        EntitiesFactory entitiesFactory = new EntitiesFactory();
-        artemis.inject(entitiesFactory);
+            //CHAMANDO A FABRICA
+            EntitiesFactory entitiesFactory = new EntitiesFactory();
+            artemis.inject(entitiesFactory);
 
-        switch (getLevel()){
+            switch (getLevel()) {
 
-            //NIVEL 1------------------------------------------------------------------------------------------------------
+                //NIVEL 1------------------------------------------------------------------------------------------------------
 
-            case 0:
+                case 0:
 
 
+                    //spawn guarda quantos bonecos spawnam na fila
+                    spawn[1] = clienteNivelFila[0][1];
+                    switch (clientesSpawnados) {
 
-                //spawn guarda quantos bonecos spawnam na fila
-                spawn[1] = clienteNivelFila[0][1];
-                switch (clientesSpawnados){
+                        case 0:
+                            clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, 0, true, 'r');
+                            clientesSpawnados = 1;
+                            LevelEnded.setClientsSpawnados(1);
+                            break;
 
-                    case 0:
-                        clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, 0, true,'r');
-                        clientesSpawnados = 1;
-                        LevelEnded.setClientsSpawnados(1);
-                        break;
+                        default:
 
-                    default:
+                            int[] clientIds = world.getClients();
+                            ComponentMapper<ClientComponent> mClient =
+                                    world.getArtemis().getMapper(ClientComponent.class);
 
-                        int[] clientIds = world.getClients();
-                        ComponentMapper<ClientComponent> mClient =
-                                world.getArtemis().getMapper(ClientComponent.class);
-
-                        ClientComponent client = mClient.get(clients[0]);
-                        //SPAWNA SE NÃO TIVER COMPLETADO O NUMERO DE CLIENTES E TIVER SUMIDO 1
-                        if(chegouNoBalcao > 1 && client == null && clientesSpawnados < spawn[1]){
-                            clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, 0, true,'r');
-                            clientesSpawnados++;
-                            LevelEnded.setClientsSpawnados(LevelEnded.getClientsSpawnados() + 1);
-                        }
-
-                        if(client != null && client.inQueue) {
-                            chegouNoBalcao = 2;
-                        }
-
-                        if(clientesSpawnados< spawn[1]) {
-                            //cria var random
-                            Random random = new Random();
-                            int num = random.nextInt(800);
-                            //se cair 1 ele spawna outro
-                            if (num == 1) {
-                                entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, 0, true,'r');
+                            ClientComponent client = mClient.get(clients[0]);
+                            //SPAWNA SE NÃO TIVER COMPLETADO O NUMERO DE CLIENTES E TIVER SUMIDO 1
+                            if (chegouNoBalcao > 1 && client == null && clientesSpawnados < spawn[1]) {
+                                clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, 0, true, 'r');
                                 clientesSpawnados++;
                                 LevelEnded.setClientsSpawnados(LevelEnded.getClientsSpawnados() + 1);
-                                break;
                             }
-                        }
-                }
+
+                            if (client != null && client.inQueue) {
+                                chegouNoBalcao = 2;
+                            }
+
+                            if (clientesSpawnados < spawn[1]) {
+                                //cria var random
+                                Random random = new Random();
+                                int num = random.nextInt(800);
+                                //se cair 1 ele spawna outro
+                                if (num == 1) {
+                                    entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, 0, true, 'r');
+                                    clientesSpawnados++;
+                                    LevelEnded.setClientsSpawnados(LevelEnded.getClientsSpawnados() + 1);
+                                    break;
+                                }
+                            }
+                    }
 
 
-                break;
+                    break;
 
-            //NIVEL 2-----------------------------------------------------------------------------------------------------------
+                //NIVEL 2-----------------------------------------------------------------------------------------------------------
 
-            case 1:
+                case 1:
 
 
+                    spawn[0] = clienteNivelFila[1][0];
+                    switch (clientesSpawnados) {
 
-                spawn[0] = clienteNivelFila[1][0];
-                switch (clientesSpawnados){
-
-                    case 0:
-                        clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 9 * Block.TILE_SIZE, 0, true,'r');
-                        clientesSpawnados = 1;
-                        LevelEnded.setClientsSpawnados(1);
-                        break;
-
-                    default:
-
-                        int[] clientIds = world.getClients();
-                        ComponentMapper<ClientComponent> mClient =
-                                world.getArtemis().getMapper(ClientComponent.class);
-
-                        ClientComponent client = mClient.get(clients[0]);
-                        //SPAWNA SE NÃO TIVER COMPLETADO O NUMERO DE CLIENTES E TIVER SUMIDO 1
-                        if(chegouNoBalcao > 1 && client == null && clientesSpawnados < spawn[0]){
-                            clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 9 * Block.TILE_SIZE, 0, true,'r');
-                            clientesSpawnados++;
+                        case 0:
+                            clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 9 * Block.TILE_SIZE, 0, true, 'r');
+                            clientesSpawnados = 1;
                             LevelEnded.setClientsSpawnados(LevelEnded.getClientsSpawnados() + 1);
-                        }
+                            break;
 
-                        if(client != null && client.inQueue) {
-                            chegouNoBalcao = 2;
-                        }
+                        default:
 
-                        if(clientesSpawnados< spawn[0]) {
-                            //cria var random
-                            Random random = new Random();
-                            int num = random.nextInt(2500);
-                            //se cair 1 ele spawna outro
-                            if (num == 1) {
-                                entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 9 * Block.TILE_SIZE, 0, true,'r');
+                            int[] clientIds = world.getClients();
+                            ComponentMapper<ClientComponent> mClient =
+                                    world.getArtemis().getMapper(ClientComponent.class);
+
+                            ClientComponent client = mClient.get(clients[0]);
+                            //SPAWNA SE NÃO TIVER COMPLETADO O NUMERO DE CLIENTES E TIVER SUMIDO 1
+                            if (chegouNoBalcao > 1 && client == null && clientesSpawnados < spawn[0]) {
+                                clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 9 * Block.TILE_SIZE, 0, true, 'r');
                                 clientesSpawnados++;
                                 LevelEnded.setClientsSpawnados(LevelEnded.getClientsSpawnados() + 1);
-                                break;
                             }
-                        }
-                }
 
-                //FILA DO MEIO
+                            if (client != null && client.inQueue) {
+                                chegouNoBalcao = 2;
+                            }
 
-                spawn[1] = clienteNivelFila[1][1];
-                switch (clientesSpawnados1){
+                            if (clientesSpawnados < spawn[0]) {
+                                //cria var random
+                                Random random = new Random();
+                                int num = random.nextInt(2500);
+                                //se cair 1 ele spawna outro
+                                if (num == 1) {
+                                    entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 9 * Block.TILE_SIZE, 0, true, 'r');
+                                    clientesSpawnados++;
+                                    LevelEnded.setClientsSpawnados(LevelEnded.getClientsSpawnados() + 1);
+                                    break;
+                                }
+                            }
+                    }
 
-                    case 0:
-                        clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, 1, true,'r');
-                        clientesSpawnados1 = 1;
-                        LevelEnded.setClientsSpawnados(1);
-                        break;
+                    //FILA DO MEIO
 
-                    default:
+                    spawn[1] = clienteNivelFila[1][1];
+                    switch (clientesSpawnados1) {
 
-                        int[] clientIds = world.getClients();
-                        ComponentMapper<ClientComponent> mClient =
-                                world.getArtemis().getMapper(ClientComponent.class);
-
-                        ClientComponent client = mClient.get(clients[0]);
-                        //SPAWNA SE NÃO TIVER COMPLETADO O NUMERO DE CLIENTES E TIVER SUMIDO 1
-                        if(chegouNoBalcao > 1 && client == null && clientesSpawnados1 < spawn[1]){
-                            clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, 1, true,'r');
-                            clientesSpawnados1++;
+                        case 0:
+                            clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, 1, true, 'r');
+                            clientesSpawnados1 = 1;
                             LevelEnded.setClientsSpawnados(LevelEnded.getClientsSpawnados() + 1);
-                        }
+                            break;
 
-                        if(client != null && client.inQueue) {
-                            chegouNoBalcao = 2;
-                        }
+                        default:
 
-                        if(clientesSpawnados1< spawn[1]) {
-                            //cria var random
-                            Random random = new Random();
-                            int num = random.nextInt(2500);
-                            //se cair 1 ele spawna outro
-                            if (num == 1) {
-                                entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, 1, true,'r');
+                            int[] clientIds = world.getClients();
+                            ComponentMapper<ClientComponent> mClient =
+                                    world.getArtemis().getMapper(ClientComponent.class);
+
+                            ClientComponent client = mClient.get(clients[0]);
+                            //SPAWNA SE NÃO TIVER COMPLETADO O NUMERO DE CLIENTES E TIVER SUMIDO 1
+                            if (chegouNoBalcao > 1 && client == null && clientesSpawnados1 < spawn[1]) {
+                                clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, 1, true, 'r');
                                 clientesSpawnados1++;
                                 LevelEnded.setClientsSpawnados(LevelEnded.getClientsSpawnados() + 1);
-                                break;
                             }
-                        }
-                }
+
+                            if (client != null && client.inQueue) {
+                                chegouNoBalcao = 2;
+                            }
+
+                            if (clientesSpawnados1 < spawn[1]) {
+                                //cria var random
+                                Random random = new Random();
+                                int num = random.nextInt(2500);
+                                //se cair 1 ele spawna outro
+                                if (num == 1) {
+                                    entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, 1, true, 'r');
+                                    clientesSpawnados1++;
+                                    LevelEnded.setClientsSpawnados(LevelEnded.getClientsSpawnados() + 1);
+                                    break;
+                                }
+                            }
+                    }
 
 
+                    break;
 
-                break;
+                //NIVEL 3 --------------------------------------------------------------------------------------------
 
-            //NIVEL 3 --------------------------------------------------------------------------------------------
-
-            case 2:
-
+                case 2:
 
 
-                spawn[0] = clienteNivelFila[2][0];
-                switch (clientesSpawnados){
+                    spawn[0] = clienteNivelFila[2][0];
+                    switch (clientesSpawnados) {
 
-                    case 0:
-                        clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 9 * Block.TILE_SIZE, 0, true,'r');
-                        clientesSpawnados = 1;
-                        LevelEnded.setClientsSpawnados( 1);
-                        break;
-
-                    default:
-
-                        int[] clientIds = world.getClients();
-                        ComponentMapper<ClientComponent> mClient =
-                                world.getArtemis().getMapper(ClientComponent.class);
-
-                        ClientComponent client = mClient.get(clients[0]);
-                        //SPAWNA SE NÃO TIVER COMPLETADO O NUMERO DE CLIENTES E TIVER SUMIDO 1
-                        if(chegouNoBalcao > 1 && client == null && clientesSpawnados < spawn[0]){
-                            clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 9 * Block.TILE_SIZE, 0, true,'r');
-                            clientesSpawnados++;
+                        case 0:
+                            clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 9 * Block.TILE_SIZE, 0, true, 'r');
+                            clientesSpawnados = 1;
                             LevelEnded.setClientsSpawnados(LevelEnded.getClientsSpawnados() + 1);
-                        }
+                            break;
 
-                        if(client != null && client.inQueue) {
-                            chegouNoBalcao = 2;
-                        }
+                        default:
 
-                        if(clientesSpawnados< spawn[0]) {
-                            //cria var random
-                            Random random = new Random();
-                            int num = random.nextInt(2500);
-                            //se cair 1 ele spawna outro
-                            if (num == 1) {
-                                entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 9 * Block.TILE_SIZE, 0, true,'r');
+                            int[] clientIds = world.getClients();
+                            ComponentMapper<ClientComponent> mClient =
+                                    world.getArtemis().getMapper(ClientComponent.class);
+
+                            ClientComponent client = mClient.get(clients[0]);
+                            //SPAWNA SE NÃO TIVER COMPLETADO O NUMERO DE CLIENTES E TIVER SUMIDO 1
+                            if (chegouNoBalcao > 1 && client == null && clientesSpawnados < spawn[0]) {
+                                clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 9 * Block.TILE_SIZE, 0, true, 'r');
                                 clientesSpawnados++;
                                 LevelEnded.setClientsSpawnados(LevelEnded.getClientsSpawnados() + 1);
-                                break;
                             }
-                        }
-                }
 
-                //FILA DO MEIO
+                            if (client != null && client.inQueue) {
+                                chegouNoBalcao = 2;
+                            }
 
-                spawn[1] = clienteNivelFila[2][1];
-                switch (clientesSpawnados1){
+                            if (clientesSpawnados < spawn[0]) {
+                                //cria var random
+                                Random random = new Random();
+                                int num = random.nextInt(2500);
+                                //se cair 1 ele spawna outro
+                                if (num == 1) {
+                                    entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 9 * Block.TILE_SIZE, 0, true, 'r');
+                                    clientesSpawnados++;
+                                    LevelEnded.setClientsSpawnados(LevelEnded.getClientsSpawnados() + 1);
+                                    break;
+                                }
+                            }
+                    }
 
-                    case 0:
-                        clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, 1, true,'r');
-                        clientesSpawnados1 = 1;
-                        LevelEnded.setClientsSpawnados( 1);
-                        break;
+                    //FILA DO MEIO
 
-                    default:
+                    spawn[1] = clienteNivelFila[2][1];
+                    switch (clientesSpawnados1) {
 
-                        int[] clientIds = world.getClients();
-                        ComponentMapper<ClientComponent> mClient =
-                                world.getArtemis().getMapper(ClientComponent.class);
-
-                        ClientComponent client = mClient.get(clients[0]);
-                        //SPAWNA SE NÃO TIVER COMPLETADO O NUMERO DE CLIENTES E TIVER SUMIDO 1
-                        if(chegouNoBalcao > 1 && client == null && clientesSpawnados1 < spawn[1]){
-                            clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, 1, true,'r');
-                            clientesSpawnados1++;
+                        case 0:
+                            clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, 1, true, 'r');
+                            clientesSpawnados1 = 1;
                             LevelEnded.setClientsSpawnados(LevelEnded.getClientsSpawnados() + 1);
-                        }
+                            break;
 
-                        if(client != null && client.inQueue) {
-                            chegouNoBalcao = 2;
-                        }
+                        default:
 
-                        if(clientesSpawnados1< spawn[1]) {
-                            //cria var random
-                            Random random = new Random();
-                            int num = random.nextInt(2500);
-                            //se cair 1 ele spawna outro
-                            if (num == 1) {
-                                entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, 1, true,'r');
+                            int[] clientIds = world.getClients();
+                            ComponentMapper<ClientComponent> mClient =
+                                    world.getArtemis().getMapper(ClientComponent.class);
+
+                            ClientComponent client = mClient.get(clients[0]);
+                            //SPAWNA SE NÃO TIVER COMPLETADO O NUMERO DE CLIENTES E TIVER SUMIDO 1
+                            if (chegouNoBalcao > 1 && client == null && clientesSpawnados1 < spawn[1]) {
+                                clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, 1, true, 'r');
                                 clientesSpawnados1++;
                                 LevelEnded.setClientsSpawnados(LevelEnded.getClientsSpawnados() + 1);
-                                break;
                             }
-                        }
-                }
 
-                //FILA DE BAIXO
+                            if (client != null && client.inQueue) {
+                                chegouNoBalcao = 2;
+                            }
 
-                spawn[2] = clienteNivelFila[2][2];
-                switch (clientesSpawnados2){
+                            if (clientesSpawnados1 < spawn[1]) {
+                                //cria var random
+                                Random random = new Random();
+                                int num = random.nextInt(2500);
+                                //se cair 1 ele spawna outro
+                                if (num == 1) {
+                                    entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, 1, true, 'r');
+                                    clientesSpawnados1++;
+                                    LevelEnded.setClientsSpawnados(LevelEnded.getClientsSpawnados() + 1);
+                                    break;
+                                }
+                            }
+                    }
 
-                    case 0:
-                        clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 3 * Block.TILE_SIZE, 2, true,'r');
-                        clientesSpawnados2 = 1;
-                        LevelEnded.setClientsSpawnados( 1);
-                        break;
+                    //FILA DE BAIXO
 
-                    default:
+                    spawn[2] = clienteNivelFila[2][2];
+                    switch (clientesSpawnados2) {
 
-                        int[] clientIds = world.getClients();
-                        ComponentMapper<ClientComponent> mClient =
-                                world.getArtemis().getMapper(ClientComponent.class);
-
-                        ClientComponent client = mClient.get(clients[0]);
-                        //SPAWNA SE NÃO TIVER COMPLETADO O NUMERO DE CLIENTES E TIVER SUMIDO 1
-                        if(chegouNoBalcao > 1 && client == null && clientesSpawnados2 < spawn[2]){
-                            clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 3 * Block.TILE_SIZE, 2, true,'r');
-                            clientesSpawnados2++;
+                        case 0:
+                            clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 3 * Block.TILE_SIZE, 2, true, 'r');
+                            clientesSpawnados2 = 1;
                             LevelEnded.setClientsSpawnados(LevelEnded.getClientsSpawnados() + 1);
-                        }
+                            break;
 
-                        if(client != null && client.inQueue) {
-                            chegouNoBalcao = 2;
-                        }
+                        default:
 
-                        if(clientesSpawnados2< spawn[2]) {
-                            //cria var random
-                            Random random = new Random();
-                            int num = random.nextInt(2500);
-                            //se cair 1 ele spawna outro
-                            if (num == 1) {
-                                entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 3 * Block.TILE_SIZE, 2, true,'r');
+                            int[] clientIds = world.getClients();
+                            ComponentMapper<ClientComponent> mClient =
+                                    world.getArtemis().getMapper(ClientComponent.class);
+
+                            ClientComponent client = mClient.get(clients[0]);
+                            //SPAWNA SE NÃO TIVER COMPLETADO O NUMERO DE CLIENTES E TIVER SUMIDO 1
+                            if (chegouNoBalcao > 1 && client == null && clientesSpawnados2 < spawn[2]) {
+                                clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 3 * Block.TILE_SIZE, 2, true, 'r');
                                 clientesSpawnados2++;
                                 LevelEnded.setClientsSpawnados(LevelEnded.getClientsSpawnados() + 1);
-                                break;
                             }
-                        }
-                }
+
+                            if (client != null && client.inQueue) {
+                                chegouNoBalcao = 2;
+                            }
+
+                            if (clientesSpawnados2 < spawn[2]) {
+                                //cria var random
+                                Random random = new Random();
+                                int num = random.nextInt(2500);
+                                //se cair 1 ele spawna outro
+                                if (num == 1) {
+                                    entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 3 * Block.TILE_SIZE, 2, true, 'r');
+                                    clientesSpawnados2++;
+                                    LevelEnded.setClientsSpawnados(LevelEnded.getClientsSpawnados() + 1);
+                                    break;
+                                }
+                            }
+                    }
 
 
-                break;
+                    break;
 
-            //MODO INFINITO
+                //MODO INFINITO
 
-            case 3:
+                case 3:
 
 
+                    switch (clientesSpawnados) {
 
-                switch (clientesSpawnados){
-
-                    case 0:
-                        clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 9 * Block.TILE_SIZE, 0, true,'r');
-                        clientesSpawnados = 1;
-                        LevelEnded.setClientsSpawnados(1);
-                        break;
-
-                    default:
-
-                        int[] clientIds = world.getClients();
-                        ComponentMapper<ClientComponent> mClient =
-                                world.getArtemis().getMapper(ClientComponent.class);
-
-                        ClientComponent client = mClient.get(clients[0]);
-                        //SPAWNA SE NÃO TIVER COMPLETADO O NUMERO DE CLIENTES E TIVER SUMIDO 1
-                        if(chegouNoBalcao > 1 && client == null && clientesSpawnados < spawn[0]){
-                            clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 9 * Block.TILE_SIZE, 0, true,'r');
-                            clientesSpawnados++;
+                        case 0:
+                            clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 9 * Block.TILE_SIZE, 0, true, 'r');
+                            clientesSpawnados = 1;
                             LevelEnded.setClientsSpawnados(LevelEnded.getClientsSpawnados() + 1);
-                        }
+                            break;
 
-                        if(client != null && client.inQueue) {
-                            chegouNoBalcao = 2;
-                        }
+                        default:
 
-                        if(clientesSpawnados< spawn[0]) {
-                            //cria var random
-                            Random random = new Random();
-                            int num = random.nextInt(1000);
-                            //se cair 1 ele spawna outro
-                            if (num == 1) {
-                                entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 9 * Block.TILE_SIZE, 0, true,'r');
+                            int[] clientIds = world.getClients();
+                            ComponentMapper<ClientComponent> mClient =
+                                    world.getArtemis().getMapper(ClientComponent.class);
+
+                            ClientComponent client = mClient.get(clients[0]);
+                            //SPAWNA SE NÃO TIVER COMPLETADO O NUMERO DE CLIENTES E TIVER SUMIDO 1
+                            if (chegouNoBalcao > 1 && client == null && clientesSpawnados < spawn[0]) {
+                                clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 9 * Block.TILE_SIZE, 0, true, 'r');
                                 clientesSpawnados++;
                                 LevelEnded.setClientsSpawnados(LevelEnded.getClientsSpawnados() + 1);
-                                break;
                             }
-                        }
-                }
 
-                //FILA DO MEIO
+                            if (client != null && client.inQueue) {
+                                chegouNoBalcao = 2;
+                            }
 
-                switch (clientesSpawnados1){
+                            if (clientesSpawnados < spawn[0]) {
+                                //cria var random
+                                Random random = new Random();
+                                int num = random.nextInt(1000);
+                                //se cair 1 ele spawna outro
+                                if (num == 1) {
+                                    entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 9 * Block.TILE_SIZE, 0, true, 'r');
+                                    clientesSpawnados++;
+                                    LevelEnded.setClientsSpawnados(LevelEnded.getClientsSpawnados() + 1);
+                                    break;
+                                }
+                            }
+                    }
 
-                    case 0:
-                        clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, 1, true,'r');
-                        clientesSpawnados1 = 1;
-                        LevelEnded.setClientsSpawnados( 1);
-                        break;
+                    //FILA DO MEIO
 
-                    default:
+                    switch (clientesSpawnados1) {
 
-                        int[] clientIds = world.getClients();
-                        ComponentMapper<ClientComponent> mClient =
-                                world.getArtemis().getMapper(ClientComponent.class);
-
-                        ClientComponent client = mClient.get(clients[0]);
-                        //SPAWNA SE NÃO TIVER COMPLETADO O NUMERO DE CLIENTES E TIVER SUMIDO 1
-                        if(chegouNoBalcao > 1 && client == null && clientesSpawnados1 < spawn[1]){
-                            clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, 1, true,'r');
-                            clientesSpawnados1++;
+                        case 0:
+                            clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, 1, true, 'r');
+                            clientesSpawnados1 = 1;
                             LevelEnded.setClientsSpawnados(LevelEnded.getClientsSpawnados() + 1);
-                        }
+                            break;
 
-                        if(client != null && client.inQueue) {
-                            chegouNoBalcao = 2;
-                        }
+                        default:
 
-                        if(clientesSpawnados1< spawn[1]) {
-                            //cria var random
-                            Random random = new Random();
-                            int num = random.nextInt(1000);
-                            //se cair 1 ele spawna outro
-                            if (num == 1) {
-                                entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, 1, true,'r');
+                            int[] clientIds = world.getClients();
+                            ComponentMapper<ClientComponent> mClient =
+                                    world.getArtemis().getMapper(ClientComponent.class);
+
+                            ClientComponent client = mClient.get(clients[0]);
+                            //SPAWNA SE NÃO TIVER COMPLETADO O NUMERO DE CLIENTES E TIVER SUMIDO 1
+                            if (chegouNoBalcao > 1 && client == null && clientesSpawnados1 < spawn[1]) {
+                                clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, 1, true, 'r');
                                 clientesSpawnados1++;
                                 LevelEnded.setClientsSpawnados(LevelEnded.getClientsSpawnados() + 1);
-                                break;
                             }
-                        }
-                }
 
-                //FILA DE BAIXO
+                            if (client != null && client.inQueue) {
+                                chegouNoBalcao = 2;
+                            }
 
-                switch (clientesSpawnados2){
+                            if (clientesSpawnados1 < spawn[1]) {
+                                //cria var random
+                                Random random = new Random();
+                                int num = random.nextInt(1000);
+                                //se cair 1 ele spawna outro
+                                if (num == 1) {
+                                    entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, 1, true, 'r');
+                                    clientesSpawnados1++;
+                                    LevelEnded.setClientsSpawnados(LevelEnded.getClientsSpawnados() + 1);
+                                    break;
+                                }
+                            }
+                    }
 
-                    case 0:
-                        clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 3 * Block.TILE_SIZE, 2, true,'r');
-                        clientesSpawnados2 = 1;
-                        LevelEnded.setClientsSpawnados( 1);
-                        break;
+                    //FILA DE BAIXO
 
-                    default:
+                    switch (clientesSpawnados2) {
 
-                        int[] clientIds = world.getClients();
-                        ComponentMapper<ClientComponent> mClient =
-                                world.getArtemis().getMapper(ClientComponent.class);
-
-                        ClientComponent client = mClient.get(clients[0]);
-                        //SPAWNA SE NÃO TIVER COMPLETADO O NUMERO DE CLIENTES E TIVER SUMIDO 1
-                        if(chegouNoBalcao > 1 && client == null && clientesSpawnados2 < spawn[2]){
-                            clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 3 * Block.TILE_SIZE, 2, true,'r');
-                            clientesSpawnados2++;
+                        case 0:
+                            clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 3 * Block.TILE_SIZE, 2, true, 'r');
+                            clientesSpawnados2 = 1;
                             LevelEnded.setClientsSpawnados(LevelEnded.getClientsSpawnados() + 1);
-                        }
+                            break;
 
-                        if(client != null && client.inQueue) {
-                            chegouNoBalcao = 2;
-                        }
+                        default:
 
-                        if(clientesSpawnados2< spawn[2]) {
-                            //cria var random
-                            Random random = new Random();
-                            int num = random.nextInt(1000);
-                            //se cair 1 ele spawna outro
-                            if (num == 1) {
-                                entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 3 * Block.TILE_SIZE, 2, true,'r');
+                            int[] clientIds = world.getClients();
+                            ComponentMapper<ClientComponent> mClient =
+                                    world.getArtemis().getMapper(ClientComponent.class);
+
+                            ClientComponent client = mClient.get(clients[0]);
+                            //SPAWNA SE NÃO TIVER COMPLETADO O NUMERO DE CLIENTES E TIVER SUMIDO 1
+                            if (chegouNoBalcao > 1 && client == null && clientesSpawnados2 < spawn[2]) {
+                                clients[0] = entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 3 * Block.TILE_SIZE, 2, true, 'r');
                                 clientesSpawnados2++;
                                 LevelEnded.setClientsSpawnados(LevelEnded.getClientsSpawnados() + 1);
-                                break;
                             }
-                        }
-                }
+
+                            if (client != null && client.inQueue) {
+                                chegouNoBalcao = 2;
+                            }
+
+                            if (clientesSpawnados2 < spawn[2]) {
+                                //cria var random
+                                Random random = new Random();
+                                int num = random.nextInt(1000);
+                                //se cair 1 ele spawna outro
+                                if (num == 1) {
+                                    entitiesFactory.createClient(artemis, -2 * Block.TILE_SIZE, 3 * Block.TILE_SIZE, 2, true, 'r');
+                                    clientesSpawnados2++;
+                                    LevelEnded.setClientsSpawnados(LevelEnded.getClientsSpawnados() + 1);
+                                    break;
+                                }
+                            }
+                    }
 
 
-                break;
-        }
+                    break;
+            }
     }
 
     public void generateStaticClients(){

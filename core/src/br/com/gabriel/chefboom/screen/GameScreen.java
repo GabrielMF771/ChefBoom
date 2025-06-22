@@ -4,6 +4,7 @@ import br.com.gabriel.chefboom.entity.component.ClientComponent;
 import br.com.gabriel.chefboom.entity.system.OrderSystem;
 import br.com.gabriel.chefboom.resource.Assets;
 import br.com.gabriel.chefboom.ChefBoom;
+import br.com.gabriel.chefboom.world.LevelEnded;
 import com.artemis.ComponentMapper;
 import br.com.gabriel.chefboom.Config;
 import br.com.gabriel.chefboom.block.Block;
@@ -109,6 +110,7 @@ public class GameScreen extends ScreenAdapter {
         batch.draw(backgroundTexture, 0, 0, camera.viewportWidth, camera.viewportHeight);
         batch.end();
         timespace();
+        LevelEnded.levelEndedCheck();
 
         // Atualiza e desenha entidades
         world.update(delta);

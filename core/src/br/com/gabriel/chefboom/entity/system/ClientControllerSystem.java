@@ -114,6 +114,7 @@ public class ClientControllerSystem extends IteratingSystem {
                     if (cClient != null && cClient.isExploding && !cClient.explodedByServe) {
                         clientsThatHurt++;
                         LevelEnded.setClientesAtendidos((LevelEnded.getClientesAtendidos() + 1 ));
+                        LevelEnded.setVidasRestantes(LevelEnded.getVidasRestantes()-1);
                     }
                 }
 

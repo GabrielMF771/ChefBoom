@@ -13,6 +13,7 @@ public class LevelEnded extends CurrentLevel {
     public static int ClientesAtendidos = 0;
     public static boolean ContadorIniciou = false;
     public static int NivelAntesDoContador;
+    public static int VidasRestantes = 3;
 
     public static void levelEndedCheck(){
         if(QuantidadeClientesDaFase == ClientsSpawnados)  {
@@ -30,7 +31,7 @@ public class LevelEnded extends CurrentLevel {
                 if(!ContadorIniciou){
 
                     ContadorIniciou = true;
-
+                    System.out.println("CONTADOR INICIOU");
                     Timer.schedule(new Timer.Task() {
                         @Override
                         public void run() {
@@ -45,6 +46,15 @@ public class LevelEnded extends CurrentLevel {
 
         }
 
+        //TESTA SE PASSOU DE FASE PRA ZERAR OS CLIENTES SPAWNADOS
+        if(NivelAntesDoContador == getLevel() - 1 || getVidasRestantes() == 0 ){
+            System.out.println("VALORES ZERADOS");
+            setClientsSpawnados(0);
+            setClientesAtendidos(0);
+            setVidasRestantes(3);
+            NivelAntesDoContador = getLevel();
+        }
+
     }
 
 
@@ -56,7 +66,7 @@ public class LevelEnded extends CurrentLevel {
 
     public static void setClientesAtendidos(int clientesAtendidos) {
         ClientesAtendidos = clientesAtendidos;
-        LevelEnded.levelEndedCheck();
+        System.out.println("CLIENTES ATENDIDOS: " + ClientesAtendidos);
     }
 
     public static int getClientsSpawnados() {
@@ -65,7 +75,7 @@ public class LevelEnded extends CurrentLevel {
 
     public static void setClientsSpawnados(int clientsSpawnados) {
         ClientsSpawnados = clientsSpawnados;
-
+        System.out.println("CLIENTES SPAWNADOS: " + ClientsSpawnados );
     }
 
     public static int getQuantidadeClientesDaFase() {
@@ -74,6 +84,15 @@ public class LevelEnded extends CurrentLevel {
 
     public static void setQuantidadeClientesDaFase(int quantidadeClientesDaFase) {
         QuantidadeClientesDaFase = quantidadeClientesDaFase;
+        System.out.println("CLIENTES TOTAIS DA FASE" + QuantidadeClientesDaFase);
 
+    }
+
+    public static void setVidasRestantes(int vidasRestantes){
+        VidasRestantes = vidasRestantes;
+    }
+
+    public static int getVidasRestantes(){
+        return VidasRestantes;
     }
 }
