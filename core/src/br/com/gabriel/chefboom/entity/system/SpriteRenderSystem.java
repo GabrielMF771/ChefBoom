@@ -47,7 +47,7 @@ public class SpriteRenderSystem extends IteratingSystem {
     @Override
     protected void initialize() {
         // Carrega a fonte FreeType
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Roboto-Bold.ttf"));
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/MinecraftRegular.otf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 26;
         parameter.color = com.badlogic.gdx.graphics.Color.WHITE;

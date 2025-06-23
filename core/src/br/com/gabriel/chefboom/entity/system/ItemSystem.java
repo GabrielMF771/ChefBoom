@@ -57,42 +57,6 @@ public class ItemSystem extends IteratingSystem {
 
     @Override
     protected void process(int entityId) {
-        // Decrementa o timer apenas dos blocos ativos
-        com.artemis.utils.IntBag entities = getWorld().getAspectSubscriptionManager()
-                .get(Aspect.all(TransformComponent.class, InteractiveBlock.class))
-                .getEntities();
-        int[] ids = entities.getData();
-        int size = entities.size();
-        float delta = Gdx.graphics.getDeltaTime();
-
-        for (int i = 0; i < size; i++) {
-            InteractiveBlock block = mInteractiveBlock.get(ids[i]);
-            if (block != null && block.timerActive && block.timeLeft > 0f) {
-                block.timeLeft -= delta;
-                if (block.timeLeft < 0f) block.timeLeft = 0f;
-
-                // Quando chega a zero, gera o item e reseta/desativa o timer
-                if (block.timeLeft == 0f) {
-                    int x = World.worldToMap(mTransform.get(ids[i]).position.x);
-                    int y = World.worldToMap(mTransform.get(ids[i]).position.y);
-                    if (block.type == InteractiveBlock.Type.GRILL) {
-                        createItemOnBlock(Assets.burguer.fileName, x, y);
-                        readySound.play(Config.EFFECTS_VOLUME);
-                        block.timeLeft = World.GRILLTIME;
-                    } else if (block.type == InteractiveBlock.Type.SODAMACHINE) {
-                        createItemOnBlock(Assets.soda.fileName, x, y);
-                        readySound.play(Config.EFFECTS_VOLUME);
-                        block.timeLeft = World.SODATIME;
-                    } else if (block.type == InteractiveBlock.Type.FRIESMACHINE) {
-                        createItemOnBlock(Assets.fries.fileName, x, y);
-                        readySound.play(Config.EFFECTS_VOLUME);
-                        block.timeLeft = World.FRIESTIME;
-                    }
-                    block.timerActive = false;
-                }
-            }
-        }
-
         PlayerComponent cPlayer = mPlayer.get(entityId);
         TransformComponent cTransform = mTransform.get(entityId);
         SpriteComponent cSprite = mSprite.get(entityId);
@@ -130,7 +94,14 @@ public class ItemSystem extends IteratingSystem {
                         if (!frontInteractiveBlock.timerActive) {
                             frontInteractiveBlock.timerActive = true;
                             if (frontInteractiveBlock.timeLeft == 0f) {
-                                frontInteractiveBlock.timeLeft = 5f;
+                                // O valor correto do timer deve ser setado pelo tipo do bloco
+                                if (frontInteractiveBlock.type == InteractiveBlock.Type.GRILL) {
+                                    frontInteractiveBlock.timeLeft = World.GRILLTIME;
+                                } else if (frontInteractiveBlock.type == InteractiveBlock.Type.SODAMACHINE) {
+                                    frontInteractiveBlock.timeLeft = World.SODATIME;
+                                } else if (frontInteractiveBlock.type == InteractiveBlock.Type.FRIESMACHINE) {
+                                    frontInteractiveBlock.timeLeft = World.FRIESTIME;
+                                }
                             }
                         }
                     } else {

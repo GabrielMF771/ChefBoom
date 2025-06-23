@@ -88,6 +88,7 @@ public class World extends CurrentLevel {
                 .with(new ClientControllerSystem(this))
                 .with(new StateSystem())
                 .with(new MovementSystem(this))
+                .with(new BlockTimerSystem(this))
                 .with(new ItemSystem(this, entitiesFactory))
                 .with(new ClientInteractionSystem(this))
                 .with(new OrderSystem())
