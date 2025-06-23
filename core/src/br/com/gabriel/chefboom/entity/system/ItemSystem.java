@@ -61,7 +61,15 @@ public class ItemSystem extends IteratingSystem {
         TransformComponent cTransform = mTransform.get(entityId);
         SpriteComponent cSprite = mSprite.get(entityId);
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
+        boolean interactPressed = false;
+
+        if (cPlayer.playerId == 0) {
+            interactPressed = Gdx.input.isKeyJustPressed(Input.Keys.E);
+        } else if (Config.TWO_PLAYERS && cPlayer.playerId == 1) {
+            interactPressed = Gdx.input.isKeyJustPressed(Input.Keys.ENTER);
+        }
+
+        if (interactPressed) {
             if (cPlayer.heldItemEntity == null) {
                 Vector2 frontBlock = getBlockInFront(cTransform, cSprite);
                 int x = World.worldToMap(frontBlock.x);

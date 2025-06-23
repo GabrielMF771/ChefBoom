@@ -197,6 +197,6 @@ public class DevConsole {
 
     public void setCommandExecutor(CommandExecutor commandExecutor) {
         this.commandExecutor = commandExecutor;
-        System.out.println("CommandExecutor setado no DevConsole: " + (commandExecutor != null));
+        //System.out.println("CommandExecutor setado no DevConsole: " + (commandExecutor != null));
     }
 }

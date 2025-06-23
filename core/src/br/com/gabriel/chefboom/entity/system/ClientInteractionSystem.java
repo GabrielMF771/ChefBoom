@@ -37,15 +37,23 @@ public class ClientInteractionSystem extends IteratingSystem {
 
     @Override
     protected void process(int entityId) {
-        PlayerComponent player = mPlayer.get(entityId);
-        TransformComponent playerTransform = mTransform.get(entityId);
+        PlayerComponent cPlayer = mPlayer.get(entityId);
+        TransformComponent cTransform = mTransform.get(entityId);
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.E) && player.heldItemEntity != null) {
+        boolean interactPressed = false;
+
+        if (cPlayer.playerId == 0) {
+            interactPressed = Gdx.input.isKeyJustPressed(Input.Keys.E);
+        } else if (Config.TWO_PLAYERS && cPlayer.playerId == 1) {
+            interactPressed = Gdx.input.isKeyJustPressed(Input.Keys.ENTER);
+        }
+
+        if (interactPressed && cPlayer.heldItemEntity != null) {
             int clientId = ClientUtils.findNearbyClient(
-                    world.getArtemis(), mTransform, playerTransform.position
+                    world.getArtemis(), mTransform, cTransform.position
             );
             if (clientId != -1) {
-                SpriteComponent itemSprite = mSprite.get(player.heldItemEntity);
+                SpriteComponent itemSprite = mSprite.get(cPlayer.heldItemEntity);
                 int itemTypeId;
                 // TODO - Todo item novo que adicionar, deve ser adicionado aqui
                 if (itemSprite.sprite.getTexture() == Assets.manager.get(Assets.burguer)) {
@@ -61,8 +69,8 @@ public class ClientInteractionSystem extends IteratingSystem {
                 ClientComponent client = mClient.get(clientId);
                 if (itemTypeId == client.wantedItemId) {
                     // Deleta o item do jogador
-                    world.getArtemis().delete(player.heldItemEntity);
-                    player.heldItemEntity = null;
+                    world.getArtemis().delete(cPlayer.heldItemEntity);
+                    cPlayer.heldItemEntity = null;
 
                     // Lógica de explosão do cliente ao receber o item correto
                     client.isExploding = true;

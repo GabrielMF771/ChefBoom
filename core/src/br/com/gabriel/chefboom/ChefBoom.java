@@ -18,16 +18,6 @@ public class ChefBoom extends Game {
 	/* TODO:
 	 * Fazer uma tela de pause com as configurações do jogo
 	 * Remover o DEBUG quando for publicar o jogo
-	 *
-	 * Implementar um console para o jogo, onde o usuário pode digitar comandos
-	 *
-	 * Comandos do console:
-	 * Ativar ou desativar fps
-	 * Lista de comandos
-	 * Ativar ou desativar debug
-	 * Pegar um item específico
-	 * Spawnar cliente em uma posição específica
-	 * Ativar o modo secreto para jogar multiplayer local
 	 */
 
 	private DevConsole devConsole;

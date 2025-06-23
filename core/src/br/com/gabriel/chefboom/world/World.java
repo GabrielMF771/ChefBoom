@@ -187,8 +187,6 @@ public class World extends CurrentLevel {
     }
     public void generateClients(World world) {
 
-       // System.out.println("Gerando clientes");
-
             //CHAMANDO A FABRICA
             EntitiesFactory entitiesFactory = new EntitiesFactory();
             artemis.inject(entitiesFactory);
