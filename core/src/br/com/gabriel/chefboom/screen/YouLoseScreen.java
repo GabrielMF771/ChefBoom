@@ -36,6 +36,7 @@ public class YouLoseScreen extends ScreenAdapter {
     private float TryAgainButtonX, TryAgainButtonY, TryAgainButtonWidth, TryAgainButtonHeight;
     private float MenuButtonX, MenuButtonY, MenuButtonWidth, MenuButtonHeight;
 
+    private Texture backgroundTexture;
 
     private final Sound gameoverSound = Assets.manager.get(Assets.gameoverSound);
 
@@ -48,10 +49,13 @@ public class YouLoseScreen extends ScreenAdapter {
         batch = new SpriteBatch();
 
         // Inicializa a fonte do título usando FreeTypeFontGenerator
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Roboto-Bold.ttf"));
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/MinecraftRegular.otf"));
         FreeTypeFontParameter parameter = new FreeTypeFontParameter();
         parameter.size = 80;
         parameter.color = Color.WHITE;
+        parameter.shadowOffsetX = -6;
+        parameter.shadowOffsetY = 6;
+        parameter.shadowColor = Color.BLACK;
         fontTitle = generator.generateFont(parameter);
         generator.dispose();
 
@@ -59,6 +63,8 @@ public class YouLoseScreen extends ScreenAdapter {
 
         TryAgainTexture = Assets.manager.get(Assets.botaoTentarNovamente);
         BackToMenuTexture = Assets.manager.get(Assets.botaoVoltarProMenu);
+
+        backgroundTexture = Assets.manager.get(Assets.menuBackground);
 
         calculateDimensionsAndPositions();
 
@@ -106,6 +112,14 @@ public class YouLoseScreen extends ScreenAdapter {
 
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
+
+        // Desenha o fundo do menu
+        batch.draw(backgroundTexture, 0, 0, WORLD_WIDTH, WORLD_HEIGHT);
+
+        // Desenha um retângulo preto semi-transparente sobre o fundo
+        batch.setColor(0, 0, 0, 0.6f); // 40% opacidade
+        batch.draw(backgroundTexture, 0, 0, WORLD_WIDTH, WORLD_HEIGHT);
+        batch.setColor(1, 1, 1, 1); // Reseta a cor
 
         // Calcula o layout do texto "Jogo"
         String titleText = "SEUS CLIENTES EXPLODIRAM";

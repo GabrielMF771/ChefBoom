@@ -6,6 +6,7 @@ import br.com.gabriel.chefboom.resource.Assets;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -18,8 +19,8 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 
 public class MenuScreen extends ScreenAdapter {
-    private static final float WORLD_WIDTH = Config.SCREEN_WIDTH;
-    private static final float WORLD_HEIGHT = Config.SCREEN_HEIGHT;
+    private static final float WORLD_WIDTH = Gdx.graphics.getWidth();
+    private static final float WORLD_HEIGHT = Gdx.graphics.getHeight();
 
     private OrthographicCamera camera;
     private Viewport viewport;
@@ -38,8 +39,17 @@ public class MenuScreen extends ScreenAdapter {
     private boolean fadingOut = false;
     private boolean startGameAfterFade = false;
 
+    private Texture backgroundTexture;
+
+    private static Music menuMusic;
+
     @Override
     public void show() {
+        menuMusic = Assets.manager.get(Assets.menuMusic);
+        menuMusic.setLooping(true);
+        menuMusic.setVolume(Config.MUSIC_VOLUME);
+        menuMusic.play();
+
         camera = new OrthographicCamera();
         viewport = new FitViewport(WORLD_WIDTH, WORLD_HEIGHT, camera);
         viewport.apply();
@@ -47,16 +57,21 @@ public class MenuScreen extends ScreenAdapter {
         batch = new SpriteBatch();
 
         // Inicializa a fonte do título usando FreeTypeFontGenerator
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Roboto-Bold.ttf"));
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/MinecraftRegular.otf"));
         FreeTypeFontParameter parameter = new FreeTypeFontParameter();
         parameter.size = 80;
         parameter.color = Color.WHITE;
+        parameter.shadowOffsetX = -6;
+        parameter.shadowOffsetY = 6;
+        parameter.shadowColor = Color.BLACK;
         fontTitle = generator.generateFont(parameter);
         generator.dispose();
 
         layoutTitle = new GlyphLayout();
 
         startButtonTexture = Assets.manager.get(Assets.botaoIniciar);
+
+        backgroundTexture = Assets.manager.get(Assets.menuBackground);
 
         calculateDimensionsAndPositions();
     }
@@ -93,6 +108,14 @@ public class MenuScreen extends ScreenAdapter {
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
 
+        // Desenha o fundo do menu
+        batch.draw(backgroundTexture, 0, 0, WORLD_WIDTH, WORLD_HEIGHT);
+
+        // Desenha um retângulo preto semi-transparente sobre o fundo
+        batch.setColor(0, 0, 0, 0.6f); // 40% opacidade
+        batch.draw(backgroundTexture, 0, 0, WORLD_WIDTH, WORLD_HEIGHT);
+        batch.setColor(1, 1, 1, 1); // Reseta a cor
+
         // Calcula o layout do texto "Jogo"
         String titleText = "Chef Boom!";
         layoutTitle.setText(fontTitle, titleText);
@@ -112,7 +135,7 @@ public class MenuScreen extends ScreenAdapter {
         if (fadeAlpha > 0f) {
             batch.begin();
             batch.setColor(0, 0, 0, fadeAlpha);
-            batch.draw(startButtonTexture, 0, 0, WORLD_WIDTH, WORLD_HEIGHT);
+            batch.draw(backgroundTexture, 0, 0, WORLD_WIDTH, WORLD_HEIGHT);
             batch.setColor(1, 1, 1, 1);
             batch.end();
         }
@@ -138,7 +161,7 @@ public class MenuScreen extends ScreenAdapter {
             float touchY = Gdx.input.getY();
 
             com.badlogic.gdx.math.Vector3 touchPos = new com.badlogic.gdx.math.Vector3(touchX, touchY, 0);
-            camera.unproject(touchPos, viewport.getScreenX(), viewport.getScreenY(), viewport.getScreenWidth(), viewport.getScreenHeight());
+            camera.unproject(touchPos, viewport.getScreenX(), viewport.getScreenY(), WORLD_WIDTH, WORLD_HEIGHT);
 
             float worldX = touchPos.x;
             float worldY = touchPos.y;
@@ -152,6 +175,10 @@ public class MenuScreen extends ScreenAdapter {
                 startGameAfterFade = true;
             }
         }
+    }
+
+    public static Music getMenuMusic() {
+        return menuMusic;
     }
 
     @Override

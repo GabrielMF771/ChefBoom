@@ -11,7 +11,7 @@ public class CurrentLevel {
     public static int level = 3;
     public static int Maxlevel = 3;
     //GUARDA SE O MODO INFINITO FOI LIBERADO
-    public static boolean reachedInfiniteLevel = false;
+    public static boolean reachedInfiniteLevel = true;
 
     public static int getMaxlevel(){
         return Maxlevel;

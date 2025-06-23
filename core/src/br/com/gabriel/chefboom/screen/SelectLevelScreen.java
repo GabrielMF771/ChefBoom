@@ -6,6 +6,7 @@ import br.com.gabriel.chefboom.resource.Assets;
 import br.com.gabriel.chefboom.world.CurrentLevel;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -44,6 +45,10 @@ public class SelectLevelScreen extends ScreenAdapter {
 
     protected br.com.gabriel.chefboom.world.World world;
 
+    private Texture backgroundTexture;
+
+    private static Music menuMusic;
+
     // Variáveis para fade
     private float fadeAlpha = 0f;
     private boolean fadingOut = false;
@@ -57,10 +62,13 @@ public class SelectLevelScreen extends ScreenAdapter {
         batch = new SpriteBatch();
 
         // Inicializa a fonte do título usando FreeTypeFontGenerator
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Roboto-Bold.ttf"));
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/MinecraftRegular.otf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 60;
         parameter.color = Color.WHITE;
+        parameter.shadowOffsetX = -6;
+        parameter.shadowOffsetY = 6;
+        parameter.shadowColor = Color.BLACK;
         fontTitle = generator.generateFont(parameter);
         generator.dispose();
 
@@ -73,7 +81,11 @@ public class SelectLevelScreen extends ScreenAdapter {
         LevelLockedButtonTexture = Assets.manager.get(Assets.botaoBloqueado);
         MenuButtonTexture = Assets.manager.get(Assets.botaoVoltarProMenu);
 
+        backgroundTexture = Assets.manager.get(Assets.menuBackground);
+
         calculateDimensionsAndPositions();
+
+        menuMusic = MenuScreen.getMenuMusic();
     }
 
     private void calculateDimensionsAndPositions() {
@@ -123,6 +135,7 @@ public class SelectLevelScreen extends ScreenAdapter {
                 fadeAlpha = 1f;
                 if (selectedLevel >= 0) {
                     CurrentLevel.setLevel(selectedLevel);
+                    menuMusic.stop();
                     ChefBoom.getInstance().setScreen(new GameScreen());
                     return;
                 }
@@ -137,6 +150,14 @@ public class SelectLevelScreen extends ScreenAdapter {
         batch.setProjectionMatrix(camera.combined);
 
         batch.begin();
+
+        // Desenha o fundo do menu
+        batch.draw(backgroundTexture, 0, 0, WORLD_WIDTH, WORLD_HEIGHT);
+
+        // Desenha um retângulo preto semi-transparente sobre o fundo
+        batch.setColor(0, 0, 0, 0.6f); // 40% opacidade
+        batch.draw(backgroundTexture, 0, 0, WORLD_WIDTH, WORLD_HEIGHT);
+        batch.setColor(1, 1, 1, 1); // Reseta a cor
 
         // Título
         String titleText = "SELECIONE A FASE";
@@ -172,7 +193,7 @@ public class SelectLevelScreen extends ScreenAdapter {
         if (fadeAlpha > 0f) {
             Color originalColor = batch.getColor();
             batch.setColor(0, 0, 0, fadeAlpha);
-            batch.draw(Level1ButtonTexture, 0, 0, WORLD_WIDTH, WORLD_HEIGHT);
+            batch.draw(backgroundTexture, 0, 0, WORLD_WIDTH, WORLD_HEIGHT);
             batch.setColor(originalColor);
         }
 

@@ -12,6 +12,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
@@ -42,6 +43,8 @@ public class NextLevelScreen extends ScreenAdapter {
     private float startButtonX, startButtonY, startButtonWidth, startButtonHeight;
     private float MenuButtonX, MenuButtonY, MenuButtonWidth, MenuButtonHeight;
 
+    private Texture backgroundTexture;
+
     protected World world;
 
     public static int PassouDeNivel;
@@ -62,10 +65,13 @@ public class NextLevelScreen extends ScreenAdapter {
         ComponentMapper<ClientComponent> mClient = world.getArtemis().getMapper(ClientComponent.class);
 
         // Inicializa a fonte do título usando FreeTypeFontGenerator
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Roboto-Bold.ttf"));
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/MinecraftRegular.otf"));
         FreeTypeFontParameter parameter = new FreeTypeFontParameter();
         parameter.size = 80;
         parameter.color = Color.WHITE;
+        parameter.shadowOffsetX = -6;
+        parameter.shadowOffsetY = 6;
+        parameter.shadowColor = Color.BLACK;
         fontTitle = generator.generateFont(parameter);
         generator.dispose();
 
@@ -73,7 +79,9 @@ public class NextLevelScreen extends ScreenAdapter {
 
         MenuButtonTexture = Assets.manager.get(Assets.botaoVoltarProMenu);
         NextLevelTexture = Assets.manager.get(Assets.botaoProximaFase);
-        PlayAgainTexture = Assets.manager.get(Assets.botaoJogarNovamente);
+        PlayAgainTexture = Assets.manager.get(Assets.botaoTentarNovamente);
+
+        backgroundTexture = Assets.manager.get(Assets.menuBackground);
 
         calculateDimensionsAndPositions();
 
@@ -120,8 +128,16 @@ public class NextLevelScreen extends ScreenAdapter {
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
 
+        // Desenha o fundo do menu
+        batch.draw(backgroundTexture, 0, 0, WORLD_WIDTH, WORLD_HEIGHT);
+
+        // Desenha um retângulo preto semi-transparente sobre o fundo
+        batch.setColor(0, 0, 0, 0.6f); // 40% opacidade
+        batch.draw(backgroundTexture, 0, 0, WORLD_WIDTH, WORLD_HEIGHT);
+        batch.setColor(1, 1, 1, 1); // Reseta a cor
+
         // Calcula o layout do texto "Jogo"
-        String titleText = "NÍVEL CONCLUIDO!";
+        String titleText = "NIVEL CONCLUIDO!";
         layoutTitle.setText(fontTitle, titleText);
 
         // Calcula X para centralizar o texto dentro da área do título (titleX até titleX + titleWidth)

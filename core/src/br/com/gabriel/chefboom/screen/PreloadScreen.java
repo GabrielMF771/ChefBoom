@@ -22,7 +22,7 @@ public class PreloadScreen extends ScreenAdapter {
         batch = new SpriteBatch();
 
         // Carrega a fonte TTF e configura parâmetros
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Roboto-Bold.ttf"));
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/MinecraftRegular.otf"));
         FreeTypeFontParameter parameter = new FreeTypeFontParameter();
         parameter.size = 36; // tamanho da fonte
         parameter.color = Color.WHITE; // cor da fonte

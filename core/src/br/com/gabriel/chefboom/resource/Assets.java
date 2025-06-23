@@ -17,10 +17,7 @@ public class Assets {
     public static final AnnotationAssetManager manager = new AnnotationAssetManager(new InternalFileHandleResolver());
 
     /* TODO:
-        * Atualizar as texturas do player
-        * Fazer o player segurando a comida na cabeça
         * Adicionar animação de andar do player e dos clientes
-        * Adicionar animação de explosão do cliente
      */
 
     //TEXTURAS PERSONAGEM
@@ -62,6 +59,7 @@ public class Assets {
     @Asset public static final AssetDescriptor<Texture> heart = new AssetDescriptor<Texture>("hud/heart.png", Texture.class);
 
     // TEXTURAS DO MENU
+    @Asset public static final AssetDescriptor<Texture> menuBackground = new AssetDescriptor<>("menu/menuBackground.png", Texture.class);
     @Asset public static final AssetDescriptor<Texture> botaoIniciar = new AssetDescriptor<>("menu/botaoIniciar.png", Texture.class);
     @Asset public static final AssetDescriptor<Texture> botaoProximaFase = new AssetDescriptor<>("menu/botaoProximaFase.png", Texture.class);
     @Asset public static final AssetDescriptor<Texture> botaoTentarNovamente = new AssetDescriptor<>("menu/botaoTentarNovamente.png", Texture.class);
@@ -71,8 +69,6 @@ public class Assets {
     @Asset public static final AssetDescriptor<Texture> botaoModoInfinito = new AssetDescriptor<>("menu/botaoFaseInfinito.png", Texture.class);
     @Asset public static final AssetDescriptor<Texture> botaoVoltarProMenu = new AssetDescriptor<>("menu/botaoMenu.png", Texture.class);
     @Asset public static final AssetDescriptor<Texture> botaoBloqueado = new AssetDescriptor<>("menu/botaoBloqueado.png", Texture.class);
-    @Asset public static final AssetDescriptor<Texture> botaoJogarNovamente = new AssetDescriptor<>("menu/botaoJogarNovamente.png", Texture.class);
-
 
     // TEXTURAS DOS ITENS
     @Asset public static final AssetDescriptor<Texture> burguer = new AssetDescriptor<>("item/burguer.png", Texture.class);
@@ -85,24 +81,13 @@ public class Assets {
 
     // SONS
     @Asset public static final AssetDescriptor<Music> gameMusic = new AssetDescriptor<>("music/game-music.mp3", Music.class);
+    @Asset public static final AssetDescriptor<Music> menuMusic = new AssetDescriptor<>("music/menu-music.mp3", Music.class);
+
     @Asset public static final AssetDescriptor<Sound> explosionSound = new AssetDescriptor<>("sound/explosion.mp3", Sound.class);
     @Asset public static final AssetDescriptor<Sound> readySound = new AssetDescriptor<>("sound/ready.mp3", Sound.class);
     @Asset public static final AssetDescriptor<Sound> gameoverSound = new AssetDescriptor<>("sound/youlose.mp3", Sound.class);
     @Asset public static final AssetDescriptor<Sound> wrongSound = new AssetDescriptor<>("sound/wrong.mp3", Sound.class);
     @Asset public static final AssetDescriptor<Sound> dashSound = new AssetDescriptor<>("sound/dash.mp3", Sound.class);
-
-    public static Texture pixel() {
-        if (pixelTexture == null) {
-            com.badlogic.gdx.graphics.Pixmap pixmap =
-                    new com.badlogic.gdx.graphics.Pixmap(1, 1, com.badlogic.gdx.graphics.Pixmap.Format.RGBA8888);
-            pixmap.setColor(1, 1, 1, 1); // Branco
-            pixmap.fill();
-            pixelTexture = new Texture(pixmap);
-            pixmap.dispose();
-        }
-        return pixelTexture;
-    }
-
 
     public static void load(){
         Texture.setAssetManager(manager);
