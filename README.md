@@ -41,6 +41,7 @@ Desenvolvido como parte da disciplina de Sistemas Operacionais, o projeto aplica
 - **Shift**: Dash para frente
 - **E**: Interagir/entregar item
 - **ESC**: Sair do jogo
+- **F1**: Mostrar/ocultar console
 
 **(MODO DEBUG)**
 

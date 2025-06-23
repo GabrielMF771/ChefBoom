@@ -57,7 +57,7 @@ public class ChefBoom extends Game {
 		super.render();
 
 		// Manipulação do console
-		if (Gdx.input.isKeyJustPressed(Input.Keys.GRAVE)) { // Tecla `
+		if (Gdx.input.isKeyJustPressed(Input.Keys.F1)) {
 			if (getScreen() instanceof br.com.gabriel.chefboom.screen.GameScreen) {
 				devConsole.toggle();
 			}
