@@ -49,7 +49,7 @@ public class SpriteRenderSystem extends IteratingSystem {
         // Carrega a fonte FreeType
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Roboto-Bold.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 32;
+        parameter.size = 26;
         parameter.color = com.badlogic.gdx.graphics.Color.WHITE;
         timerFont = generator.generateFont(parameter);
         generator.dispose();

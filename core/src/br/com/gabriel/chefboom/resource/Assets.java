@@ -36,16 +36,26 @@ public class Assets {
     @Asset public static final AssetDescriptor<Texture> cliente4 = new AssetDescriptor<Texture>("npc/cliente4.png", Texture.class);
     @Asset public static final AssetDescriptor<Texture> cliente5 = new AssetDescriptor<Texture>("npc/cliente5.png", Texture.class);
     @Asset public static final AssetDescriptor<Texture> cliente6 = new AssetDescriptor<Texture>("npc/cliente6.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> cliente7 = new AssetDescriptor<Texture>("npc/cliente7.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> cliente8 = new AssetDescriptor<Texture>("npc/cliente8.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> clienteSentado1 = new AssetDescriptor<Texture>("npc/clienteSentado1.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> clienteSentado2 = new AssetDescriptor<Texture>("npc/clienteSentado2.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> clienteSentado3 = new AssetDescriptor<Texture>("npc/clienteSentado3.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> clienteSentado4 = new AssetDescriptor<Texture>("npc/clienteSentado4.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> clienteSentado5 = new AssetDescriptor<Texture>("npc/clienteSentado5.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> clienteSentado6 = new AssetDescriptor<Texture>("npc/clienteSentado6.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> clienteSentado7 = new AssetDescriptor<Texture>("npc/clienteSentado7.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> clienteSentado8 = new AssetDescriptor<Texture>("npc/clienteSentado8.png", Texture.class);
 
     @Asset public static final AssetDescriptor<Texture> explosao1 = new AssetDescriptor<Texture>("npc/explosion-01.png", Texture.class);
     @Asset public static final AssetDescriptor<Texture> explosao2 = new AssetDescriptor<Texture>("npc/explosion-02.png", Texture.class);
 
     //TEXTURA MAPA
     // TODO - Atualizar as texturas do mapa para os níveis corretos
-    @Asset public static final AssetDescriptor<Texture> map0 = new AssetDescriptor<Texture>("mapa.png", Texture.class);
-    @Asset public static final AssetDescriptor<Texture> map1 = new AssetDescriptor<Texture>("mapa.png", Texture.class);
-    @Asset public static final AssetDescriptor<Texture> map2 = new AssetDescriptor<Texture>("mapa.png", Texture.class);
-    @Asset public static final AssetDescriptor<Texture> map3 = new AssetDescriptor<Texture>("mapa.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> map0 = new AssetDescriptor<Texture>("mapa0.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> map1 = new AssetDescriptor<Texture>("mapa1.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> map2 = new AssetDescriptor<Texture>("mapa2.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> map3 = new AssetDescriptor<Texture>("mapa3.png", Texture.class);
 
     // TEXTURAS DO HUD
     @Asset public static final AssetDescriptor<Texture> hudBackground = new AssetDescriptor<Texture>("hud/hudBackground.png", Texture.class);

@@ -96,12 +96,14 @@ public class EntitiesFactory {
                 Assets.cliente4,
                 Assets.cliente5,
                 Assets.cliente6,
+                Assets.cliente7,
+                Assets.cliente8,
         };
 
         // Escolhe uma textura aleatória
         Random random = new Random();
 
-        AssetDescriptor<Texture> randomTextureDescriptor = clientTextures[random.nextInt(clientTextures.length - 3)];
+        AssetDescriptor<Texture> randomTextureDescriptor = clientTextures[random.nextInt(clientTextures.length)];
         Texture texture = Assets.manager.get(randomTextureDescriptor);
 
         SpriteComponent cSprite = mSprite.create(entity);
@@ -119,6 +121,53 @@ public class EntitiesFactory {
         // Define as chances para cada item
         double[] chances = {0.5, 0.3, 0.2}; // 50% burguer, 30% fries, 20% soda
         cClient.wantedItemId = ItemSystem.randomItemByProbability(chances);
+
+        RigidBodyComponent cRigidBody = mRigidBody.create(entity);
+
+        CollidableComponent cCollidable = mCollidable.create(entity);
+        cCollidable.collisionBox.setSize(texture.getWidth(), texture.getHeight());
+        cCollidable.collisionBox.setCenter(new Vector2(x, y));
+
+        return entity;
+    }
+
+    public int createStaticClient(World world, float x, float y, int queueId, boolean canWalk,char looking) {
+        int entity = world.create();
+
+        TransformComponent cTransform = mTransform.create(entity);
+        cTransform.position.set(x, y);
+        cTransform.scaleX = 2f;
+        cTransform.scaleY = 2f;
+
+        // Array com as texturas dos clientes
+        AssetDescriptor<Texture>[]clientTextures = new AssetDescriptor[]{
+                Assets.clienteSentado1,
+                Assets.clienteSentado2,
+                Assets.clienteSentado3,
+                Assets.clienteSentado4,
+                Assets.clienteSentado5,
+                Assets.clienteSentado6,
+                Assets.clienteSentado7,
+                Assets.clienteSentado8,
+        };
+
+        // Escolhe uma textura aleatória
+        Random random = new Random();
+
+        AssetDescriptor<Texture> randomTextureDescriptor = clientTextures[random.nextInt(clientTextures.length)];
+        Texture texture = Assets.manager.get(randomTextureDescriptor);
+
+        SpriteComponent cSprite = mSprite.create(entity);
+        cSprite.sprite = new Sprite(texture);
+
+        if (looking == 'l') {
+            cSprite.flipX = true;
+        }
+
+        ClientComponent cClient = mClient.create(entity);
+        cClient.queueId = queueId;
+        cClient.canWalk = canWalk;
+        cClient.wantedItemId = -1;
 
         RigidBodyComponent cRigidBody = mRigidBody.create(entity);
 

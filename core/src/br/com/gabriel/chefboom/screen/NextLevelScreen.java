@@ -61,9 +61,6 @@ public class NextLevelScreen extends ScreenAdapter {
         World world = new World(camera);
         ComponentMapper<ClientComponent> mClient = world.getArtemis().getMapper(ClientComponent.class);
 
-        HudRenderer hudRenderer = new HudRenderer(orderSystem, world, mClient);
-        hudRenderer.showLevelMessage(level);
-
         // Inicializa a fonte do título usando FreeTypeFontGenerator
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Roboto-Bold.ttf"));
         FreeTypeFontParameter parameter = new FreeTypeFontParameter();

@@ -21,11 +21,6 @@ public class HudRenderer {
     private final Texture hudImageTexture;
     private final OrderSystem orderSystem;
     private final World artemisWorld;
-
-    // Título da fase
-    private static final float LEVEL_MESSAGE_DURATION = 5f;
-    private boolean levelMessageActive = true;
-    private String levelMessage = "";
     private BitmapFont font;
 
     public HudRenderer(OrderSystem orderSystem, World artemisWorld, ComponentMapper<ClientComponent> mClient) {
@@ -116,18 +111,6 @@ public class HudRenderer {
                 batch.setColor(1, 1, 1, 1);
             }
         }
-
-        // Mensagem de nível
-        if (levelMessageActive) {
-            font.getData().setScale(2f);
-            font.setColor(1, 1, 1, 1);
-
-            com.badlogic.gdx.graphics.g2d.GlyphLayout layout = new com.badlogic.gdx.graphics.g2d.GlyphLayout(font, levelMessage);
-            float x = (camera.viewportWidth - layout.width) / 2f;
-            float y = camera.viewportHeight - hudHeight - 15;
-
-            font.draw(batch, levelMessage, x, y);
-        }
     }
 
     // Procura o clientId correspondente ao pedido
@@ -147,15 +130,5 @@ public class HudRenderer {
             }
         }
         return -1;
-    }
-
-    public void showLevelMessage(int level) {
-        if(level == 3){
-            levelMessage = "Nível Infinito";
-        } else {
-            levelMessage = "Nível: " + (level + 1);
-        }
-
-        levelMessageActive = true;
     }
 }

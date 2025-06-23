@@ -635,7 +635,7 @@ public class World extends CurrentLevel {
 
         for (SpawnPoint spawn : spawnPoints) {
             if (random.nextBoolean()) {
-                entitiesFactory.createClient(artemis, spawn.x, spawn.y, 0, false, spawn.direction);
+                entitiesFactory.createStaticClient(artemis, spawn.x, spawn.y, 0, false, spawn.direction);
             }
         }
     }
