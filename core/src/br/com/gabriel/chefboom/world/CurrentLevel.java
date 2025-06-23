@@ -8,8 +8,10 @@ public class CurrentLevel {
     // 1 = NIVEL 2
     // 2 = NIVEL 3
     // 3 = MODO INFINITO
-    public static int level = 0;
-    public static int Maxlevel = 0;
+    public static int level = 3;
+    public static int Maxlevel = 3;
+    //GUARDA SE O MODO INFINITO FOI LIBERADO
+    public static boolean reachedInfiniteLevel = false;
 
     public static int getMaxlevel(){
         return Maxlevel;
@@ -26,5 +28,12 @@ public class CurrentLevel {
 
         if(level > Maxlevel)
             Maxlevel = level;
+    }
+
+    public static boolean getReachedInfiniteLevel(){
+        return reachedInfiniteLevel;
+    }
+    public static void setReachedInfiniteLevel(boolean reachedInfiniteLevel){
+        CurrentLevel.reachedInfiniteLevel = reachedInfiniteLevel;
     }
 }

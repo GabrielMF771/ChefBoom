@@ -57,6 +57,7 @@ public class Assets {
     @Asset public static final AssetDescriptor<Texture> botaoModoInfinito = new AssetDescriptor<>("menu/INFINITO.png", Texture.class);
     @Asset public static final AssetDescriptor<Texture> botaoVoltarProMenu = new AssetDescriptor<>("menu/VOLTAR PRO MENU.png", Texture.class);
     @Asset public static final AssetDescriptor<Texture> botaoBloqueado = new AssetDescriptor<>("menu/Bloqueado.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> botaoJogarNovamente = new AssetDescriptor<>("menu/Jogarnovamente.png", Texture.class);
 
 
     // TEXTURAS DOS ITENS

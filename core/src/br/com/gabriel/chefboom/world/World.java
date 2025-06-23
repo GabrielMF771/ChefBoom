@@ -147,9 +147,9 @@ public class World extends CurrentLevel {
         if(getLevel() == 3) {
             Random gerarNumClientes = new Random();
 
-            spawn[0] = gerarNumClientes.nextInt(4) + 2;
-            spawn[1] = gerarNumClientes.nextInt(4) + 2;
-            spawn[2] = gerarNumClientes.nextInt(4) + 2;
+            spawn[0] = 1 ; //gerarNumClientes.nextInt(4) + 2;
+            spawn[1] = 1; // gerarNumClientes.nextInt(4) + 2;
+            spawn[2] =  1; //gerarNumClientes.nextInt(4) + 2;
 
             if(ChefBoom.DEBUG){
                 System.out.println("spawn[0]: " + spawn[0]);

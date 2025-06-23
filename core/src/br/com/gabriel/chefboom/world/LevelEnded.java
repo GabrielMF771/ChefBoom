@@ -39,7 +39,8 @@ public class LevelEnded extends CurrentLevel {
             if(QuantidadeClientesDaFase == ClientesAtendidos){
                 gameMusic.stop();
                 ChefBoom.getInstance().setScreen(new NextLevelScreen());
-                setLevel(getLevel() + 1);
+                        if(getLevel()!= 3)
+                    setLevel(getLevel() + 1);
 
             }
         }
