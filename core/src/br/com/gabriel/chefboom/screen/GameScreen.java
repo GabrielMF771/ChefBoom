@@ -1,6 +1,7 @@
 package br.com.gabriel.chefboom.screen;
 
-import br.com.gabriel.chefboom.entity.component.ClientComponent;
+import br.com.gabriel.chefboom.console.CommandExecutor;
+import br.com.gabriel.chefboom.entity.component.*;
 import br.com.gabriel.chefboom.entity.system.OrderSystem;
 import br.com.gabriel.chefboom.resource.Assets;
 import br.com.gabriel.chefboom.ChefBoom;
@@ -8,8 +9,6 @@ import br.com.gabriel.chefboom.world.LevelEnded;
 import com.artemis.ComponentMapper;
 import br.com.gabriel.chefboom.Config;
 import br.com.gabriel.chefboom.block.Block;
-import br.com.gabriel.chefboom.entity.component.RigidBodyComponent;
-import br.com.gabriel.chefboom.entity.component.TransformComponent;
 import br.com.gabriel.chefboom.world.World;
 import br.com.gabriel.chefboom.hud.HudRenderer;
 import com.badlogic.gdx.Gdx;
@@ -31,7 +30,7 @@ public class GameScreen extends ScreenAdapter {
 
     SpriteBatch batch;
     protected OrthographicCamera camera;
-    protected World world;
+    private World world;
 
     FitViewport viewport;
     public final Vector3 screenCordinate = new Vector3();
@@ -40,6 +39,8 @@ public class GameScreen extends ScreenAdapter {
     private HudRenderer hudRenderer;
 
     private static Music gameMusic;
+
+    private CommandExecutor commandExecutor;
 
     @Override
     public void show() {
@@ -81,7 +82,11 @@ public class GameScreen extends ScreenAdapter {
         world = new World(camera);
         world.regenerate();
 
+        commandExecutor = new CommandExecutor(ChefBoom.getInstance(), world.getArtemis().getMapper(PlayerComponent.class), world.getArtemis().getMapper(ItemComponent.class));
+        ChefBoom.getInstance().getDevConsole().setCommandExecutor(commandExecutor);
+
         OrderSystem orderSystem = world.getArtemis().getSystem(OrderSystem.class);
+
         ComponentMapper<ClientComponent> mClient = world.getArtemis().getMapper(ClientComponent.class);
         hudRenderer = new HudRenderer(orderSystem, world, mClient);
 
@@ -136,19 +141,21 @@ public class GameScreen extends ScreenAdapter {
         hudRenderer.render(batch, camera);
         batch.end();
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-            ChefBoom.getInstance().setScreen(new MenuScreen());
-            gameMusic.stop();
-        }
+        if (!ChefBoom.getInstance().getDevConsole().isVisible()) {
+            if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+                ChefBoom.getInstance().setScreen(new MenuScreen());
+                gameMusic.stop();
+            }
 
-        if (ChefBoom.DEBUG) {
-            if (Gdx.input.isKeyJustPressed(Input.Keys.B)) {
-                if (world.getEntityTrackerWindow() != null) {
-                    world.getEntityTrackerWindow().setVisible(!world.getEntityTrackerWindow().isVisible());
+            if (ChefBoom.DEBUG) {
+                if (Gdx.input.isKeyJustPressed(Input.Keys.B)) {
+                    if (world.getEntityTrackerWindow() != null) {
+                        world.getEntityTrackerWindow().setVisible(!world.getEntityTrackerWindow().isVisible());
+                    }
                 }
             }
         }
-    }
+        }
 
     @Override
     public void dispose() {
@@ -173,5 +180,9 @@ public class GameScreen extends ScreenAdapter {
 
     public static Music getGameMusic() {
         return gameMusic;
+    }
+
+    public World getWorld() {
+        return world;
     }
 }

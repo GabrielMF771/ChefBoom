@@ -4,6 +4,8 @@ package br.com.gabriel.chefboom.world;
 import br.com.gabriel.chefboom.Config;
 import br.com.gabriel.chefboom.ChefBoom;
 import br.com.gabriel.chefboom.block.Block;
+import br.com.gabriel.chefboom.console.CommandExecutor;
+import br.com.gabriel.chefboom.console.DevConsole;
 import br.com.gabriel.chefboom.dictionary.Blocks;
 import br.com.gabriel.chefboom.entity.EntitiesFactory;
 import br.com.gabriel.chefboom.entity.component.ClientComponent;
@@ -715,8 +717,10 @@ public class World extends CurrentLevel {
 
     public void update(float delta) {
         if(ChefBoom.DEBUG){
-            if(Gdx.input.isKeyJustPressed(Input.Keys.C)){
-                toggleCollisionDebug();
+            if (!ChefBoom.getInstance().getDevConsole().isVisible()) {
+                if(Gdx.input.isKeyJustPressed(Input.Keys.C)){
+                    toggleCollisionDebug();
+                }
             }
         }
 

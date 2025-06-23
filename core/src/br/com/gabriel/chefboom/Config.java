@@ -11,7 +11,7 @@ public class Config {
 
     public static float MUSIC_VOLUME = 0.1f;
     public static float EFFECTS_VOLUME = 0.4f;
-    public static boolean VSYNC = true;
+    public static boolean VSYNC = false;
 
-    public static boolean TWO_PLAYERS = true; // Ativa ou desativa o modo 2 jogadores
+    public static boolean TWO_PLAYERS = false; // Ativa ou desativa o modo 2 jogadores
 }

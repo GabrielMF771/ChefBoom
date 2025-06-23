@@ -1,5 +1,6 @@
 package br.com.gabriel.chefboom.entity.system;
 
+import br.com.gabriel.chefboom.ChefBoom;
 import br.com.gabriel.chefboom.Config;
 import br.com.gabriel.chefboom.entity.component.CollidableComponent;
 import br.com.gabriel.chefboom.entity.component.PlayerComponent;
@@ -42,6 +43,11 @@ public class PlayerControllerSystem extends IteratingSystem {
 
     @Override
     protected void process(int entityId) {
+        // Se o console estiver visível, não faça nada.
+        if (ChefBoom.getInstance().getDevConsole().isVisible()) {
+            return;
+        }
+
         PlayerComponent cPlayer = mPlayer.get(entityId);
         CollidableComponent cCollidable = mCollidable.get(entityId);
         RigidBodyComponent cRigidBody = mRigidBody.get(entityId);
