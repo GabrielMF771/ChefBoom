@@ -32,7 +32,7 @@ public class SpriteRenderSystem extends IteratingSystem {
     private BitmapFont timerFont;
 
     public SpriteRenderSystem(OrthographicCamera camera) {
-        super(Aspect.all(TransformComponent.class, SpriteComponent.class));
+        super(Aspect.all(TransformComponent.class).one(SpriteComponent.class, InteractiveBlock.class));
         this.camera = camera;
         batch = new SpriteBatch();
     }
@@ -60,36 +60,38 @@ public class SpriteRenderSystem extends IteratingSystem {
         TransformComponent cTransform = mTransform.get(entityId);
         SpriteComponent cSprite = mSprite.get(entityId);
 
-        Sprite sprite = cSprite.sprite;
+        if (cSprite != null && cSprite.sprite != null) {
+            Sprite sprite = cSprite.sprite;
 
-        if (cTransform.originCenter) {
-            sprite.setOriginCenter();
-        } else {
-            sprite.setOrigin(cTransform.origin.x, cTransform.origin.y);
+            if (cTransform.originCenter) {
+                sprite.setOriginCenter();
+            } else {
+                sprite.setOrigin(cTransform.origin.x, cTransform.origin.y);
+            }
+
+            sprite.setScale(cTransform.scaleX, cTransform.scaleY);
+            sprite.setRotation(cTransform.rotation);
+            sprite.setPosition(cTransform.position.x, cTransform.position.y);
+
+            batch.draw(
+                    sprite.getTexture(),
+                    sprite.getX() - sprite.getOriginX(),
+                    sprite.getY() - sprite.getOriginY(),
+                    sprite.getOriginX(),
+                    sprite.getOriginY(),
+                    sprite.getWidth(),
+                    sprite.getHeight(),
+                    sprite.getScaleX(),
+                    sprite.getScaleY(),
+                    sprite.getRotation(),
+                    sprite.getRegionX(),
+                    sprite.getRegionY(),
+                    sprite.getRegionWidth(),
+                    sprite.getRegionHeight(),
+                    cSprite.flipX,
+                    cSprite.flipY
+            );
         }
-
-        sprite.setScale(cTransform.scaleX, cTransform.scaleY);
-        sprite.setRotation(cTransform.rotation);
-        sprite.setPosition(cTransform.position.x, cTransform.position.y);
-
-        batch.draw(
-                sprite.getTexture(),
-                sprite.getX() - sprite.getOriginX(),
-                sprite.getY() - sprite.getOriginY(),
-                sprite.getOriginX(),
-                sprite.getOriginY(),
-                sprite.getWidth(),
-                sprite.getHeight(),
-                sprite.getScaleX(),
-                sprite.getScaleY(),
-                sprite.getRotation(),
-                sprite.getRegionX(),
-                sprite.getRegionY(),
-                sprite.getRegionWidth(),
-                sprite.getRegionHeight(),
-                cSprite.flipX,
-                cSprite.flipY
-        );
 
         // Timer dos clientes
         if (mClient.has(entityId)) {

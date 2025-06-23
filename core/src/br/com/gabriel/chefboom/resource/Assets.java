@@ -41,7 +41,11 @@ public class Assets {
     @Asset public static final AssetDescriptor<Texture> explosao2 = new AssetDescriptor<Texture>("npc/explosion-02.png", Texture.class);
 
     //TEXTURA MAPA
-    @Asset public static final AssetDescriptor<Texture> map = new AssetDescriptor<Texture>("mapa.png", Texture.class);
+    // TODO - Atualizar as texturas do mapa para os níveis corretos
+    @Asset public static final AssetDescriptor<Texture> map0 = new AssetDescriptor<Texture>("mapa.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> map1 = new AssetDescriptor<Texture>("mapa.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> map2 = new AssetDescriptor<Texture>("mapa.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> map3 = new AssetDescriptor<Texture>("mapa.png", Texture.class);
 
     // TEXTURAS DO HUD
     @Asset public static final AssetDescriptor<Texture> hudBackground = new AssetDescriptor<Texture>("hud/hudBackground.png", Texture.class);
@@ -68,9 +72,6 @@ public class Assets {
     // TEXTURAS DOS BLOCO INTERATIVOS
     @Asset public static final AssetDescriptor<Texture> plate = new AssetDescriptor<>("blocks/plate.png", Texture.class);
     @Asset public static final AssetDescriptor<Texture> trash = new AssetDescriptor<>("blocks/trash.png", Texture.class);
-    @Asset public static final AssetDescriptor<Texture> grill = new AssetDescriptor<>("blocks/grill.png", Texture.class);
-    @Asset public static final AssetDescriptor<Texture> friesMachine = new AssetDescriptor<>("blocks/friesmachine.png", Texture.class);
-    @Asset public static final AssetDescriptor<Texture> sodaMachine = new AssetDescriptor<>("blocks/sodamachine.png", Texture.class);
 
     // SONS
     @Asset public static final AssetDescriptor<Music> gameMusic = new AssetDescriptor<>("music/game-music.mp3", Music.class);

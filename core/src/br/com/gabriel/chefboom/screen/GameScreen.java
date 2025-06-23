@@ -57,7 +57,25 @@ public class GameScreen extends ScreenAdapter {
         // Mexer aqui para posicionar a câmeras
         camera.setToOrtho(false, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
 
-        backgroundTexture = Assets.manager.get(Assets.map);
+        int Level = CurrentLevel.getLevel();
+
+        switch (Level) {
+            case 0 :
+                backgroundTexture = Assets.manager.get(Assets.map0);
+                break;
+            case 1 :
+                backgroundTexture = Assets.manager.get(Assets.map1);
+                break;
+            case 2 :
+                backgroundTexture = Assets.manager.get(Assets.map2);
+                break;
+            case 3 :
+                backgroundTexture = Assets.manager.get(Assets.map3);
+                break;
+            default:
+                backgroundTexture = Assets.manager.get(Assets.map2);
+                break;
+        }
 
 
         world = new World(camera);

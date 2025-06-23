@@ -9,8 +9,6 @@ import br.com.gabriel.chefboom.entity.EntitiesFactory;
 import br.com.gabriel.chefboom.entity.component.ClientComponent;
 import br.com.gabriel.chefboom.entity.component.InteractiveBlock;
 import br.com.gabriel.chefboom.entity.system.*;
-import br.com.gabriel.chefboom.resource.Assets;
-import br.com.gabriel.chefboom.screen.MenuScreen;
 import com.artemis.BaseSystem;
 import com.artemis.ComponentMapper;
 import com.artemis.WorldConfiguration;
@@ -111,18 +109,16 @@ public class World extends CurrentLevel {
         artemis.inject(entitiesFactory);
 
         // BLOCOS INTERATIVOS
-        interactiveBlock[0] = entitiesFactory.createInteractiveBlock(artemis, 23 * Block.TILE_SIZE, 0 * Block.TILE_SIZE, InteractiveBlock.Type.PLATE,0 , Assets.manager.get(Assets.plate));
-        interactiveBlock[1] = entitiesFactory.createInteractiveBlock(artemis, 21 * Block.TILE_SIZE, 0 * Block.TILE_SIZE, InteractiveBlock.Type.PLATE, 0, Assets.manager.get(Assets.plate));
-        interactiveBlock[2] = entitiesFactory.createInteractiveBlock(artemis, 19 * Block.TILE_SIZE, 0 * Block.TILE_SIZE, InteractiveBlock.Type.PLATE, 0,Assets.manager.get(Assets.plate));
-        interactiveBlock[3] = entitiesFactory.createInteractiveBlock(artemis, 23 * Block.TILE_SIZE, 12 * Block.TILE_SIZE, InteractiveBlock.Type.PLATE, 0, Assets.manager.get(Assets.plate));
-        interactiveBlock[4] = entitiesFactory.createInteractiveBlock(artemis, 21 * Block.TILE_SIZE, 12 * Block.TILE_SIZE, InteractiveBlock.Type.PLATE, 0, Assets.manager.get(Assets.plate));
-        interactiveBlock[5] = entitiesFactory.createInteractiveBlock(artemis, 19 * Block.TILE_SIZE, 12 * Block.TILE_SIZE, InteractiveBlock.Type.PLATE, 0, Assets.manager.get(Assets.plate));
+        interactiveBlock[0] = entitiesFactory.createInteractiveBlock(artemis, 23 * Block.TILE_SIZE, 0 * Block.TILE_SIZE, InteractiveBlock.Type.PLATE,0);
+        interactiveBlock[1] = entitiesFactory.createInteractiveBlock(artemis, 21 * Block.TILE_SIZE, 0 * Block.TILE_SIZE, InteractiveBlock.Type.PLATE, 0);
+        interactiveBlock[2] = entitiesFactory.createInteractiveBlock(artemis, 19 * Block.TILE_SIZE, 0 * Block.TILE_SIZE, InteractiveBlock.Type.PLATE, 0);
 
-        interactiveBlock[6] = entitiesFactory.createInteractiveBlock(artemis, 26 * Block.TILE_SIZE, 0 * Block.TILE_SIZE, InteractiveBlock.Type.TRASH, 0, Assets.manager.get(Assets.trash));
+        interactiveBlock[3] = entitiesFactory.createInteractiveBlock(artemis, 26 * Block.TILE_SIZE, 0 * Block.TILE_SIZE, InteractiveBlock.Type.TRASH, 0);
+
         // TODO - Ajustar o timer de cada bloco
-        interactiveBlock[7] = entitiesFactory.createInteractiveBlock(artemis, 30 * Block.TILE_SIZE, 10 * Block.TILE_SIZE, InteractiveBlock.Type.FRIESMACHINE, FRIESTIME, Assets.manager.get(Assets.friesMachine));
-        interactiveBlock[8] = entitiesFactory.createInteractiveBlock(artemis, 30 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, InteractiveBlock.Type.GRILL, GRILLTIME, Assets.manager.get(Assets.grill));
-        interactiveBlock[9] = entitiesFactory.createInteractiveBlock(artemis, 30 * Block.TILE_SIZE, 2 * Block.TILE_SIZE, InteractiveBlock.Type.SODAMACHINE, SODATIME, Assets.manager.get(Assets.sodaMachine));
+        interactiveBlock[4] = entitiesFactory.createInteractiveBlock(artemis, 19 * Block.TILE_SIZE, 12 * Block.TILE_SIZE, InteractiveBlock.Type.FRIESMACHINE, FRIESTIME);
+        interactiveBlock[5] = entitiesFactory.createInteractiveBlock(artemis, 21 * Block.TILE_SIZE, 12 * Block.TILE_SIZE, InteractiveBlock.Type.GRILL, GRILLTIME);
+        interactiveBlock[6] = entitiesFactory.createInteractiveBlock(artemis, 23 * Block.TILE_SIZE, 12 * Block.TILE_SIZE, InteractiveBlock.Type.SODAMACHINE, SODATIME);
 
         // PLAYER
         player = entitiesFactory.createPlayer(artemis, 16 * Block.TILE_SIZE, 6 * Block.TILE_SIZE);
@@ -600,65 +596,48 @@ public class World extends CurrentLevel {
             }
     }
 
-    public void generateStaticClients(){
+    public void generateStaticClients() {
+        class SpawnPoint {
+            float x, y;
+            char direction;
 
-        // CLIENTES FIGURANTES
+            SpawnPoint(float x, float y, char direction) {
+                this.x = x;
+                this.y = y;
+                this.direction = direction;
+            }
+        }
+
         EntitiesFactory entitiesFactory = new EntitiesFactory();
         artemis.inject(entitiesFactory);
 
-        int[] vetor = new int[14];
+        // Lista com os spawn points disponíveis (apenas L e R)
+        SpawnPoint[] spawnPoints = new SpawnPoint[] {
+                // CIMA
+                new SpawnPoint(1f * Block.TILE_SIZE, (11f * Block.TILE_SIZE) + 14, 'r'),
+                new SpawnPoint(3f * Block.TILE_SIZE, (11f * Block.TILE_SIZE) + 14, 'l'),
+                new SpawnPoint(5f * Block.TILE_SIZE, (11f * Block.TILE_SIZE) + 14, 'r'),
+                new SpawnPoint(7f * Block.TILE_SIZE, (11f * Block.TILE_SIZE) + 14, 'l'),
+                new SpawnPoint(9f * Block.TILE_SIZE, (11f * Block.TILE_SIZE) + 14, 'r'),
+                new SpawnPoint(11f * Block.TILE_SIZE, (11f * Block.TILE_SIZE) + 14, 'l'),
+
+                // BAIXO
+                new SpawnPoint(1f * Block.TILE_SIZE, (1f * Block.TILE_SIZE) + 14, 'r'),
+                new SpawnPoint(3f * Block.TILE_SIZE, (1f * Block.TILE_SIZE) + 14, 'l'),
+                new SpawnPoint(5f * Block.TILE_SIZE, (1f * Block.TILE_SIZE) + 14, 'r'),
+                new SpawnPoint(7f * Block.TILE_SIZE, (1f * Block.TILE_SIZE) + 14, 'l'),
+                new SpawnPoint(9f * Block.TILE_SIZE, (1f * Block.TILE_SIZE) + 14, 'r'),
+                new SpawnPoint(11f * Block.TILE_SIZE, (1f * Block.TILE_SIZE) + 14, 'l'),
+
+        };
 
         Random random = new Random();
 
-        vetor[0] = random.nextInt(2);
-        vetor[1] = random.nextInt(2);
-        vetor[2] = random.nextInt(2);
-        vetor[3] = random.nextInt(2);
-        vetor[4] = random.nextInt(2);
-        vetor[5] = random.nextInt(2);
-        vetor[6] = random.nextInt(2);
-        vetor[7] = random.nextInt(2);
-        vetor[8] = random.nextInt(2);
-        vetor[9] = random.nextInt(2);
-        vetor[10] = random.nextInt(2);
-        vetor[11] = random.nextInt(2);
-        vetor[12] = random.nextInt(2);
-        vetor[13] = random.nextInt(2);
-
-
-        //CIMA DIREITA
-        if(vetor[0] == 1)
-            entitiesFactory.createClient(artemis, 8f * Block.TILE_SIZE, 12f * Block.TILE_SIZE, 0, false,'r');
-        if(vetor[1] == 1)
-            entitiesFactory.createClient(artemis, 10f * Block.TILE_SIZE, 12f * Block.TILE_SIZE, 0, false,'l');
-        if(vetor[2] == 1)
-            entitiesFactory.createClient(artemis, 9f * Block.TILE_SIZE, 11f * Block.TILE_SIZE, 0, false,'u');
-        if(vetor[3] == 1)
-            entitiesFactory.createClient(artemis, 9f * Block.TILE_SIZE, 13f * Block.TILE_SIZE, 0, false,'d');
-        //CIMA ESQUERDA
-        if(vetor[4] == 1)
-            entitiesFactory.createClient(artemis, 1f * Block.TILE_SIZE, 12f * Block.TILE_SIZE, 0, false,'r');
-        if(vetor[5] == 1)
-            entitiesFactory.createClient(artemis, 3f * Block.TILE_SIZE, 12f * Block.TILE_SIZE, 0, false,'l');
-        if(vetor[6] == 1)
-            entitiesFactory.createClient(artemis, 2f * Block.TILE_SIZE, 11f * Block.TILE_SIZE, 0, false,'u');
-        if(vetor[7] == 1)
-            entitiesFactory.createClient(artemis, 2f * Block.TILE_SIZE, 13f * Block.TILE_SIZE, 0, false,'d');
-
-        //BAIXO DIREITA
-        if(vetor[8] == 1)
-            entitiesFactory.createClient(artemis, 8f * Block.TILE_SIZE, 1f * Block.TILE_SIZE, 0, false,'r');
-        if(vetor[9] == 1)
-            entitiesFactory.createClient(artemis, 1f * Block.TILE_SIZE, 1f * Block.TILE_SIZE, 0, false,'l');
-
-
-        if(vetor[11] == 1)
-            entitiesFactory.createClient(artemis, 9f * Block.TILE_SIZE, 2f * Block.TILE_SIZE, 0, false,'d');
-
-        //BAIXO MEIO
-        if(vetor[13] == 1)
-            entitiesFactory.createClient(artemis, 6 * Block.TILE_SIZE, 2f * Block.TILE_SIZE, 0, false,'d');
-
+        for (SpawnPoint spawn : spawnPoints) {
+            if (random.nextBoolean()) {
+                entitiesFactory.createClient(artemis, spawn.x, spawn.y, 0, false, spawn.direction);
+            }
+        }
     }
 
     public void regenerate() {

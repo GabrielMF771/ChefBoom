@@ -4,10 +4,9 @@ import br.com.gabriel.chefboom.ChefBoom;
 import br.com.gabriel.chefboom.block.Block;
 import br.com.gabriel.chefboom.entity.component.*;
 import br.com.gabriel.chefboom.entity.state.PlayerState;
-import br.com.gabriel.chefboom.entity.system.*;
+import br.com.gabriel.chefboom.entity.system.ItemSystem;
 import br.com.gabriel.chefboom.resource.Assets;
 import com.artemis.ComponentMapper;
-import com.artemis.WorldConfigurationBuilder;
 import com.artemis.annotations.Wire;
 import com.artemis.Entity;
 import com.artemis.World;
@@ -90,113 +89,44 @@ public class EntitiesFactory {
         cTransform.scaleY = 2f;
 
         // Array com as texturas dos clientes
-            AssetDescriptor<Texture>[] clientTextures = new AssetDescriptor[]{
-                    Assets.cliente1,
-                    Assets.cliente2,
-                    Assets.cliente3,
-                    Assets.cliente4,
-                    Assets.cliente5,
-                    Assets.cliente6,
-                    Assets.playerEsquerda,
-                    Assets.playerCostas,
-                    Assets.playerFrente
-            };
+        AssetDescriptor<Texture>[]clientTextures = new AssetDescriptor[]{
+                Assets.cliente1,
+                Assets.cliente2,
+                Assets.cliente3,
+                Assets.cliente4,
+                Assets.cliente5,
+                Assets.cliente6,
+        };
 
         // Escolhe uma textura aleatória
         Random random = new Random();
 
-        if(looking == 'r') {
-            AssetDescriptor<Texture> randomTextureDescriptor = clientTextures[random.nextInt(clientTextures.length - 3)];
-            Texture texture = Assets.manager.get(randomTextureDescriptor);
-            SpriteComponent cSprite = mSprite.create(entity);
-            cSprite.sprite = new Sprite(texture);
-            ClientComponent cClient = mClient.create(entity);
-            cClient.queueId = queueId;
-            cClient.canWalk = canWalk;
+        AssetDescriptor<Texture> randomTextureDescriptor = clientTextures[random.nextInt(clientTextures.length - 3)];
+        Texture texture = Assets.manager.get(randomTextureDescriptor);
 
-            // TODO - Todo item novo que adicionar, deve ser adicionado aqui
-            // Define as chances para cada item
-            double[] chances = {0.5, 0.3, 0.2}; // 50% burguer, 30% fries, 20% soda
-            cClient.wantedItemId = ItemSystem.randomItemByProbability(chances);
+        SpriteComponent cSprite = mSprite.create(entity);
+        cSprite.sprite = new Sprite(texture);
 
-            RigidBodyComponent cRigidBody = mRigidBody.create(entity);
-
-            CollidableComponent cCollidable = mCollidable.create(entity);
-            cCollidable.collisionBox.setSize(texture.getWidth(), texture.getHeight());
-            cCollidable.collisionBox.setCenter(new Vector2(x, y));
-
-            return entity;
-        }else
-        if(looking == 'l') {
-            AssetDescriptor<Texture> randomTextureDescriptor = clientTextures[6];
-            Texture texture = Assets.manager.get(randomTextureDescriptor);
-            SpriteComponent cSprite = mSprite.create(entity);
-            cSprite.sprite = new Sprite(texture);
-            ClientComponent cClient = mClient.create(entity);
-            cClient.queueId = queueId;
-            cClient.canWalk = canWalk;
-
-            // TODO - Todo item novo que adicionar, deve ser adicionado aqui
-            // Define as chances para cada item
-            double[] chances = {0.5, 0.3, 0.2}; // 50% burguer, 30% fries, 20% soda
-            cClient.wantedItemId = ItemSystem.randomItemByProbability(chances);
-
-            RigidBodyComponent cRigidBody = mRigidBody.create(entity);
-
-            CollidableComponent cCollidable = mCollidable.create(entity);
-            cCollidable.collisionBox.setSize(texture.getWidth(), texture.getHeight());
-            cCollidable.collisionBox.setCenter(new Vector2(x, y));
-
-            return entity;
-        }else
-        if(looking == 'u') {
-            AssetDescriptor<Texture> randomTextureDescriptor = clientTextures[7];
-            Texture texture = Assets.manager.get(randomTextureDescriptor);
-            SpriteComponent cSprite = mSprite.create(entity);
-            cSprite.sprite = new Sprite(texture);
-            ClientComponent cClient = mClient.create(entity);
-            cClient.queueId = queueId;
-            cClient.canWalk = canWalk;
-
-            // TODO - Todo item novo que adicionar, deve ser adicionado aqui
-            // Define as chances para cada item
-            double[] chances = {0.5, 0.3, 0.2}; // 50% burguer, 30% fries, 20% soda
-            cClient.wantedItemId = ItemSystem.randomItemByProbability(chances);
-
-            RigidBodyComponent cRigidBody = mRigidBody.create(entity);
-
-            CollidableComponent cCollidable = mCollidable.create(entity);
-            cCollidable.collisionBox.setSize(texture.getWidth(), texture.getHeight());
-            cCollidable.collisionBox.setCenter(new Vector2(x, y));
-
-            return entity;
-        }else
-        if(looking == 'd') {
-            AssetDescriptor<Texture> randomTextureDescriptor = clientTextures[8];
-            Texture texture = Assets.manager.get(randomTextureDescriptor);
-            SpriteComponent cSprite = mSprite.create(entity);
-            cSprite.sprite = new Sprite(texture);
-            ClientComponent cClient = mClient.create(entity);
-            cClient.queueId = queueId;
-            cClient.canWalk = canWalk;
-
-            // TODO - Todo item novo que adicionar, deve ser adicionado aqui
-            // Define as chances para cada item
-            double[] chances = {0.5, 0.3, 0.2}; // 50% burguer, 30% fries, 20% soda
-            cClient.wantedItemId = ItemSystem.randomItemByProbability(chances);
-
-            RigidBodyComponent cRigidBody = mRigidBody.create(entity);
-
-            CollidableComponent cCollidable = mCollidable.create(entity);
-            cCollidable.collisionBox.setSize(texture.getWidth(), texture.getHeight());
-            cCollidable.collisionBox.setCenter(new Vector2(x, y));
-
-            return entity;
-
+        if (looking == 'l') {
+            cSprite.flipX = true;
         }
 
-      return entity;
+        ClientComponent cClient = mClient.create(entity);
+        cClient.queueId = queueId;
+        cClient.canWalk = canWalk;
 
+        // TODO - Todo item novo que adicionar, deve ser adicionado aqui
+        // Define as chances para cada item
+        double[] chances = {0.5, 0.3, 0.2}; // 50% burguer, 30% fries, 20% soda
+        cClient.wantedItemId = ItemSystem.randomItemByProbability(chances);
+
+        RigidBodyComponent cRigidBody = mRigidBody.create(entity);
+
+        CollidableComponent cCollidable = mCollidable.create(entity);
+        cCollidable.collisionBox.setSize(texture.getWidth(), texture.getHeight());
+        cCollidable.collisionBox.setCenter(new Vector2(x, y));
+
+        return entity;
     }
 
     public int createItem(World world, float x, float y, Texture texture) {
@@ -212,8 +142,8 @@ public class EntitiesFactory {
 
         TransformComponent cTransform = mTransform.create(entity);
         cTransform.position.set(x, y);
-        cTransform.scaleX = 2f;
-        cTransform.scaleY = 2f;
+        cTransform.scaleX = 1f;
+        cTransform.scaleY = 1f;
 
         SpriteComponent cSprite = mSprite.create(entity);
         cSprite.sprite = new com.badlogic.gdx.graphics.g2d.Sprite(texture);
@@ -228,7 +158,7 @@ public class EntitiesFactory {
         return entity;
     }
 
-    public int createInteractiveBlock(World world, float x, float y, InteractiveBlock.Type type, float TimeLeft ,Texture texture) {
+    public int createInteractiveBlock(World world, float x, float y, InteractiveBlock.Type type, float TimeLeft) {
         int entity = world.create();
 
         TransformComponent cTransform = mTransform.create(entity);
@@ -237,10 +167,8 @@ public class EntitiesFactory {
         cTransform.scaleY = 1f;
 
         SpriteComponent cSprite = mSprite.create(entity);
-        cSprite.sprite = new com.badlogic.gdx.graphics.g2d.Sprite(texture);
 
         CollidableComponent cCollidable = mCollidable.create(entity);
-        cCollidable.collisionBox.setSize(texture.getWidth(), texture.getHeight());
         cCollidable.collisionBox.setCenter(new Vector2(x, y));
 
         InteractiveBlock cInteractiveBlock = mInteractiveBlock.create(entity);
