@@ -13,4 +13,5 @@ public class Config {
     public static float EFFECTS_VOLUME = 0.4f;
     public static boolean VSYNC = true;
 
+    public static boolean TWO_PLAYERS = true; // Ativa ou desativa o modo 2 jogadores
 }

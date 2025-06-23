@@ -36,9 +36,9 @@ public class World extends CurrentLevel {
     public static final int FG = 0;
 
     // Variável que guarda o tempo das máquinas de itens
-    public static float FRIESTIME = 1f;
-    public static float GRILLTIME = 1f;
-    public static float SODATIME = 1f;
+    public static float FRIESTIME = 3f;
+    public static float GRILLTIME = 5f;
+    public static float SODATIME = 2f;
 
     //VETOR Q ARMAZENA O MAPA - OS TILES SÃO FORMADOS DEPENDENDO DO TAMANHO DA TELA
     //2 COLUNAS DE PROFUNDIDADE - FOREGOUND E BACKGROUND
@@ -48,9 +48,9 @@ public class World extends CurrentLevel {
 
     private com.artemis.World artemis;
 
-    private final int player;
+    private int player = -1;
 
-   //private final int player2;
+   private int player2 = -1;
 
     private int[] clients = new int[20];
 
@@ -64,7 +64,7 @@ public class World extends CurrentLevel {
     private int[][] clienteNivelFila = new int[4][3];
 
     private boolean debugCollisionEnabled = false;
-    // tem q zerar esses clientesSpawnados toda vez q trocar de fase (os 3)
+    // tem q zerar esses clientesSpawnados toda vez que trocar de fase (os 3)
     public int clientesSpawnados = 0 ;
 
     public int clientesSpawnados1 = 0 ;
@@ -112,16 +112,23 @@ public class World extends CurrentLevel {
         interactiveBlock[0] = entitiesFactory.createInteractiveBlock(artemis, 23 * Block.TILE_SIZE, 0 * Block.TILE_SIZE, InteractiveBlock.Type.PLATE,0);
         interactiveBlock[1] = entitiesFactory.createInteractiveBlock(artemis, 21 * Block.TILE_SIZE, 0 * Block.TILE_SIZE, InteractiveBlock.Type.PLATE, 0);
         interactiveBlock[2] = entitiesFactory.createInteractiveBlock(artemis, 19 * Block.TILE_SIZE, 0 * Block.TILE_SIZE, InteractiveBlock.Type.PLATE, 0);
+        interactiveBlock[3] = entitiesFactory.createInteractiveBlock(artemis, 30 * Block.TILE_SIZE, 8 * Block.TILE_SIZE, InteractiveBlock.Type.PLATE, 0);
+        interactiveBlock[4] = entitiesFactory.createInteractiveBlock(artemis, 30 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, InteractiveBlock.Type.PLATE, 0);
+        interactiveBlock[5] = entitiesFactory.createInteractiveBlock(artemis, 30 * Block.TILE_SIZE, 4 * Block.TILE_SIZE, InteractiveBlock.Type.PLATE, 0);
 
-        interactiveBlock[3] = entitiesFactory.createInteractiveBlock(artemis, 26 * Block.TILE_SIZE, 0 * Block.TILE_SIZE, InteractiveBlock.Type.TRASH, 0);
+        interactiveBlock[6] = entitiesFactory.createInteractiveBlock(artemis, 26 * Block.TILE_SIZE, 0 * Block.TILE_SIZE, InteractiveBlock.Type.TRASH, 0);
 
         // TODO - Ajustar o timer de cada bloco
-        interactiveBlock[4] = entitiesFactory.createInteractiveBlock(artemis, 19 * Block.TILE_SIZE, 12 * Block.TILE_SIZE, InteractiveBlock.Type.FRIESMACHINE, FRIESTIME);
-        interactiveBlock[5] = entitiesFactory.createInteractiveBlock(artemis, 21 * Block.TILE_SIZE, 12 * Block.TILE_SIZE, InteractiveBlock.Type.GRILL, GRILLTIME);
-        interactiveBlock[6] = entitiesFactory.createInteractiveBlock(artemis, 23 * Block.TILE_SIZE, 12 * Block.TILE_SIZE, InteractiveBlock.Type.SODAMACHINE, SODATIME);
+        interactiveBlock[7] = entitiesFactory.createInteractiveBlock(artemis, 19 * Block.TILE_SIZE, 12 * Block.TILE_SIZE, InteractiveBlock.Type.FRIESMACHINE, FRIESTIME);
+        interactiveBlock[8] = entitiesFactory.createInteractiveBlock(artemis, 21 * Block.TILE_SIZE, 12 * Block.TILE_SIZE, InteractiveBlock.Type.GRILL, GRILLTIME);
+        interactiveBlock[9] = entitiesFactory.createInteractiveBlock(artemis, 23 * Block.TILE_SIZE, 12 * Block.TILE_SIZE, InteractiveBlock.Type.SODAMACHINE, SODATIME);
 
         // PLAYER
-        player = entitiesFactory.createPlayer(artemis, 16 * Block.TILE_SIZE, 6 * Block.TILE_SIZE);
+        player = entitiesFactory.createPlayer(artemis, 16 * Block.TILE_SIZE, 6 * Block.TILE_SIZE, 0);
+
+        if (Config.TWO_PLAYERS) {
+            player2 = entitiesFactory.createPlayer(artemis, 16 * Block.TILE_SIZE, 4 * Block.TILE_SIZE, 1);
+        }
 
        //CHAMADA METODO QUE GERA CLIENTE FIGURANTE
         generateStaticClients();
@@ -806,6 +813,10 @@ public class World extends CurrentLevel {
 
     public int getPlayer() {
         return player;
+    }
+
+    public int getPlayer2() {
+        return player2;
     }
 
     public int[] getClients(){

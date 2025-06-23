@@ -52,26 +52,26 @@ public class Assets {
 
     //TEXTURA MAPA
     // TODO - Atualizar as texturas do mapa para os níveis corretos
-    @Asset public static final AssetDescriptor<Texture> map0 = new AssetDescriptor<Texture>("mapa0.png", Texture.class);
-    @Asset public static final AssetDescriptor<Texture> map1 = new AssetDescriptor<Texture>("mapa1.png", Texture.class);
-    @Asset public static final AssetDescriptor<Texture> map2 = new AssetDescriptor<Texture>("mapa2.png", Texture.class);
-    @Asset public static final AssetDescriptor<Texture> map3 = new AssetDescriptor<Texture>("mapa3.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> map0 = new AssetDescriptor<Texture>("map/mapa0.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> map1 = new AssetDescriptor<Texture>("map/mapa1.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> map2 = new AssetDescriptor<Texture>("map/mapa2.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> map3 = new AssetDescriptor<Texture>("map/mapa3.png", Texture.class);
 
     // TEXTURAS DO HUD
     @Asset public static final AssetDescriptor<Texture> hudBackground = new AssetDescriptor<Texture>("hud/hudBackground.png", Texture.class);
     @Asset public static final AssetDescriptor<Texture> heart = new AssetDescriptor<Texture>("hud/heart.png", Texture.class);
 
     // TEXTURAS DO MENU
-    @Asset public static final AssetDescriptor<Texture> botaoIniciar = new AssetDescriptor<>("menu/IniciarBotao.png", Texture.class);
-    @Asset public static final AssetDescriptor<Texture> botaoProximaFase = new AssetDescriptor<>("menu/Proximafase.png", Texture.class);
-    @Asset public static final AssetDescriptor<Texture> botaoTentarNovamente = new AssetDescriptor<>("menu/Tentarnovamente.png", Texture.class);
-    @Asset public static final AssetDescriptor<Texture> botaoFase1 = new AssetDescriptor<>("menu/FASE1.png", Texture.class);
-    @Asset public static final AssetDescriptor<Texture> botaoFase2 = new AssetDescriptor<>("menu/FASE2.png", Texture.class);
-    @Asset public static final AssetDescriptor<Texture> botaoFase3 = new AssetDescriptor<>("menu/FASE3.png", Texture.class);
-    @Asset public static final AssetDescriptor<Texture> botaoModoInfinito = new AssetDescriptor<>("menu/INFINITO.png", Texture.class);
-    @Asset public static final AssetDescriptor<Texture> botaoVoltarProMenu = new AssetDescriptor<>("menu/VOLTAR PRO MENU.png", Texture.class);
-    @Asset public static final AssetDescriptor<Texture> botaoBloqueado = new AssetDescriptor<>("menu/Bloqueado.png", Texture.class);
-    @Asset public static final AssetDescriptor<Texture> botaoJogarNovamente = new AssetDescriptor<>("menu/Jogarnovamente.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> botaoIniciar = new AssetDescriptor<>("menu/botaoIniciar.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> botaoProximaFase = new AssetDescriptor<>("menu/botaoProximaFase.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> botaoTentarNovamente = new AssetDescriptor<>("menu/botaoTentarNovamente.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> botaoFase1 = new AssetDescriptor<>("menu/botaoFase1.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> botaoFase2 = new AssetDescriptor<>("menu/botaoFase2.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> botaoFase3 = new AssetDescriptor<>("menu/botaoFase3.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> botaoModoInfinito = new AssetDescriptor<>("menu/botaoFaseInfinito.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> botaoVoltarProMenu = new AssetDescriptor<>("menu/botaoMenu.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> botaoBloqueado = new AssetDescriptor<>("menu/botaoBloqueado.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> botaoJogarNovamente = new AssetDescriptor<>("menu/botaoJogarNovamente.png", Texture.class);
 
 
     // TEXTURAS DOS ITENS

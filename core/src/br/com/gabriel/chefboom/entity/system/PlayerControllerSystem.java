@@ -11,26 +11,15 @@ import com.artemis.ComponentMapper;
 import com.artemis.systems.IteratingSystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 
 public class PlayerControllerSystem extends IteratingSystem {
 
     private ComponentMapper<PlayerComponent> mPlayer;
-
     private ComponentMapper<SpriteComponent> mSprite;
-
     private ComponentMapper<RigidBodyComponent> mRigidBody;
-
     private ComponentMapper<CollidableComponent> mCollidable;
-
-    private boolean moveRight;
-    private boolean moveLeft;
-    private boolean moveUp;
-    private boolean moveDown;
-    private boolean run;
 
     private Texture texFrente;
     private Texture texCostas;
@@ -39,20 +28,8 @@ public class PlayerControllerSystem extends IteratingSystem {
 
     private final Sound dashSound = Assets.manager.get(Assets.dashSound);
 
-    // Dash
-    private boolean isDashing = false;
-    private float dashTimeLeft = 0f;
-    private final float DASH_TIME = 0.18f; // duração do dash em segundos
-    private final float DASH_SPEED = 380f; // velocidade do dash
-    private float dashDirX = 0;
-    private float dashDirY = 0;
-    private float dashCooldown = 0f; // Tempo de recarga do dash
-    private final float DASH_COOLDOWN_TIME = 1f; // Tempo de cooldown do dash
-
     public PlayerControllerSystem() {
         super(Aspect.all(PlayerComponent.class, RigidBodyComponent.class, CollidableComponent.class));
-
-            Gdx.input.setInputProcessor(new InputMultiplexer(new GameInputAdapter()));
     }
 
     @Override
@@ -72,153 +49,70 @@ public class PlayerControllerSystem extends IteratingSystem {
 
         float delta = world.getDelta();
 
-        // Atualização do cooldown
-        if (dashCooldown > 0f) {
-            dashCooldown -= delta;
-            if (dashCooldown < 0f)
-                dashCooldown = 0f;
+        // Atualização do cooldown do dash
+        if (cPlayer.dashCooldown > 0f) {
+            cPlayer.dashCooldown -= delta;
+            if (cPlayer.dashCooldown < 0f) cPlayer.dashCooldown = 0f;
         }
 
-        if (isDashing) {
-            dashTimeLeft -= delta;
-            if (dashTimeLeft <= 0) {
-                isDashing = false;
-                dashCooldown = DASH_COOLDOWN_TIME; // Inicia cooldown ao terminar dash
+        // Dash em andamento
+        if (cPlayer.isDashing) {
+            cPlayer.dashTimeLeft -= delta;
+            cRigidBody.velocity.x = cPlayer.dashDirX * cPlayer.dashSpeed;
+            cRigidBody.velocity.y = cPlayer.dashDirY * cPlayer.dashSpeed;
+            if (cPlayer.dashTimeLeft <= 0f) {
+                cPlayer.isDashing = false;
                 cRigidBody.velocity.x = 0;
                 cRigidBody.velocity.y = 0;
-            } else {
-                cRigidBody.velocity.x = dashDirX * DASH_SPEED;
-                cRigidBody.velocity.y = dashDirY * DASH_SPEED;
             }
             return;
         }
 
+        // Movimentação normal
+        float moveX = 0, moveY = 0;
+        boolean dashPressed = false;
 
-        if (cPlayer.canWalk) {
-            float speed = cPlayer.walkSpeed;
-            //if (run) speed += 70;
-
-            boolean movingX = moveRight ^ moveLeft;
-            boolean movingY = moveUp ^ moveDown;
-
-            if (movingX && movingY) {
-                speed *= 0.7071f;
-                if (speed < 0) speed = 0;
-            }
-
-            // Eixo X
-            if (moveRight && moveLeft) {
-                cRigidBody.velocity.x = 0;
-            } else if (moveRight) {
-                cRigidBody.velocity.x = speed;
-                cSprite.sprite.setTexture(texDireita);
-            } else if (moveLeft) {
-                cRigidBody.velocity.x = -speed;
-                cSprite.sprite.setTexture(texEsquerda);
-            } else {
-                cRigidBody.velocity.x = 0;
-            }
-
-            // Eixo Y
-            if (moveUp && moveDown) {
-                cRigidBody.velocity.y = 0;
-            } else if (moveUp) {
-                cRigidBody.velocity.y = speed;
-                cSprite.sprite.setTexture(texCostas);
-            } else if (moveDown) {
-                cRigidBody.velocity.y = -speed;
-                cSprite.sprite.setTexture(texFrente);
-            } else {
-                cRigidBody.velocity.y = 0;
-            }
+        // Player 1 (WASD)
+        if (cPlayer.playerId == 0) {
+            if (Gdx.input.isKeyPressed(Input.Keys.W)) moveY = 1;
+            if (Gdx.input.isKeyPressed(Input.Keys.S)) moveY = -1;
+            if (Gdx.input.isKeyPressed(Input.Keys.A)) moveX = -1;
+            if (Gdx.input.isKeyPressed(Input.Keys.D)) moveX = 1;
+            dashPressed = Gdx.input.isKeyJustPressed(Input.Keys.SHIFT_LEFT);
         }
-    }
-
-    private class GameInputAdapter extends InputAdapter {
-
-        @Override
-        public boolean keyDown(int keycode) {
-            switch (keycode) {
-
-                case Input.Keys.D:
-                    moveRight = true;
-                    break;
-
-
-                case Input.Keys.A:
-                    moveLeft = true;
-                    break;
-
-
-                case Input.Keys.W:
-                    moveUp = true;
-                    break;
-
-
-                case Input.Keys.S:
-                    moveDown = true;
-                    break;
-                case Input.Keys.SHIFT_LEFT:
-
-                    //run = true;
-                    if (!isDashing && dashCooldown == 0f) {
-                        // Toca o som do dash
-                        dashSound.play(Config.EFFECTS_VOLUME - 0.15f);
-
-                        // Calcula a direção atual
-                        dashDirX = 0;
-                        dashDirY = 0;
-
-                        if (moveRight) dashDirX += 1;
-                        if (moveLeft) dashDirX -= 1;
-                        if (moveUp) dashDirY += 1;
-                        if (moveDown) dashDirY -= 1;
-
-                        // Evita o dash sem direção
-                        if (dashDirX == 0 && dashDirY == 0) dashDirY = -1;
-
-                        // Normaliza o vetor para diagonal não ser mais rápido
-                        float len = (float) Math.sqrt(dashDirX * dashDirX + dashDirY * dashDirY);
-                        dashDirX /= len;
-                        dashDirY /= len;
-
-                        isDashing = true;
-                        dashTimeLeft = DASH_TIME;
-                    }
-
-                    break;
-            }
-            return true;
+        // Player 2 (Setas)
+        else if (Config.TWO_PLAYERS && cPlayer.playerId == 1) {
+            if (Gdx.input.isKeyPressed(Input.Keys.UP)) moveY = 1;
+            if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) moveY = -1;
+            if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) moveX = -1;
+            if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) moveX = 1;
+            dashPressed = Gdx.input.isKeyJustPressed(Input.Keys.SHIFT_RIGHT);
         }
 
-        @Override
-        public boolean keyUp(int keycode) {
-            switch (keycode) {
-
-                case Input.Keys.D:
-                    moveRight = false;
-                    break;
-
-
-                case Input.Keys.A:
-                    moveLeft = false;
-                    break;
-
-
-                case Input.Keys.W:
-                    moveUp = false;
-                    break;
-
-
-                case Input.Keys.S:
-                    moveDown = false;
-                    break;
-                case Input.Keys.SHIFT_LEFT:
-
-                    //run = false;
-                    break;
-            }
-            return true;
+        // Normaliza para não correr mais na diagonal
+        if (moveX != 0 && moveY != 0) {
+            moveX *= 0.7071f;
+            moveY *= 0.7071f;
         }
+
+        float speed = cPlayer.walkSpeed;
+        cRigidBody.velocity.x = moveX * speed;
+        cRigidBody.velocity.y = moveY * speed;
+
+        // Dash
+        if (dashPressed && cPlayer.dashCooldown == 0f && (moveX != 0 || moveY != 0)) {
+            cPlayer.isDashing = true;
+            cPlayer.dashTimeLeft = cPlayer.dashTime;
+            cPlayer.dashDirX = moveX;
+            cPlayer.dashDirY = moveY;
+            cPlayer.dashCooldown = cPlayer.getDashCooldownTime;
+            dashSound.play(Config.EFFECTS_VOLUME);
+        }
+
+        // Troca sprite conforme direção
+        if (moveX > 0) cSprite.sprite.setTexture(texDireita);
+        else if (moveX < 0) cSprite.sprite.setTexture(texEsquerda);
+        else if (moveY > 0) cSprite.sprite.setTexture(texCostas);
+        else if (moveY < 0) cSprite.sprite.setTexture(texFrente);
     }
 }

@@ -52,7 +52,7 @@ public class EntitiesFactory {
         mInteractiveBlock = world.getMapper(InteractiveBlock.class);
     }
 
-    public int createPlayer(World world, float x, float y ) {
+    public int createPlayer(World world, float x, float y, int Id) {
         int entity = world.create();
 
 
@@ -67,6 +67,7 @@ public class EntitiesFactory {
         cSprite.sprite = new Sprite(texture);
 
         PlayerComponent cPlayer = mPlayer.create(entity);
+        cPlayer.playerId = Id;
 
         RigidBodyComponent cRigidBody = mRigidBody.create(entity);
 
