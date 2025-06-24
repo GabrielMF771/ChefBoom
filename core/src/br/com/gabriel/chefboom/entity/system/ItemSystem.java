@@ -27,6 +27,7 @@ public class ItemSystem extends IteratingSystem {
     private final EntitiesFactory entitiesFactory;
 
     private final Sound readySound = Assets.manager.get(Assets.readySound);
+    private final Sound trashSound = Assets.manager.get(Assets.trashSound);
 
     public ItemSystem(World world, EntitiesFactory entitiesFactory) {
         super(Aspect.all(PlayerComponent.class, TransformComponent.class));
@@ -147,6 +148,7 @@ public class ItemSystem extends IteratingSystem {
                         } else if (isTrash) {
                             world.getArtemis().delete(cPlayer.heldItemEntity);
                             cPlayer.heldItemEntity = null;
+                            trashSound.play(Config.EFFECTS_VOLUME);
                         }
                     }
                 }

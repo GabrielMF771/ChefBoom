@@ -15,17 +15,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class ChefBoom extends Game {
 	private static ChefBoom instance;
 
-	/* TODO:
-	 * Remover o DEBUG quando for publicar o jogo
-	 */
-
 	private DevConsole devConsole;
 	private CommandExecutor commandExecutor;
 	private boolean showFps = false;
 	private SpriteBatch fpsBatch;
 	private BitmapFont fpsFont;
 
-	public static boolean DEBUG = true;
+	public static boolean DEBUG = false;
 
 	private ChefBoom() {}
 
@@ -64,16 +60,14 @@ public class ChefBoom extends Game {
 
 		devConsole.render();
 
+		// Renderiza o FPS no canto superior esquerdo da tela
+		if(showFps){
+			fpsBatch.begin();
+			fpsFont.draw(fpsBatch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 5, Gdx.graphics.getHeight() - 5);
+			fpsBatch.end();
+		}
+
 		if (DEBUG) {
-
-
-			// Renderiza o FPS no canto superior esquerdo da tela
-			if(showFps){
-				fpsBatch.begin();
-				fpsFont.draw(fpsBatch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 5, Gdx.graphics.getHeight() - 5);
-				fpsBatch.end();
-			}
-
 			// Reinicia o jogo com a tecla CTRL + R
 			if (!devConsole.isVisible()) {
 				// Reinicia o jogo com a tecla CTRL + R

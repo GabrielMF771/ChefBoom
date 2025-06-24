@@ -34,10 +34,10 @@ public class CommandExecutor {
 
     private void registerCommands() {
         commands.put("help", this::listCommands);
-        commands.put("toggle_fps", this::toggleFps);
+        commands.put("fps", this::toggleFps);
         commands.put("give", this::giveItem);
         commands.put("spawn_client", this::spawnClient);
-        commands.put("toggle_multiplayer", this::toggleMultiplayer);
+        commands.put("multiplayer", this::toggleMultiplayer);
         commands.put("debug", this::toggleDebug);
     }
 
