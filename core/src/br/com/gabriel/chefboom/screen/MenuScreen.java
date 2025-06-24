@@ -33,11 +33,13 @@ public class MenuScreen extends ScreenAdapter {
     private Texture startButtonTexture;
     private Texture configButtonTexture;
     private Texture creditsButtonTexture;
+    private Texture tutorialButtonTexture;
 
     private float titleX, titleY, titleWidth, titleHeight;
     private float startButtonX, startButtonY, startButtonWidth, startButtonHeight;
     private float configButtonX, configButtonY, configButtonWidth, configButtonHeight;
     private float creditsButtonX, creditsButtonY, creditsButtonWidth, creditsButtonHeight;
+    private float tutorialButtonX, tutorialButtonY, tutorialButtonWidth, tutorialButtonHeight;
 
     private Texture backgroundTexture;
 
@@ -75,21 +77,26 @@ public class MenuScreen extends ScreenAdapter {
 
         creditsButtonTexture = Assets.manager.get(Assets.botaoCreditos);
 
+        tutorialButtonTexture = Assets.manager.get(Assets.botaoTutorial);
+
         backgroundTexture = Assets.manager.get(Assets.menuBackground);
 
         calculateDimensionsAndPositions();
     }
 
     private void calculateDimensionsAndPositions() {
+
+        // Título
         titleWidth = WORLD_WIDTH / 2.5f;
         titleHeight = WORLD_HEIGHT / 3.5f;
         titleX = (WORLD_WIDTH - titleWidth) / 2.0f;
         titleY = WORLD_HEIGHT * 0.5f;
 
+        // Botões (Iniciar, Configurações, Créditos)
         startButtonWidth = WORLD_WIDTH / 6.0f;
         startButtonHeight = WORLD_HEIGHT / 8.0f;
         startButtonX = (WORLD_WIDTH - startButtonWidth) / 2.0f;
-        startButtonY = WORLD_HEIGHT * 0.3f;
+        startButtonY = (WORLD_HEIGHT * 0.3f) + 30f;
 
         configButtonHeight = WORLD_HEIGHT / 7.5f;
         configButtonWidth = WORLD_WIDTH / 13.5f;
@@ -106,8 +113,14 @@ public class MenuScreen extends ScreenAdapter {
         configButtonX = centerX - totalWidth / 2f;
         creditsButtonX = configButtonX + configButtonWidth + spacing;
 
-        configButtonY = WORLD_HEIGHT * 0.15f;
-        creditsButtonY = WORLD_HEIGHT * 0.15f;
+        configButtonY = (WORLD_HEIGHT * 0.15f) + 30f;
+        creditsButtonY = (WORLD_HEIGHT * 0.15f) + 30f;
+
+        // Botão Tutorial
+        tutorialButtonWidth = WORLD_WIDTH / 13.5f;
+        tutorialButtonHeight = WORLD_HEIGHT / 7.5f;
+        tutorialButtonX = 10f;
+        tutorialButtonY = 10f;
     }
 
     @Override
@@ -148,6 +161,7 @@ public class MenuScreen extends ScreenAdapter {
         // Desenha o botão quadrado abaixo do botão iniciar
         batch.draw(configButtonTexture, configButtonX, configButtonY, configButtonWidth, configButtonHeight);
         batch.draw(creditsButtonTexture, creditsButtonX, creditsButtonY, creditsButtonWidth, creditsButtonHeight);
+        batch.draw(tutorialButtonTexture, tutorialButtonX, tutorialButtonY, tutorialButtonWidth, tutorialButtonHeight);
         batch.end();
     }
 
@@ -174,12 +188,18 @@ public class MenuScreen extends ScreenAdapter {
                     worldX >= creditsButtonX && worldX <= creditsButtonX + creditsButtonWidth &&
                             worldY >= creditsButtonY && worldY <= creditsButtonY + creditsButtonHeight;
 
+            boolean touchedTutorialButton =
+                    worldX >= tutorialButtonX && worldX <= tutorialButtonX + tutorialButtonWidth &&
+                            worldY >= tutorialButtonY && worldY <= tutorialButtonY + tutorialButtonHeight;
+
             if (touchedStartButton) {
                 ChefBoom.getInstance().setScreen(new SelectLevelScreen());
             } else if (touchedConfigButton) {
                 ChefBoom.getInstance().setScreen(new ConfigScreen());
             } else if (touchedCreditsButton) {
                 ChefBoom.getInstance().setScreen(new CreditsScreen());
+            } else if( touchedTutorialButton) {
+                ChefBoom.getInstance().setScreen(new TutorialScreen());
             }
         }
     }

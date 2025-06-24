@@ -77,6 +77,8 @@ public class Assets {
     @Asset public static final AssetDescriptor<Texture> sliderBackground = new AssetDescriptor<>("menu/sliderBackgroundTexture.png", Texture.class);
     @Asset public static final AssetDescriptor<Texture> sliderFill = new AssetDescriptor<>("menu/sliderFillTexture.png", Texture.class);
 
+    @Asset public static final AssetDescriptor<Texture> botaoTutorial = new AssetDescriptor<>("menu/botaoTutorial.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> telaTutorial = new AssetDescriptor<>("menu/tutorial.png", Texture.class);
 
     // TEXTURAS DOS ITENS
     @Asset public static final AssetDescriptor<Texture> burguer = new AssetDescriptor<>("item/burguer.png", Texture.class);
