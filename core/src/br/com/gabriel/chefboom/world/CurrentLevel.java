@@ -9,7 +9,7 @@ public class CurrentLevel {
     // 2 = NIVEL 3
     // 3 = MODO INFINITO
     public static int level = 0;
-    public static int Maxlevel = 0;
+    public static int Maxlevel = 3;
 
     //GUARDA SE O MODO INFINITO FOI LIBERADO
     public static boolean reachedInfiniteLevel = false;
