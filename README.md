@@ -4,6 +4,20 @@
 
 Desenvolvido como parte da disciplina de Sistemas Operacionais, o projeto aplica conceitos de threads e semaforização para sincronizar e coordenar múltiplas entidades e eventos em tempo real no contexto de um jogo.
 
+### Mecânicas
+
+- Prepare diferentes tipos de alimentos:
+    - Batatas fritas
+    - Hambúrgueres
+    - Refrigerantes
+    - Donuts
+
+- Gerencie o seu tempo:
+    - Atenda os clientes antes que percam a paciência
+    - Use as máquinas de forma eficiente
+    - Colete os pedidos prontos
+    - Entregue os pedidos corretos
+
 ## Requisitos
 
 - Java 8 ou superior
