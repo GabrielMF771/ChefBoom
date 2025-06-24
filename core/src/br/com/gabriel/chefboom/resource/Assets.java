@@ -48,7 +48,6 @@ public class Assets {
     @Asset public static final AssetDescriptor<Texture> explosao2 = new AssetDescriptor<Texture>("npc/explosion-02.png", Texture.class);
 
     //TEXTURA MAPA
-    // TODO - Atualizar as texturas do mapa para os níveis corretos
     @Asset public static final AssetDescriptor<Texture> map0 = new AssetDescriptor<Texture>("map/mapa0.png", Texture.class);
     @Asset public static final AssetDescriptor<Texture> map1 = new AssetDescriptor<Texture>("map/mapa1.png", Texture.class);
     @Asset public static final AssetDescriptor<Texture> map2 = new AssetDescriptor<Texture>("map/mapa2.png", Texture.class);

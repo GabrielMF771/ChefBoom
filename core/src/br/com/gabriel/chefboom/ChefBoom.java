@@ -16,7 +16,6 @@ public class ChefBoom extends Game {
 	private static ChefBoom instance;
 
 	/* TODO:
-	 * Fazer uma tela de pause com as configurações do jogo
 	 * Remover o DEBUG quando for publicar o jogo
 	 */
 

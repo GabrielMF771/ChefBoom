@@ -26,8 +26,6 @@ import com.badlogic.gdx.math.Rectangle;
 
 import java.util.Random;
 
-// TODO - Fazer o sistema de seleção de nível e o método que verifica se o nível foi concluído
-
 public class World extends CurrentLevel {
 
     private boolean paused = false;
@@ -75,7 +73,6 @@ public class World extends CurrentLevel {
 
     public int chegouNoBalcao = 0;
 
-// TODO - Fazer o sistema de seleção de nível
     //VAI RECEBER A QUANTIDADE DE CLIENTES QUE VÃO SPAWNAR EM CADA FILA - CADA INDICE É UMA FILA
     int[] spawn = new int[3];
 
@@ -121,7 +118,6 @@ public class World extends CurrentLevel {
 
         interactiveBlock[6] = entitiesFactory.createInteractiveBlock(artemis, 26 * Block.TILE_SIZE, 0 * Block.TILE_SIZE, InteractiveBlock.Type.TRASH, 0);
 
-        // TODO - Ajustar o timer de cada bloco
         interactiveBlock[7] = entitiesFactory.createInteractiveBlock(artemis, 19 * Block.TILE_SIZE, 12 * Block.TILE_SIZE, InteractiveBlock.Type.FRIESMACHINE, FRIESTIME);
         interactiveBlock[8] = entitiesFactory.createInteractiveBlock(artemis, 21 * Block.TILE_SIZE, 12 * Block.TILE_SIZE, InteractiveBlock.Type.GRILL, GRILLTIME);
         interactiveBlock[9] = entitiesFactory.createInteractiveBlock(artemis, 23 * Block.TILE_SIZE, 12 * Block.TILE_SIZE, InteractiveBlock.Type.SODAMACHINE, SODATIME);
