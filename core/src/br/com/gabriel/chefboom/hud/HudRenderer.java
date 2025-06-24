@@ -75,8 +75,14 @@ public class HudRenderer {
                     case 1:
                         itemTexture = Assets.manager.get(Assets.fries);
                         break;
-                    default:
+                    case 2:
                         itemTexture = Assets.manager.get(Assets.soda);
+                        break;
+                    case 3:
+                        itemTexture = Assets.manager.get(Assets.donuts);
+                        break;
+                    default:
+                        itemTexture = Assets.manager.get(Assets.explosao1);
                         break;
                 }
                 batch.draw(itemTexture, x, y, itemSize, itemSize);

@@ -38,11 +38,11 @@ public class CreditsScreen extends ScreenAdapter {
     private Texture backgroundTexture;
 
     private final String[] developers = {
-            "André Marcos de Souza Batista",
+            "Andre Marcos de Souza Batista",
             "Gabriel Martins Fernandes",
             "Gustavo Henrique Sousa de Jesus",
             "Henrique Dantas Faria",
-            "João Lucas Cavalcante Borges"
+            "Joao Lucas Cavalcante Borges"
     };
 
     @Override

@@ -10,6 +10,7 @@ public class InteractiveBlock extends Component {
         GRILL,
         SODAMACHINE,
         FRIESMACHINE,
+        DONUTSMACHINE
     }
 
     public Type type;

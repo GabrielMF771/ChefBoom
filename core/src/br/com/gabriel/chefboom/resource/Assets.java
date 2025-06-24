@@ -72,14 +72,17 @@ public class Assets {
     @Asset public static final AssetDescriptor<Texture> botaoConfig = new AssetDescriptor<>("menu/botaoConfig.png", Texture.class);
     @Asset public static final AssetDescriptor<Texture> botaoCreditos = new AssetDescriptor<>("menu/botaoCreditos.png", Texture.class);
 
+    @Asset public static final AssetDescriptor<Texture> checkboxChecked = new AssetDescriptor<>("menu/checkboxChecked.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> checkboxUnchecked = new AssetDescriptor<>("menu/checkboxUnchecked.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> sliderBackground = new AssetDescriptor<>("menu/sliderBackgroundTexture.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> sliderFill = new AssetDescriptor<>("menu/sliderFillTexture.png", Texture.class);
+
+
     // TEXTURAS DOS ITENS
     @Asset public static final AssetDescriptor<Texture> burguer = new AssetDescriptor<>("item/burguer.png", Texture.class);
     @Asset public static final AssetDescriptor<Texture> fries = new AssetDescriptor<>("item/fries.png", Texture.class);
     @Asset public static final AssetDescriptor<Texture> soda = new AssetDescriptor<>("item/soda.png", Texture.class);
-
-    // TEXTURAS DOS BLOCO INTERATIVOS
-    @Asset public static final AssetDescriptor<Texture> plate = new AssetDescriptor<>("blocks/plate.png", Texture.class);
-    @Asset public static final AssetDescriptor<Texture> trash = new AssetDescriptor<>("blocks/trash.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> donuts = new AssetDescriptor<>("item/donuts.png", Texture.class);
 
     // SONS
     @Asset public static final AssetDescriptor<Music> gameMusic = new AssetDescriptor<>("music/game-music.mp3", Music.class);

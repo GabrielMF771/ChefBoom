@@ -58,8 +58,11 @@ public class BlockTimerSystem extends BaseSystem {
                         } else if (block.type == InteractiveBlock.Type.FRIESMACHINE) {
                             createItemOnBlock(Assets.fries.fileName, x, y);
                             block.timeLeft = World.FRIESTIME;
+                        } else if (block.type == InteractiveBlock.Type.DONUTSMACHINE) {
+                            createItemOnBlock(Assets.donuts.fileName, x, y);
+                            block.timeLeft = World.DONUTSTIME;
+                            readySound.play(Config.EFFECTS_VOLUME);
                         }
-                        readySound.play(Config.EFFECTS_VOLUME);
                     }
                     block.timerActive = false;
                 }

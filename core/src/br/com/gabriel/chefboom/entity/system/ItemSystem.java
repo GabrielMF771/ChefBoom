@@ -78,6 +78,7 @@ public class ItemSystem extends IteratingSystem {
                 boolean isGrill = isInteractiveBlockAt(x, y, InteractiveBlock.Type.GRILL);
                 boolean isSodaMachine = isInteractiveBlockAt(x, y, InteractiveBlock.Type.SODAMACHINE);
                 boolean isFriesMachine = isInteractiveBlockAt(x, y, InteractiveBlock.Type.FRIESMACHINE);
+                boolean isDonutsMachine = isInteractiveBlockAt(x, y, InteractiveBlock.Type.DONUTSMACHINE);
 
                 // Busca o bloco interativo à frente para acessar o timer
                 com.artemis.utils.IntBag blockEntities = getWorld().getAspectSubscriptionManager()
@@ -98,7 +99,7 @@ public class ItemSystem extends IteratingSystem {
                 }
 
                 if (frontInteractiveBlock != null) {
-                    if ((isGrill || isSodaMachine || isFriesMachine) && !isItemOnBlock(x, y)) {
+                    if ((isGrill || isSodaMachine || isFriesMachine || isDonutsMachine) && !isItemOnBlock(x, y)) {
                         if (!frontInteractiveBlock.timerActive) {
                             frontInteractiveBlock.timerActive = true;
                             if (frontInteractiveBlock.timeLeft == 0f) {
@@ -109,6 +110,8 @@ public class ItemSystem extends IteratingSystem {
                                     frontInteractiveBlock.timeLeft = World.SODATIME;
                                 } else if (frontInteractiveBlock.type == InteractiveBlock.Type.FRIESMACHINE) {
                                     frontInteractiveBlock.timeLeft = World.FRIESTIME;
+                                } else if (frontInteractiveBlock.type == InteractiveBlock.Type.DONUTSMACHINE) {
+                                    frontInteractiveBlock.timeLeft = World.DONUTSTIME;
                                 }
                             }
                         }

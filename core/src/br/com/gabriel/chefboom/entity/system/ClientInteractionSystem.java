@@ -62,6 +62,8 @@ public class ClientInteractionSystem extends IteratingSystem {
                     itemTypeId = 1;
                 } else if (itemSprite.sprite.getTexture() == Assets.manager.get(Assets.soda)) {
                     itemTypeId = 2;
+                } else if (itemSprite.sprite.getTexture() == Assets.manager.get(Assets.donuts)) {
+                        itemTypeId = 3;
                 } else {
                     itemTypeId = -1; // tipo desconhecido
                 }

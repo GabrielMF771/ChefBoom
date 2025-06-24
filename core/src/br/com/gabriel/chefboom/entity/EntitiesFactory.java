@@ -120,7 +120,7 @@ public class EntitiesFactory {
 
         // TODO - Todo item novo que adicionar, deve ser adicionado aqui
         // Define as chances para cada item
-        double[] chances = {0.5, 0.3, 0.2}; // 50% burguer, 30% fries, 20% soda
+        double[] chances = {0.3, 0.35, 0.2, 0.15}; // 30% burguer, 30% fries, 20% soda, 20% donuts
         cClient.wantedItemId = ItemSystem.randomItemByProbability(chances);
 
         RigidBodyComponent cRigidBody = mRigidBody.create(entity);

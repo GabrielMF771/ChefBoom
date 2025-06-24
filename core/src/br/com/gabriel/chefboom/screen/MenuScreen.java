@@ -119,10 +119,6 @@ public class MenuScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
-        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-            Gdx.app.exit();
-        }
-
         handleInput();
 
         batch.setProjectionMatrix(camera.combined);
@@ -161,7 +157,7 @@ public class MenuScreen extends ScreenAdapter {
             float touchY = Gdx.input.getY();
 
             com.badlogic.gdx.math.Vector3 touchPos = new com.badlogic.gdx.math.Vector3(touchX, touchY, 0);
-            camera.unproject(touchPos, viewport.getScreenX(), viewport.getScreenY(), WORLD_WIDTH, WORLD_HEIGHT);
+            camera.unproject(touchPos, viewport.getScreenX(), viewport.getScreenY(), viewport.getScreenWidth(), viewport.getScreenHeight());
 
             float worldX = touchPos.x;
             float worldY = touchPos.y;
