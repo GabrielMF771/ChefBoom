@@ -5,6 +5,7 @@ import br.com.gabriel.chefboom.ChefBoom;
 import br.com.gabriel.chefboom.resource.Assets;
 import br.com.gabriel.chefboom.world.CurrentLevel;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
@@ -128,6 +129,10 @@ public class SelectLevelScreen extends ScreenAdapter {
     @Override
     public void render(float delta) {
         handleInput();
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            ChefBoom.getInstance().setScreen(new MenuScreen());
+        }
 
         if (fadingOut) {
             fadeAlpha += delta * 2f;

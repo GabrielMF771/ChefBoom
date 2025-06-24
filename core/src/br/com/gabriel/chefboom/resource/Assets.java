@@ -70,6 +70,9 @@ public class Assets {
     @Asset public static final AssetDescriptor<Texture> botaoVoltarProMenu = new AssetDescriptor<>("menu/botaoMenu.png", Texture.class);
     @Asset public static final AssetDescriptor<Texture> botaoBloqueado = new AssetDescriptor<>("menu/botaoBloqueado.png", Texture.class);
 
+    @Asset public static final AssetDescriptor<Texture> botaoConfig = new AssetDescriptor<>("menu/botaoConfig.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> botaoCreditos = new AssetDescriptor<>("menu/botaoCreditos.png", Texture.class);
+
     // TEXTURAS DOS ITENS
     @Asset public static final AssetDescriptor<Texture> burguer = new AssetDescriptor<>("item/burguer.png", Texture.class);
     @Asset public static final AssetDescriptor<Texture> fries = new AssetDescriptor<>("item/fries.png", Texture.class);

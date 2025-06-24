@@ -120,7 +120,7 @@ public class NextLevelScreen extends ScreenAdapter {
     @Override
     public void render(float delta) {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-            Gdx.app.exit();
+            ChefBoom.getInstance().setScreen(new MenuScreen());
         }
 
         handleInput();
@@ -137,7 +137,7 @@ public class NextLevelScreen extends ScreenAdapter {
         batch.setColor(1, 1, 1, 1); // Reseta a cor
 
         // Calcula o layout do texto "Jogo"
-        String titleText = "NIVEL CONCLUIDO!";
+        String titleText = "Nivel Concluido!";
         layoutTitle.setText(fontTitle, titleText);
 
         // Calcula X para centralizar o texto dentro da área do título (titleX até titleX + titleWidth)

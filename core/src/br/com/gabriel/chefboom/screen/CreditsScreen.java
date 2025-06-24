@@ -1,24 +1,23 @@
 package br.com.gabriel.chefboom.screen;
 
-import br.com.gabriel.chefboom.Config;
 import br.com.gabriel.chefboom.ChefBoom;
+import br.com.gabriel.chefboom.Config;
 import br.com.gabriel.chefboom.resource.Assets;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 
-public class YouLoseScreen extends ScreenAdapter {
+public class CreditsScreen extends ScreenAdapter {
     private static final float WORLD_WIDTH = Config.SCREEN_WIDTH;
     private static final float WORLD_HEIGHT = Config.SCREEN_HEIGHT;
 
@@ -28,17 +27,23 @@ public class YouLoseScreen extends ScreenAdapter {
     private SpriteBatch batch;
 
     private BitmapFont fontTitle;  // fonte para o título
+    private BitmapFont fontNames; // fonte para os nomes dos desenvolvedores
     private GlyphLayout layoutTitle;
+    private GlyphLayout layoutNames;
 
     private Texture TryAgainTexture, BackToMenuTexture;
 
     private float titleX, titleY, titleWidth, titleHeight;
-    private float TryAgainButtonX, TryAgainButtonY, TryAgainButtonWidth, TryAgainButtonHeight;
-    private float MenuButtonX, MenuButtonY, MenuButtonWidth, MenuButtonHeight;
 
     private Texture backgroundTexture;
 
-    private final Sound gameoverSound = Assets.manager.get(Assets.gameoverSound);
+    private final String[] developers = {
+            "André Marcos de Souza Batista",
+            "Gabriel Martins Fernandes",
+            "Gustavo Henrique Sousa de Jesus",
+            "Henrique Dantas Faria",
+            "João Lucas Cavalcante Borges"
+    };
 
     @Override
     public void show() {
@@ -50,26 +55,22 @@ public class YouLoseScreen extends ScreenAdapter {
 
         // Inicializa a fonte do título usando FreeTypeFontGenerator
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/MinecraftRegular.otf"));
-        FreeTypeFontParameter parameter = new FreeTypeFontParameter();
-        parameter.size = 80;
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 50;
         parameter.color = Color.WHITE;
         parameter.shadowOffsetX = -6;
         parameter.shadowOffsetY = 6;
         parameter.shadowColor = Color.BLACK;
         fontTitle = generator.generateFont(parameter);
+        fontNames = generator.generateFont(parameter);
         generator.dispose();
 
         layoutTitle = new GlyphLayout();
-
-        TryAgainTexture = Assets.manager.get(Assets.botaoTentarNovamente);
-        BackToMenuTexture = Assets.manager.get(Assets.botaoVoltarProMenu);
+        layoutNames = new GlyphLayout();
 
         backgroundTexture = Assets.manager.get(Assets.menuBackground);
 
         calculateDimensionsAndPositions();
-
-        // Toca o som de game over
-        gameoverSound.play(Config.EFFECTS_VOLUME);
     }
 
     private void calculateDimensionsAndPositions() {
@@ -78,21 +79,7 @@ public class YouLoseScreen extends ScreenAdapter {
         titleHeight = WORLD_HEIGHT / 3.5f;
 
         titleX = (WORLD_WIDTH - titleWidth) / 2.0f;
-        titleY = WORLD_HEIGHT * 0.5f;
-
-        TryAgainButtonWidth = WORLD_WIDTH / 6.0f;
-        TryAgainButtonHeight = WORLD_HEIGHT / 8.0f;
-
-        TryAgainButtonX = (WORLD_WIDTH - TryAgainButtonWidth) / 2.0f;
-        TryAgainButtonY = WORLD_HEIGHT * 0.45f;
-
-
-        MenuButtonWidth = WORLD_WIDTH / 6.0f;
-        MenuButtonHeight = WORLD_HEIGHT / 8.0f;
-
-        MenuButtonX = (WORLD_WIDTH - TryAgainButtonWidth) / 2.0f;
-        MenuButtonY = WORLD_HEIGHT * 0.25f;
-
+        titleY = WORLD_HEIGHT - (titleHeight - 40f);
     }
 
     @Override
@@ -122,7 +109,7 @@ public class YouLoseScreen extends ScreenAdapter {
         batch.setColor(1, 1, 1, 1); // Reseta a cor
 
         // Calcula o layout do texto "Jogo"
-        String titleText = "Voce Perdeu!";
+        String titleText = "Creditos";
         layoutTitle.setText(fontTitle, titleText);
 
         // Calcula X para centralizar o texto dentro da área do título
@@ -133,9 +120,15 @@ public class YouLoseScreen extends ScreenAdapter {
 
         fontTitle.draw(batch, layoutTitle, textX, textY);
 
-        // Desenha o botão iniciar normalmente
-        batch.draw(TryAgainTexture, TryAgainButtonX, TryAgainButtonY, TryAgainButtonWidth, TryAgainButtonHeight);
-        batch.draw(BackToMenuTexture,MenuButtonX, MenuButtonY, MenuButtonWidth, MenuButtonHeight);
+        // Nomes centralizados
+        float namesStartY = titleY - 80;
+        for (int i = 0; i < developers.length; i++) {
+            String name = developers[i];
+            layoutNames.setText(fontNames, name);
+            float nameX = (WORLD_WIDTH - layoutNames.width) / 2f;
+            float nameY = namesStartY - i * 50;
+            fontNames.draw(batch, layoutNames, nameX, nameY);
+        }
 
         batch.end();
     }
@@ -152,6 +145,8 @@ public class YouLoseScreen extends ScreenAdapter {
             float worldX = touchPos.x;
             float worldY = touchPos.y;
 
+            /*
+
             boolean touchedTryAgainButton =
                     worldX >= TryAgainButtonX && worldX <= TryAgainButtonX + TryAgainButtonWidth &&
                             worldY >= TryAgainButtonY && worldY <= TryAgainButtonY + TryAgainButtonHeight;
@@ -159,14 +154,8 @@ public class YouLoseScreen extends ScreenAdapter {
             if (touchedTryAgainButton) {
                 ChefBoom.getInstance().setScreen(new GameScreen());
             }
+             */
 
-            boolean touchedMenuButton =
-                    worldX >= MenuButtonX && worldX <= MenuButtonX + MenuButtonWidth &&
-                            worldY >= MenuButtonY && worldY <= MenuButtonY + MenuButtonHeight;
-
-            if (touchedMenuButton) {
-                ChefBoom.getInstance().setScreen(new MenuScreen());
-            }
         }
     }
 
@@ -174,6 +163,6 @@ public class YouLoseScreen extends ScreenAdapter {
     public void dispose() {
         batch.dispose();
         fontTitle.dispose();
-        TryAgainTexture.dispose();
     }
 }
+

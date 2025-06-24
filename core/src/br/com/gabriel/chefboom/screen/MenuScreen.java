@@ -31,13 +31,13 @@ public class MenuScreen extends ScreenAdapter {
     private GlyphLayout layoutTitle;
 
     private Texture startButtonTexture;
+    private Texture configButtonTexture;
+    private Texture creditsButtonTexture;
 
     private float titleX, titleY, titleWidth, titleHeight;
     private float startButtonX, startButtonY, startButtonWidth, startButtonHeight;
-
-    private float fadeAlpha = 0f;
-    private boolean fadingOut = false;
-    private boolean startGameAfterFade = false;
+    private float configButtonX, configButtonY, configButtonWidth, configButtonHeight;
+    private float creditsButtonX, creditsButtonY, creditsButtonWidth, creditsButtonHeight;
 
     private Texture backgroundTexture;
 
@@ -71,6 +71,10 @@ public class MenuScreen extends ScreenAdapter {
 
         startButtonTexture = Assets.manager.get(Assets.botaoIniciar);
 
+        configButtonTexture = Assets.manager.get(Assets.botaoConfig);
+
+        creditsButtonTexture = Assets.manager.get(Assets.botaoCreditos);
+
         backgroundTexture = Assets.manager.get(Assets.menuBackground);
 
         calculateDimensionsAndPositions();
@@ -79,15 +83,31 @@ public class MenuScreen extends ScreenAdapter {
     private void calculateDimensionsAndPositions() {
         titleWidth = WORLD_WIDTH / 2.5f;
         titleHeight = WORLD_HEIGHT / 3.5f;
-
         titleX = (WORLD_WIDTH - titleWidth) / 2.0f;
         titleY = WORLD_HEIGHT * 0.5f;
 
         startButtonWidth = WORLD_WIDTH / 6.0f;
         startButtonHeight = WORLD_HEIGHT / 8.0f;
-
         startButtonX = (WORLD_WIDTH - startButtonWidth) / 2.0f;
         startButtonY = WORLD_HEIGHT * 0.3f;
+
+        configButtonHeight = WORLD_HEIGHT / 7.5f;
+        configButtonWidth = WORLD_WIDTH / 13.5f;
+        creditsButtonHeight = WORLD_HEIGHT / 7.5f;
+        creditsButtonWidth = WORLD_WIDTH / 13.5f;
+
+        // Largura total dos dois botões juntos (com um pequeno espaçamento entre eles)
+        float spacing = 20f;
+        float totalWidth = configButtonWidth + creditsButtonWidth + spacing;
+
+        // Centraliza em relação ao botão de start
+        float centerX = startButtonX + startButtonWidth / 2f;
+
+        configButtonX = centerX - totalWidth / 2f;
+        creditsButtonX = configButtonX + configButtonWidth + spacing;
+
+        configButtonY = WORLD_HEIGHT * 0.15f;
+        creditsButtonY = WORLD_HEIGHT * 0.15f;
     }
 
     @Override
@@ -129,30 +149,10 @@ public class MenuScreen extends ScreenAdapter {
 
         // Desenha o botão iniciar normalmente
         batch.draw(startButtonTexture, startButtonX, startButtonY, startButtonWidth, startButtonHeight);
+        // Desenha o botão quadrado abaixo do botão iniciar
+        batch.draw(configButtonTexture, configButtonX, configButtonY, configButtonWidth, configButtonHeight);
+        batch.draw(creditsButtonTexture, creditsButtonX, creditsButtonY, creditsButtonWidth, creditsButtonHeight);
         batch.end();
-
-        // Desenhe o fade por cima de tudo
-        if (fadeAlpha > 0f) {
-            batch.begin();
-            batch.setColor(0, 0, 0, fadeAlpha);
-            batch.draw(backgroundTexture, 0, 0, WORLD_WIDTH, WORLD_HEIGHT);
-            batch.setColor(1, 1, 1, 1);
-            batch.end();
-        }
-
-        // Atualize o alpha do fade
-        if (fadingOut) {
-            // ajuste a velocidade do fade
-            float fadeSpeed = 1.5f;
-            fadeAlpha += fadeSpeed * delta;
-            if (fadeAlpha >= 1f) {
-                fadeAlpha = 1f;
-                fadingOut = false;
-                if (startGameAfterFade) {
-                    ChefBoom.getInstance().setScreen(new SelectLevelScreen());
-                }
-            }
-        }
     }
 
     private void handleInput() {
@@ -170,9 +170,20 @@ public class MenuScreen extends ScreenAdapter {
                     worldX >= startButtonX && worldX <= startButtonX + startButtonWidth &&
                             worldY >= startButtonY && worldY <= startButtonY + startButtonHeight;
 
+            boolean touchedConfigButton =
+                    worldX >= configButtonX && worldX <= configButtonX + configButtonWidth &&
+                            worldY >= configButtonY && worldY <= configButtonY + configButtonHeight;
+
+            boolean touchedCreditsButton =
+                    worldX >= creditsButtonX && worldX <= creditsButtonX + creditsButtonWidth &&
+                            worldY >= creditsButtonY && worldY <= creditsButtonY + creditsButtonHeight;
+
             if (touchedStartButton) {
-                fadingOut = true;
-                startGameAfterFade = true;
+                ChefBoom.getInstance().setScreen(new SelectLevelScreen());
+            } else if (touchedConfigButton) {
+                ChefBoom.getInstance().setScreen(new ConfigScreen());
+            } else if (touchedCreditsButton) {
+                ChefBoom.getInstance().setScreen(new CreditsScreen());
             }
         }
     }
