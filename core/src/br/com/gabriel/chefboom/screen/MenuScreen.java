@@ -132,6 +132,10 @@ public class MenuScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
+        if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            Gdx.app.exit();
+        }
+
         handleInput();
 
         batch.setProjectionMatrix(camera.combined);

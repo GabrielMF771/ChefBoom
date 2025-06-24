@@ -51,17 +51,20 @@ public class BlockTimerSystem extends BaseSystem {
                     if (!isItemOnBlock(x, y)) {
                         if (block.type == InteractiveBlock.Type.GRILL) {
                             createItemOnBlock(Assets.burguer.fileName, x, y);
+                            readySound.play(Config.EFFECTS_VOLUME);
                             block.timeLeft = World.GRILLTIME;
                         } else if (block.type == InteractiveBlock.Type.SODAMACHINE) {
                             createItemOnBlock(Assets.soda.fileName, x, y);
+                            readySound.play(Config.EFFECTS_VOLUME);
                             block.timeLeft = World.SODATIME;
                         } else if (block.type == InteractiveBlock.Type.FRIESMACHINE) {
                             createItemOnBlock(Assets.fries.fileName, x, y);
+                            readySound.play(Config.EFFECTS_VOLUME);
                             block.timeLeft = World.FRIESTIME;
                         } else if (block.type == InteractiveBlock.Type.DONUTSMACHINE) {
                             createItemOnBlock(Assets.donuts.fileName, x, y);
-                            block.timeLeft = World.DONUTSTIME;
                             readySound.play(Config.EFFECTS_VOLUME);
+                            block.timeLeft = World.DONUTSTIME;
                         }
                     }
                     block.timerActive = false;

@@ -46,7 +46,7 @@ public class GameScreen extends ScreenAdapter {
     public void show() {
         gameMusic = Assets.manager.get(Assets.gameMusic);
         gameMusic.setLooping(true);
-        gameMusic.setVolume(Config.MUSIC_VOLUME);
+        gameMusic.setVolume(Config.MUSIC_VOLUME - 0.05f);
         gameMusic.play();
 
         viewport = new FitViewport(Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT, camera);
