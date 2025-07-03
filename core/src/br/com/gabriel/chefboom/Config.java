@@ -7,7 +7,7 @@ public class Config {
     public static String GAME_ICON = "logo.png";
     public static int FPS = 60;
     public static boolean FULLSCREEN = false;
-    public static boolean MAXIMIZED = false;
+    public static boolean MAXIMIZED = true;
 
     public static float MUSIC_VOLUME = 0.4f;
     public static float EFFECTS_VOLUME = 0.5f;

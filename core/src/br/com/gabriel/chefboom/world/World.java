@@ -171,10 +171,6 @@ public class World extends CurrentLevel {
 
     }
 
-    public void setPaused(boolean paused) {
-        this.paused = paused;
-    }
-
     public void render() {
         // Apenas processa os sistemas de renderização
         for (BaseSystem system : artemis.getSystems()) {
@@ -620,20 +616,20 @@ public class World extends CurrentLevel {
         // Lista com os spawn points disponíveis (apenas L e R)
         SpawnPoint[] spawnPoints = new SpawnPoint[] {
                 // CIMA
-                new SpawnPoint(1f * Block.TILE_SIZE, (11f * Block.TILE_SIZE) + 14, 'r'),
-                new SpawnPoint(3f * Block.TILE_SIZE, (11f * Block.TILE_SIZE) + 14, 'l'),
-                new SpawnPoint(5f * Block.TILE_SIZE, (11f * Block.TILE_SIZE) + 14, 'r'),
-                new SpawnPoint(7f * Block.TILE_SIZE, (11f * Block.TILE_SIZE) + 14, 'l'),
-                new SpawnPoint(9f * Block.TILE_SIZE, (11f * Block.TILE_SIZE) + 14, 'r'),
-                new SpawnPoint(11f * Block.TILE_SIZE, (11f * Block.TILE_SIZE) + 14, 'l'),
+                new SpawnPoint(1f * Block.TILE_SIZE, (11f * Block.TILE_SIZE) + 7, 'r'),
+                new SpawnPoint(3f * Block.TILE_SIZE, (11f * Block.TILE_SIZE) + 7, 'l'),
+                new SpawnPoint(5f * Block.TILE_SIZE, (11f * Block.TILE_SIZE) + 7, 'r'),
+                new SpawnPoint(7f * Block.TILE_SIZE, (11f * Block.TILE_SIZE) + 7, 'l'),
+                new SpawnPoint(9f * Block.TILE_SIZE, (11f * Block.TILE_SIZE) + 7, 'r'),
+                new SpawnPoint(11f * Block.TILE_SIZE, (11f * Block.TILE_SIZE) + 7, 'l'),
 
                 // BAIXO
-                new SpawnPoint(1f * Block.TILE_SIZE, (1f * Block.TILE_SIZE) + 14, 'r'),
-                new SpawnPoint(3f * Block.TILE_SIZE, (1f * Block.TILE_SIZE) + 14, 'l'),
-                new SpawnPoint(5f * Block.TILE_SIZE, (1f * Block.TILE_SIZE) + 14, 'r'),
-                new SpawnPoint(7f * Block.TILE_SIZE, (1f * Block.TILE_SIZE) + 14, 'l'),
-                new SpawnPoint(9f * Block.TILE_SIZE, (1f * Block.TILE_SIZE) + 14, 'r'),
-                new SpawnPoint(11f * Block.TILE_SIZE, (1f * Block.TILE_SIZE) + 14, 'l'),
+                new SpawnPoint(1f * Block.TILE_SIZE, (1f * Block.TILE_SIZE) + 7, 'r'),
+                new SpawnPoint(3f * Block.TILE_SIZE, (1f * Block.TILE_SIZE) + 7, 'l'),
+                new SpawnPoint(5f * Block.TILE_SIZE, (1f * Block.TILE_SIZE) + 7, 'r'),
+                new SpawnPoint(7f * Block.TILE_SIZE, (1f * Block.TILE_SIZE) + 7, 'l'),
+                new SpawnPoint(9f * Block.TILE_SIZE, (1f * Block.TILE_SIZE) + 7, 'r'),
+                new SpawnPoint(11f * Block.TILE_SIZE, (1f * Block.TILE_SIZE) + 7, 'l'),
 
         };
 
