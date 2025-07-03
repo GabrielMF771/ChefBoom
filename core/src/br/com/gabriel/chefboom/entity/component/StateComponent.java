@@ -8,5 +8,12 @@ import com.badlogic.gdx.ai.fsm.StateMachine;
 public class StateComponent<S extends State<Entity>> extends Component {
     public StateMachine<Entity, S> state;
 
+    public Direction direction = Direction.DOWN;
 
+    public enum Direction {
+        UP,
+        DOWN,
+        LEFT,
+        RIGHT
+    }
 }

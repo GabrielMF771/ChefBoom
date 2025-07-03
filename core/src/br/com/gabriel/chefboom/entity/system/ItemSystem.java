@@ -22,6 +22,7 @@ public class ItemSystem extends IteratingSystem {
     private ComponentMapper<ItemComponent> mItem;
     private ComponentMapper<SpriteComponent> mSprite;
     private ComponentMapper<InteractiveBlock> mInteractiveBlock;
+    private ComponentMapper<StateComponent> mState;
 
     private final World world;
     private final EntitiesFactory entitiesFactory;
@@ -61,6 +62,7 @@ public class ItemSystem extends IteratingSystem {
         PlayerComponent cPlayer = mPlayer.get(entityId);
         TransformComponent cTransform = mTransform.get(entityId);
         SpriteComponent cSprite = mSprite.get(entityId);
+        StateComponent cState = mState.get(entityId);
 
         boolean interactPressed = false;
 
@@ -72,7 +74,7 @@ public class ItemSystem extends IteratingSystem {
 
         if (interactPressed) {
             if (cPlayer.heldItemEntity == null) {
-                Vector2 frontBlock = getBlockInFront(cTransform, cSprite);
+                Vector2 frontBlock = getBlockInFront(cTransform, cState);
                 int x = World.worldToMap(frontBlock.x);
                 int y = World.worldToMap(frontBlock.y);
 
@@ -118,7 +120,7 @@ public class ItemSystem extends IteratingSystem {
                         }
                     } else {
                         // Tenta pegar o item do bloco à frente
-                        int itemId = findNearbyItem(cTransform, cSprite);
+                        int itemId = findNearbyItem(cTransform, cState);
                         if (itemId != -1) {
                             cPlayer.heldItemEntity = itemId;
                             mItem.get(itemId).isHeld = true;
@@ -132,7 +134,7 @@ public class ItemSystem extends IteratingSystem {
                         world.getArtemis(), mTransform, cTransform.position
                 );
                 if (clientId == -1) {
-                    Vector2 placePos = getBlockInFront(cTransform, cSprite);
+                    Vector2 placePos = getBlockInFront(cTransform, cState);
                     int x = World.worldToMap(placePos.x);
                     int y = World.worldToMap(placePos.y);
 
@@ -165,7 +167,7 @@ public class ItemSystem extends IteratingSystem {
         }
     }
 
-    private int findNearbyItem(TransformComponent playerTransform, SpriteComponent playerSprite) {
+    private int findNearbyItem(TransformComponent playerTransform, StateComponent playerState) {
         // Calcula a posição centralizada e deslocada à frente do jogador
         float centerX = playerTransform.position.x + Block.TILE_SIZE / 2f;
         float centerY = playerTransform.position.y + Block.TILE_SIZE / 2f;
@@ -174,18 +176,22 @@ public class ItemSystem extends IteratingSystem {
         float targetX = centerX;
         float targetY = centerY;
 
-        String texturePath = playerSprite.sprite.getTexture().toString();
-
-        if (texturePath.contains("frente")) { // olhando para baixo
-            targetY -= offset;
-        } else if (texturePath.contains("costas")) { // olhando para cima
-            targetY += offset;
-        } else if (texturePath.contains("direita")) { // olhando para direita
-            targetX += offset;
-        } else if (texturePath.contains("esquerda")) { // olhando para esquerda
-            targetX -= offset;
-        } else {
-            targetY -= offset; // padrão: para baixo
+        switch (playerState.direction) {
+            case DOWN:
+                targetY -= offset;
+                break;
+            case UP:
+                targetY += offset;
+                break;
+            case RIGHT:
+                targetX += offset;
+                break;
+            case LEFT:
+                targetX -= offset;
+                break;
+            default:
+                targetY -= offset;
+                break;
         }
 
         // Procura item exatamente no bloco à frente
@@ -196,7 +202,7 @@ public class ItemSystem extends IteratingSystem {
     }
 
     // Retorna a posição do bloco à frente do jogador, centralizada no grid
-    private Vector2 getBlockInFront(TransformComponent playerTransform, SpriteComponent playerSprite) {
+    private Vector2 getBlockInFront(TransformComponent playerTransform, StateComponent playerState) {
         float centerX = playerTransform.position.x + Block.TILE_SIZE / 2f;
         float centerY = playerTransform.position.y + Block.TILE_SIZE / 2f;
 
@@ -205,18 +211,22 @@ public class ItemSystem extends IteratingSystem {
         float targetX = centerX;
         float targetY = centerY;
 
-        String texturePath = playerSprite.sprite.getTexture().toString();
-
-        if (texturePath.contains("frente")) { // olhando para baixo
-            targetY -= offset;
-        } else if (texturePath.contains("costas")) { // olhando para cima
-            targetY += offset;
-        } else if (texturePath.contains("direita")) { // olhando para direita
-            targetX += offset;
-        } else if (texturePath.contains("esquerda")) { // olhando para esquerda
-            targetX -= offset;
-        } else {
-            targetY -= offset; // padrão: para baixo
+        switch (playerState.direction) {
+            case DOWN:
+                targetY -= offset;
+                break;
+            case UP:
+                targetY += offset;
+                break;
+            case RIGHT:
+                targetX += offset;
+                break;
+            case LEFT:
+                targetX -= offset;
+                break;
+            default:
+                targetY -= offset;
+                break;
         }
 
         int mapX = World.worldToMap(targetX);

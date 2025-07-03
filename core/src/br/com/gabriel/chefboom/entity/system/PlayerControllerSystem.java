@@ -2,10 +2,7 @@ package br.com.gabriel.chefboom.entity.system;
 
 import br.com.gabriel.chefboom.ChefBoom;
 import br.com.gabriel.chefboom.Config;
-import br.com.gabriel.chefboom.entity.component.CollidableComponent;
-import br.com.gabriel.chefboom.entity.component.PlayerComponent;
-import br.com.gabriel.chefboom.entity.component.RigidBodyComponent;
-import br.com.gabriel.chefboom.entity.component.SpriteComponent;
+import br.com.gabriel.chefboom.entity.component.*;
 import br.com.gabriel.chefboom.resource.Assets;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
@@ -14,6 +11,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class PlayerControllerSystem extends IteratingSystem {
 
@@ -21,11 +20,17 @@ public class PlayerControllerSystem extends IteratingSystem {
     private ComponentMapper<SpriteComponent> mSprite;
     private ComponentMapper<RigidBodyComponent> mRigidBody;
     private ComponentMapper<CollidableComponent> mCollidable;
+    private ComponentMapper<StateComponent> mState;
 
-    private Texture texFrente;
-    private Texture texCostas;
-    private Texture texDireita;
-    private Texture texEsquerda;
+    private AnimationController walkDownController;
+    private AnimationController walkLeftController;
+    private AnimationController walkRightController;
+    private AnimationController walkUpController;
+
+    private AnimationController idleDownController;
+    private AnimationController idleLeftController;
+    private AnimationController idleRightController;
+    private AnimationController idleUpController;
 
     private final Sound dashSound = Assets.manager.get(Assets.dashSound);
 
@@ -35,10 +40,27 @@ public class PlayerControllerSystem extends IteratingSystem {
 
     @Override
     protected void initialize() {
-        texFrente = Assets.manager.get(Assets.playerFrente);
-        texCostas = Assets.manager.get(Assets.playerCostas);
-        texDireita = Assets.manager.get(Assets.playerDireita);
-        texEsquerda = Assets.manager.get(Assets.playerEsquerda);
+        Texture texWalk = Assets.manager.get(Assets.playerWalk);
+        Texture texIdle = Assets.manager.get(Assets.playerIdle);
+
+        int frameCols = 6;
+        int frameRows = 4;
+        int frameWidth = 96 / frameCols;
+        int frameHeight = 128 / frameRows;
+
+        TextureRegion[][] walkTmp = TextureRegion.split(texWalk, frameWidth, frameHeight);
+
+        walkRightController = new AnimationController(new Animation<TextureRegion>(0.12f, walkTmp[0]));
+        walkUpController = new AnimationController(new Animation<TextureRegion>(0.12f, walkTmp[1]));
+        walkLeftController = new AnimationController(new Animation<TextureRegion>(0.12f, walkTmp[2]));
+        walkDownController = new AnimationController(new Animation<TextureRegion>(0.12f, walkTmp[3]));
+
+        TextureRegion[][] idleTmp = TextureRegion.split(texIdle, frameWidth, frameHeight);
+
+        idleRightController = new AnimationController(new Animation<TextureRegion>(0.12f, idleTmp[0]));
+        idleUpController = new AnimationController(new Animation<TextureRegion>(0.12f, idleTmp[1]));
+        idleLeftController = new AnimationController(new Animation<TextureRegion>(0.12f, idleTmp[2]));
+        idleDownController = new AnimationController(new Animation<TextureRegion>(0.12f, idleTmp[3]));
     }
 
     @Override
@@ -52,6 +74,7 @@ public class PlayerControllerSystem extends IteratingSystem {
         CollidableComponent cCollidable = mCollidable.get(entityId);
         RigidBodyComponent cRigidBody = mRigidBody.get(entityId);
         SpriteComponent cSprite = mSprite.get(entityId);
+        StateComponent cState = mState.get(entityId);
 
         float delta = world.getDelta();
 
@@ -115,10 +138,36 @@ public class PlayerControllerSystem extends IteratingSystem {
             dashSound.play(Config.EFFECTS_VOLUME);
         }
 
-        // Troca sprite conforme direção
-        if (moveX > 0) cSprite.sprite.setTexture(texDireita);
-        else if (moveX < 0) cSprite.sprite.setTexture(texEsquerda);
-        else if (moveY > 0) cSprite.sprite.setTexture(texCostas);
-        else if (moveY < 0) cSprite.sprite.setTexture(texFrente);
+        // Atualiza direção no StateComponent
+        if (moveX > 0) cState.direction = StateComponent.Direction.RIGHT;
+        else if (moveX < 0) cState.direction = StateComponent.Direction.LEFT;
+        else if (moveY > 0) cState.direction = StateComponent.Direction.UP;
+        else if (moveY < 0) cState.direction = StateComponent.Direction.DOWN;
+
+        // Atualiza animação conforme movimento
+        AnimationController currentController;
+        switch (cState.direction) {
+            case RIGHT: currentController = walkRightController; break;
+            case LEFT: currentController = walkLeftController; break;
+            case UP: currentController = walkUpController; break;
+            case DOWN: default: currentController = walkDownController; break;
+        }
+
+        if (moveX != 0 || moveY != 0) {
+            if (!currentController.isPlaying()) currentController.play();
+            currentController.update(delta);
+            cSprite.sprite.setRegion(currentController.getCurrentFrame());
+        } else {
+            AnimationController idleController;
+            switch (cState.direction) {
+                case RIGHT: idleController = idleRightController; break;
+                case LEFT: idleController = idleLeftController; break;
+                case UP: idleController = idleUpController; break;
+                case DOWN: default: idleController = idleDownController; break;
+            }
+            if (!idleController.isPlaying()) idleController.play();
+            idleController.update(delta);
+            cSprite.sprite.setRegion(idleController.getCurrentFrame());
+        }
     }
 }

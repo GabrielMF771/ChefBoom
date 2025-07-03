@@ -21,10 +21,12 @@ public class Assets {
      */
 
     //TEXTURAS PERSONAGEM
-    @Asset public static final AssetDescriptor<Texture> playerFrente = new AssetDescriptor<Texture>("player/player-frente.png", Texture.class);
-    @Asset public static final AssetDescriptor<Texture> playerCostas = new AssetDescriptor<Texture>("player/player-costas.png", Texture.class);
-    @Asset public static final AssetDescriptor<Texture> playerDireita = new AssetDescriptor<Texture>("player/player-direita.png", Texture.class);
     @Asset public static final AssetDescriptor<Texture> playerEsquerda = new AssetDescriptor<Texture>("player/player-esquerda.png", Texture.class);
+
+    @Asset public static final AssetDescriptor<Texture> playerIdle = new AssetDescriptor<Texture>("player/player-idle.png", Texture.class);
+    @Asset public static final AssetDescriptor<Texture> playerWalk = new AssetDescriptor<Texture>("player/player-walk.png", Texture.class);
+    //@Asset public static final AssetDescriptor<Texture> playerLift = new AssetDescriptor<Texture>("player/player-lift.png", Texture.class);
+    //@Asset public static final AssetDescriptor<Texture> playerthrow = new AssetDescriptor<Texture>("player/player-throw.png", Texture.class);
 
     //TEXTURAS CLIENTES
     @Asset public static final AssetDescriptor<Texture> cliente1 = new AssetDescriptor<Texture>("npc/cliente1.png", Texture.class);

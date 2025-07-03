@@ -63,6 +63,8 @@ public class SpriteRenderSystem extends IteratingSystem {
         if (cSprite != null && cSprite.sprite != null) {
             Sprite sprite = cSprite.sprite;
 
+            sprite.setSize(sprite.getRegionWidth(), sprite.getRegionHeight());
+
             if (cTransform.originCenter) {
                 sprite.setOriginCenter();
             } else {
