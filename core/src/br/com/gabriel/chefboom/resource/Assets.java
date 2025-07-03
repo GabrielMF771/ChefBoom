@@ -17,7 +17,7 @@ public class Assets {
     public static final AnnotationAssetManager manager = new AnnotationAssetManager(new InternalFileHandleResolver());
 
     /* TODO:
-        * Adicionar animação de andar do player e dos clientes
+        * Adicionar animação de andar dos clientes
      */
 
     //TEXTURAS PERSONAGEM
