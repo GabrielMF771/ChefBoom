@@ -22,7 +22,7 @@ public class DesktopLauncher {
 			int width = (int) (height * aspectRatio);
 
 			config.setWindowedMode(width, height);
-			config.setDecorated(false); // Remove bordas para parecer fullscreen
+			config.setDecorated(true); // Remove bordas para parecer fullscreen
 		} else {
 			config.setWindowedMode(Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
 		}

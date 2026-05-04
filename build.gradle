@@ -6,7 +6,7 @@ buildscript {
         box2DLightsVersion = '1.5'
         aiVersion = '1.8.2'
         artemisVersion = '2.3.0'
-        artemisEntityTracker = '0.4.0-SNAPSHOT'
+        artemisEntityTracker = '0.3.0'
     }
 
     repositories {
